@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mustudy | 意志力を外部化する受験OS</title>
+  <title>Mustudy | 今日の努力が、一生の思い出になる。</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
   <meta name="description" content="Mustudyは、強制力×StudyWithMe×勉強Vlog×AIコーチングを統合した勉強継続アプリ。受験生活を作品化する受験OS。">
   <style>
     :root {
@@ -42,9 +45,15 @@
         radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.1), transparent 55%),
         radial-gradient(ellipse 50% 40% at 100% 20%, rgba(13, 148, 136, 0.06), transparent 50%);
       color: var(--app-text);
-      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+      font-family: "Inter", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
+    }
+    body.appOpen {
+      background: var(--app-bg);
+      background-image:
+        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.1), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 100% 20%, rgba(13, 148, 136, 0.06), transparent 50%);
     }
     a { color: inherit; text-decoration: none; }
     .wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
@@ -76,6 +85,273 @@
       font-weight: 800;
     }
 
+    .landingCinema {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background: #05070d;
+      color: #f8fafc;
+    }
+    .sceneReel {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .sceneSlide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      animation: sceneFade 24s infinite;
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.08);
+    }
+    .sceneSlide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5, 7, 13, 0.35) 0%, rgba(5, 7, 13, 0.92) 72%, #05070d 100%);
+    }
+    .sceneSlide.s1 {
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(59, 130, 246, 0.35), transparent),
+        linear-gradient(160deg, #0f172a 0%, #1e1b4b 45%, #0c1222 100%);
+      animation-delay: 0s;
+    }
+    .sceneSlide.s2 {
+      background-image:
+        radial-gradient(circle at 70% 30%, rgba(251, 191, 36, 0.2), transparent 40%),
+        linear-gradient(180deg, #1e293b 0%, #334155 100%);
+      animation-delay: 6s;
+    }
+    .sceneSlide.s3 {
+      background-image:
+        radial-gradient(ellipse 60% 50% at 30% 60%, rgba(14, 165, 233, 0.25), transparent),
+        linear-gradient(135deg, #0f172a, #164e63);
+      animation-delay: 12s;
+    }
+    .sceneSlide.s4 {
+      background-image:
+        radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.3), transparent 50%),
+        linear-gradient(200deg, #020617, #312e81 50%, #0f172a);
+      animation-delay: 18s;
+    }
+    @keyframes sceneFade {
+      0%, 20% { opacity: 1; transform: scale(1.05); }
+      25%, 100% { opacity: 0; transform: scale(1.12); }
+    }
+    .sceneProps {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .sceneDesk {
+      position: absolute;
+      left: 50%;
+      bottom: 18%;
+      width: min(420px, 72vw);
+      height: 120px;
+      transform: translateX(-50%);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+    .sceneDesk::before {
+      content: "";
+      position: absolute;
+      left: 12%;
+      top: 22%;
+      width: 48%;
+      height: 56%;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+      opacity: 0.85;
+      transform: rotate(-4deg);
+    }
+    .sceneTimer {
+      position: absolute;
+      right: 8%;
+      top: 20%;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 22px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.06em;
+      animation: breathe 3s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.85; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
+    }
+    .landingInner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 48px 0 64px;
+    }
+    .landingInner .wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .landingCopy h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+      margin-bottom: 16px;
+      max-width: 12ch;
+    }
+    .landingSub {
+      font-size: clamp(14px, 2vw, 18px);
+      line-height: 1.85;
+      color: rgba(248, 250, 252, 0.78);
+      max-width: 36em;
+      font-weight: 400;
+    }
+    .landingCtas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .btnCinema {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 28px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btnCinema:hover { transform: translateY(-2px); }
+    .btnCinemaPrimary {
+      background: #fff;
+      color: #0f172a;
+      box-shadow: 0 12px 40px rgba(59, 130, 246, 0.35);
+    }
+    .btnCinemaGhost {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+    }
+    .filmScroll {
+      background: #05070d;
+      color: #e2e8f0;
+      padding: 0;
+    }
+    .filmBeat {
+      min-height: 72vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .filmBeatInner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .filmVisual {
+      aspect-ratio: 9 / 14;
+      max-height: 420px;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+    }
+    .filmVisualNight {
+      background: linear-gradient(165deg, #1e3a5f, #0f172a 50%, #020617);
+    }
+    .filmVisualMorning {
+      background: linear-gradient(165deg, #fcd34d33, #38bdf833, #0f172a);
+    }
+    .filmVisualVlog {
+      background: linear-gradient(165deg, #4f46e5, #0f172a 60%, #020617);
+    }
+    .filmMockCam {
+      position: absolute;
+      inset: 12px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px;
+    }
+    .filmMockTimer {
+      font-size: 28px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+    .filmMockZoom {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .filmMockZoom span {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .filmMockZoom span.on { background: #fff; color: #0f172a; }
+    .filmBeat h2 {
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      font-weight: 900;
+    }
+    .filmBeat p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: rgba(226, 232, 240, 0.72);
+      max-width: 28em;
+    }
+    .filmTimeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 24px;
+    }
+    .filmTimeRow {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 16px;
+      padding: 16px 0;
+      border-left: 2px solid rgba(59, 130, 246, 0.4);
+      padding-left: 20px;
+      margin-left: 8px;
+    }
+    .filmTimeRow b {
+      font-size: 13px;
+      font-weight: 900;
+      color: #93c5fd;
+      font-variant-numeric: tabular-nums;
+    }
+    .filmTimeRow span {
+      font-size: 14px;
+      color: rgba(248, 250, 252, 0.85);
+      font-weight: 600;
+    }
     .hero {
       padding: 88px 0 54px;
       background:
@@ -800,6 +1076,303 @@
       line-height: 1.45;
     }
     body.forcedSessionActive .forcedBanner { display: block; }
+    #screenCamera.studyWithMeScreen {
+      background: #070b14;
+      color: #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+    #screenCamera.studyWithMeScreen .pageTitle { color: #f1f5f9; }
+    #screenCamera.studyWithMeScreen .pageHead { position: relative; z-index: 4; }
+    #screenCamera.studyWithMeScreen .demoPanel {
+      background: rgba(15, 23, 42, 0.72);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    #screenCamera.studyWithMeScreen .optLabel { color: rgba(148, 163, 184, 0.95); }
+    .swmAmbient {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 130, 246, 0.18), transparent 55%),
+        linear-gradient(180deg, #0a0f1a 0%, #070b14 100%);
+      animation: swmBreathe 8s ease-in-out infinite;
+    }
+    .swmLoFi {
+      position: absolute;
+      inset: 0;
+      opacity: 0.3;
+      background: repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(59, 130, 246, 0.04) 60px, rgba(59, 130, 246, 0.04) 61px);
+      animation: loFiDrift 24s linear infinite;
+    }
+    @keyframes swmBreathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.9; } }
+    @keyframes loFiDrift { to { transform: translateX(-61px); } }
+    .swmHud {
+      position: relative;
+      z-index: 4;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .swmStreakPill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(96, 165, 250, 0.35);
+      font-size: 11px;
+      font-weight: 800;
+      color: #93c5fd;
+    }
+    .swmStreakPill b { font-size: 17px; color: #fff; margin-right: 4px; }
+    .swmTodayPill {
+      flex: 1;
+      min-width: 120px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 10px;
+      color: rgba(248, 250, 252, 0.75);
+    }
+    .swmTodayPill strong { display: block; font-size: 15px; color: #fff; margin-top: 2px; }
+    .swmFocusBlock { position: relative; z-index: 4; margin-bottom: 10px; }
+    .swmFocusHead {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 800;
+      color: rgba(148, 163, 184, 0.9);
+      margin-bottom: 5px;
+    }
+    .swmFocusBar {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+    .swmFocusFill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      transition: width 0.35s ease;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.45);
+    }
+    .recoveryBanner {
+      position: relative;
+      z-index: 4;
+      margin-bottom: 10px;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: rgba(30, 58, 138, 0.5);
+      border: 1px solid rgba(96, 165, 250, 0.35);
+    }
+    .recoveryBanner p { font-size: 13px; font-weight: 700; color: #e0f2fe; line-height: 1.55; margin-bottom: 10px; }
+    .departureToast {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+      z-index: 95;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(127, 29, 29, 0.94);
+      border: 1px solid rgba(248, 113, 113, 0.4);
+      color: #fecaca;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.5;
+      text-align: center;
+      display: none;
+    }
+    .departureToast.show { display: block; }
+    .countdownOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(5, 7, 13, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .countdownOverlay.show { display: flex; }
+    .countdownOverlay span {
+      font-size: 96px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 50px rgba(59, 130, 246, 0.55);
+    }
+    .pomodoroCelebrate {
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: rgba(59, 130, 246, 0.12);
+    }
+    .pomodoroCelebrate.show { display: flex; }
+    .pomodoroCelebrateInner {
+      padding: 28px 32px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      text-align: center;
+      box-shadow: 0 0 60px rgba(59, 130, 246, 0.35);
+    }
+    .pomodoroCelebrateInner b { display: block; font-size: 20px; color: #fff; margin-bottom: 4px; }
+    .pomodoroCelebrateInner span { font-size: 13px; color: #93c5fd; font-weight: 700; }
+    .swmCoreMsg {
+      position: relative;
+      z-index: 4;
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.8);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .swmSettings { position: relative; z-index: 3; margin-top: 8px; }
+    .swmSettings summary {
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 800;
+      color: rgba(148, 163, 184, 0.9);
+      padding: 6px 0;
+      list-style: none;
+    }
+    .swmSettings summary::-webkit-details-marker { display: none; }
+    .streakHero { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .streakHero .statBox strong { font-size: 22px; color: var(--app-brand-dim); }
+    .futureTeaser {
+      margin-top: 12px;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.12), transparent);
+      border: 1px solid var(--app-border);
+    }
+    .futureTeaser h4 { font-size: 14px; font-weight: 900; margin-bottom: 6px; }
+    .futureTeaser p { font-size: 12px; color: var(--app-muted); line-height: 1.65; }
+    .focusLockCard.emotional {
+      background: #0f172a;
+      border-color: rgba(248, 113, 113, 0.35);
+    }
+    .focusLockCard.emotional h3 { color: #fecaca; }
+    .focusLockCard.emotional p { color: #cbd5e1; }
+    body.forcedAppLock .mobileTabbar .tabBtn:not(.cameraTab) {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    body.forcedAppLock .camFsBtn,
+    body.forcedAppLock #camFsOverlayBtn {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    body.forcedAppLock .myPageOrb,
+    body.forcedAppLock .pageHead .myPageOrb {
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    .camStage.camFirst {
+      order: -1;
+      margin-bottom: 12px;
+    }
+    .quickStartDock {
+      margin-bottom: 12px;
+    }
+    .quickStartBtn {
+      width: 100%;
+      padding: 18px 20px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+    }
+    .quickStartBtn:active { transform: scale(0.98); }
+    .quickStartBtn.recording {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      animation: breathe 2s ease-in-out infinite;
+    }
+    .sessionSetupCollapsible {
+      margin-top: 10px;
+    }
+    .dayDetailSheet {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-end;
+      padding: 0 0 calc(68px + env(safe-area-inset-bottom, 0px));
+    }
+    .dayDetailSheet.show {
+      display: flex;
+    }
+    .dayDetailCard {
+      width: 100%;
+      max-height: 85vh;
+      overflow: auto;
+      background: var(--app-bg-elevated);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      padding: 16px 16px 24px;
+      border-top: 1px solid var(--app-border-strong);
+    }
+    .dayDetailClose {
+      float: right;
+      border: none;
+      background: var(--app-bg);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--app-muted);
+    }
+    .dayDetailCard h4 {
+      font-size: 18px;
+      font-weight: 900;
+      margin-bottom: 4px;
+      clear: both;
+    }
+    .dayDetailTotal {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--app-brand-dim);
+      margin-bottom: 14px;
+    }
+    .dayDetailSessions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .dayDetailSession {
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--app-border);
+      background: var(--app-card);
+    }
+    .dayDetailSession b { display: block; font-size: 13px; margin-bottom: 4px; }
+    .dayDetailSession span { font-size: 11px; color: var(--app-muted); }
+    .recordDayHead { cursor: pointer; }
+    .recordDayHead:hover { background: var(--app-brand-soft); }
+    .appOpen .landingCinema,
+    .appOpen .filmScroll,
+    .appOpen #concept,
+    .appOpen #mvp,
+    .appOpen #growth,
+    .appOpen #retention,
+    .appOpen #stories,
+    .appOpen #tech,
+    .appOpen #goal {
+      display: none !important;
+    }
     .mustudyWatermark {
       position: absolute;
       bottom: 12px;
@@ -982,6 +1555,66 @@
       box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
     }
     .vlogCreateDock .ctl { width: 100%; }
+    .vlogBgmBlock {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.04);
+      border: 1px solid var(--line);
+    }
+    .vlogBgmHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .vlogBgmHead .optLabel { margin: 0; }
+    .vlogBgmToggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #2563eb;
+      cursor: pointer;
+      user-select: none;
+    }
+    .vlogBgmToggle input { width: 16px; height: 16px; accent-color: #2563eb; }
+    .vlogBgmHint {
+      font-size: 10px;
+      color: var(--app-muted);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .vlogBgmBlock.is-off { opacity: 0.72; }
+    .vlogBgmBlock.is-off select,
+    .vlogBgmBlock.is-off .vlogBgmVolRow,
+    .vlogBgmPreviewBtn { pointer-events: none; }
+    .vlogBgmBlock.is-off .vlogBgmPreviewBtn { display: none; }
+    .vlogBgmPickRow { display: flex; gap: 8px; align-items: stretch; }
+    .vlogBgmPickRow select { flex: 1; }
+    .vlogBgmPreviewBtn {
+      flex-shrink: 0;
+      padding: 0 12px;
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 10px;
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      color: #1d4ed8;
+      cursor: pointer;
+    }
+    .vlogBgmVolRow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--app-muted);
+    }
+    .vlogBgmVolRow input[type="range"] { flex: 1; accent-color: #3b82f6; }
     .vlogCreateHint {
       font-size: 10px;
       color: var(--app-muted);
@@ -1559,6 +2192,8 @@
       filter: drop-shadow(0 0 6px rgba(77, 156, 247, 0.45));
     }
     .appOpen .hero,
+    .appOpen .landingCinema,
+    .appOpen .filmScroll,
     .appOpen #concept,
     .appOpen #mvp,
     .appOpen #growth,
@@ -1593,7 +2228,8 @@
       .navInner { height: 56px; }
       .logo { font-size: 20px; }
       .loginBtn { padding: 7px 10px; font-size: 12px; }
-      .hero { display: none; }
+      .hero, .landingCinema, .filmScroll { display: none; }
+      .filmBeatInner { grid-template-columns: 1fr; }
       h1 { font-size: clamp(30px, 10vw, 44px); }
       .section { padding: 18px 0; }
       .secEyebrow { margin-bottom: 2px; font-size: 10px; opacity: .9; }
@@ -1644,26 +2280,66 @@
   </header>
 
   <main>
-    <section class="hero">
-      <div class="wrap">
-        <div class="heroTag">受験生・学生向け 勉強継続アプリ</div>
-        <h1>意志力を外部化する<br>受験OS。</h1>
-        <p class="lead">Mustudyは「強制力 × StudyWithMe × 勉強Vlog × AIコーチング」を組み合わせ、勉強するしかない環境を作るサービス。受験生活そのものを作品化します。</p>
-        <div class="ctaRow">
-          <a class="btn btnPrimary" href="#mvp">MVPを見る</a>
-          <a class="btn btnGhost" href="#goal">最終ゴールを見る</a>
-        </div>
-        <div class="appLaunch">
-          <button id="openAppBtn" class="btn btnPrimary" type="button">アプリ画面を開く</button>
-        </div>
-        <p class="miniNote">単なる勉強記録アプリではなく、環境設計・可視化・伴走で継続率を上げる。</p>
-        <div class="stats">
-          <div class="stat"><strong>強制力</strong><span>サボれない環境を作る</span></div>
-          <div class="stat"><strong>コンテンツ化</strong><span>努力をVlogとして残す</span></div>
-          <div class="stat"><strong>AI伴走</strong><span>毎日感情のあるフィードバック</span></div>
+    <section class="landingCinema" id="top">
+      <div class="sceneReel" aria-hidden="true">
+        <div class="sceneSlide s1"></div>
+        <div class="sceneSlide s2"></div>
+        <div class="sceneSlide s3"></div>
+        <div class="sceneSlide s4"></div>
+      </div>
+      <div class="sceneProps" aria-hidden="true">
+        <div class="sceneDesk"></div>
+        <div class="sceneTimer" id="landingSceneTimer">02:14:38</div>
+      </div>
+      <div class="landingInner">
+        <div class="wrap landingCopy">
+          <h1>今日の努力が、<br>一生の思い出になる。</h1>
+          <p class="landingSub">勉強時間になると、スマホは勉強専用になる。逃げずに積み重ねた毎日を、青春と成長記録として残そう。</p>
+          <div class="landingCtas">
+            <button id="openAppBtn" class="btnCinema btnCinemaPrimary" type="button">今日の勉強を記録する</button>
+            <a href="#filmDay" class="btnCinema btnCinemaGhost">1日の流れを見る</a>
+          </div>
         </div>
       </div>
     </section>
+
+    <div class="filmScroll" id="filmDay">
+      <section class="filmBeat">
+        <div class="wrap filmBeatInner">
+          <div class="filmVisual filmVisualNight">
+            <div class="filmMockCam">
+              <div class="filmMockTimer">01:47:22</div>
+              <div class="filmMockZoom">
+                <span class="on">.5×</span><span>1×</span><span>2×</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h2>深夜2時。机だけが光る。</h2>
+            <p>周りは寝ている。でも今日もノートを開いた。その時間は、ちゃんと残る。</p>
+          </div>
+        </div>
+      </section>
+      <section class="filmBeat" id="filmFuture">
+        <div class="wrap filmBeatInner">
+          <div>
+            <h2>3ヶ月後、見返したくなる。</h2>
+            <p>初日の朝勉。模試前の緊張。深夜のタイムラプス。全部が、あなただけのVlogになる。</p>
+            <div class="filmTimeline">
+              <div class="filmTimeRow"><b>5:30</b><span>起床 · 朝勉スタート</span></div>
+              <div class="filmTimeRow"><b>6:00</b><span>カメラON · 手元が記録される</span></div>
+              <div class="filmTimeRow"><b>23:40</b><span>今日のVlogが完成</span></div>
+            </div>
+          </div>
+          <div class="filmVisual filmVisualVlog">
+            <div class="filmMockCam">
+              <div class="filmMockTimer">47分</div>
+              <div style="font-size:11px;opacity:0.8;margin-top:8px;">Mustudy · 今日の記録</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <section class="section" id="demo">
       <div class="wrap">
@@ -1740,23 +2416,21 @@
               </button>
               <h3 class="pageTitle">タイムライン</h3>
             </header>
+            <div class="streakHero">
+              <div class="statBox"><strong id="tlStreak">0</strong><span>連続日数</span></div>
+              <div class="statBox"><strong id="tlTodayMin">0</strong><span>今日(分)</span></div>
+              <div class="statBox"><strong id="tlTotalH">0</strong><span>累計(時間)</span></div>
+            </div>
             <div class="tlCard" id="todayGoalCard">
               <h4>今日の目標</h4>
-              <p id="todayGoalText">まだ設定されていません。カメラ画面で科目・目標を入力してください。</p>
+              <p id="todayGoalText">カメラ画面で科目・目標を設定</p>
               <p id="timelineTodayStudy" style="margin-top:8px;font-size:13px;font-weight:800;color:var(--app-brand-dim);">今日の勉強: 0分</p>
             </div>
-            <div class="tlCard">
-              <h4>友達の勉強記録</h4>
-              <div id="friendFeed"></div>
-            </div>
-            <div class="tlCard">
-              <h4>その他</h4>
-              <div class="moreGrid">
-                <button type="button" class="moreBtn" data-goto="plan">勉強計画<small>アラーム・開始時刻</small></button>
-                <button type="button" class="moreBtn" data-goto="feedback">フィードバック<small>今日の分析を見る</small></button>
-                <button type="button" class="moreBtn" data-goto="record">過去のVlog<small>勉強記録から再生</small></button>
-                <button type="button" class="moreBtn" data-goto="camera">勉強を始める<small>カメラセッション</small></button>
-              </div>
+            <div class="moreGrid" style="margin-bottom:12px;">
+              <button type="button" class="moreBtn" data-goto="camera" style="grid-column:1/-1;">勉強をスタート<small>StudyWithMe · 手元カメラ</small></button>
+              <button type="button" class="moreBtn" data-goto="record">記録・Vlog<small>カレンダー · 自動生成</small></button>
+              <button type="button" class="moreBtn" data-goto="feedback">AI振り返り<small>感情コメント</small></button>
+              <button type="button" class="moreBtn" data-goto="plan">計画<small>開始時刻 · 起床</small></button>
             </div>
           </div>
 
@@ -1768,6 +2442,11 @@
               </button>
               <h3 class="pageTitle">勉強記録</h3>
             </header>
+            <div class="streakHero">
+              <div class="statBox"><strong id="recStreak">0</strong><span>連続</span></div>
+              <div class="statBox"><strong id="recTodayMin">0</strong><span>今日(分)</span></div>
+              <div class="statBox"><strong id="recMonthMin">0</strong><span>今月(分)</span></div>
+            </div>
             <div class="studyStatsHero" id="studyStatsHero">
               <div class="studyStatToday">
                 <span class="label">今日の合計勉強時間</span>
@@ -1795,8 +2474,17 @@
               <button type="button" class="studyCalNav" id="calNext" aria-label="次の月">›</button>
             </div>
             <div id="studyCalendar" class="studyCalendar" aria-label="勉強カレンダー"></div>
-            <p class="optLabel">日別のセッション（タップで選択）</p>
+            <p class="optLabel">日をタップ → 勉強時間とVlog</p>
             <div id="recordDayGroups" class="recordDayGroups"></div>
+            <div id="dayDetailSheet" class="dayDetailSheet" aria-hidden="true">
+              <div class="dayDetailCard">
+                <button type="button" class="dayDetailClose" id="dayDetailClose" aria-label="閉じる">✕</button>
+                <h4 id="dayDetailTitle">—</h4>
+                <p class="dayDetailTotal" id="dayDetailTotal">0分</p>
+                <div id="dayDetailSessions" class="dayDetailSessions"></div>
+                <button type="button" id="dayDetailPlayVlog" class="ctl main" style="width:100%;">この日のVlogを見る</button>
+              </div>
+            </div>
             <div id="vlogTools" class="demoPanel vlogTools" style="margin-top:12px;">
               <p style="font-size:12px;font-weight:700;margin-bottom:8px;">Vlog（倍速再生）</p>
               <select id="vlogLength" class="mini">
@@ -1804,6 +2492,24 @@
                 <option value="30" selected>30秒に圧縮（倍速）</option>
                 <option value="60">60秒に圧縮（倍速）</option>
               </select>
+              <div id="vlogBgmBlock" class="vlogBgmBlock">
+                <div class="vlogBgmHead">
+                  <p class="optLabel">Vlog BGM</p>
+                  <label class="vlogBgmToggle">
+                    <input type="checkbox" id="vlogBgmOn" checked aria-label="Vlog BGMを使う">
+                    <span id="vlogBgmOnLabel">ON</span>
+                  </label>
+                </div>
+                <p class="vlogBgmHint">TikTokの勉強Vlogでよく使われる系（Lo-fi · aesthetic · night study など）。無料音源（Mixkit）をプリセットしています。</p>
+                <div class="vlogBgmPickRow">
+                  <select id="vlogBgmTrack" class="mini" aria-label="Vlog BGM曲"></select>
+                  <button type="button" id="vlogBgmPreviewBtn" class="vlogBgmPreviewBtn">試聴</button>
+                </div>
+                <label class="vlogBgmVolRow">
+                  <span>音量</span>
+                  <input type="range" id="vlogBgmVolume" min="0" max="100" value="45" aria-label="BGM音量">
+                </label>
+              </div>
               <div class="demoRow">
                 <button id="playVlog" class="ctl main">勉強時間を再生</button>
                 <button id="stopVlogPlay" class="ctl sub">再生停止</button>
@@ -1827,83 +2533,49 @@
             </div>
           </div>
 
-          <div id="screenCamera" class="appScreen active">
+          <div id="screenCamera" class="appScreen studyWithMeScreen active">
+            <div class="swmAmbient" aria-hidden="true"><div class="swmLoFi"></div></div>
+
             <header class="pageHead">
               <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
                 <img class="myPageOrbImg" alt="" hidden />
                 <span class="myPageOrbInitial">Y</span>
               </button>
-              <h3 class="pageTitle">カメラ</h3>
+              <h3 class="pageTitle">StudyWithMe</h3>
             </header>
 
+            <div class="swmHud">
+              <div class="swmStreakPill"><b id="swmStreakNum">0</b>日連続</div>
+              <div class="swmTodayPill">今日の勉強<strong id="swmTodayMin">0分</strong></div>
+            </div>
+
+            <div id="recoveryBanner" class="recoveryBanner" hidden>
+              <p id="recoveryMessage">今日は15分だけやろう。ゼロからでも、また積み上がる。</p>
+              <button type="button" id="recoveryStartBtn" class="ctl main">15分だけ再開する</button>
+            </div>
+
+            <div class="swmFocusBlock">
+              <div class="swmFocusHead">
+                <span>集中ゲージ</span>
+                <span id="swmFocusPct">0%</span>
+              </div>
+              <div class="swmFocusBar"><div class="swmFocusFill" id="swmFocusFill"></div></div>
+            </div>
+
+            <p class="swmCoreMsg">離脱すると努力が途切れ、今日の記録に残ります</p>
+
             <div id="studyLockBanner" class="studyLockBanner" hidden>
-              勉強ロック中 — 他のアプリは開けません。Mustudyで勉強を続けてください。
+              勉強中 — 戻ると streak が止まり、記録に「離脱」がつきます
             </div>
             <div id="forcedBanner" class="forcedBanner">
-              強制モード — 設定時間までカメラをオフにできません。あと <b id="forcedRemain">25:00</b>
+              集中モード — あと <b id="forcedRemain">25:00</b>（全画面 · 解除不可）
             </div>
 
-            <div class="demoPanel wakePanel">
-              <p class="optLabel">朝の起こし方</p>
-              <div class="wakeModeGrid" id="wakeModePicker">
-                <button type="button" class="wakeModeBtn on" data-wake="app">アプリ通知</button>
-                <button type="button" class="wakeModeBtn" data-wake="alarm">アラーム</button>
-                <button type="button" class="wakeModeBtn" data-wake="none">通知なし</button>
-                <button type="button" class="wakeModeBtn" data-wake="call">電話で起こす</button>
-              </div>
-              <div id="wakeAppFields" class="fieldGroup">
-                <input id="wakeNotifyTime" class="mini" type="time" value="06:30" />
-                <p style="font-size:10px;color:var(--app-muted);margin-top:4px;">Mustudyから朝の勉強開始をプッシュ通知（デモ）</p>
-              </div>
-              <div id="wakeAlarmFields" class="fieldGroup" hidden>
-                <input id="wakeAlarmTime" class="mini" type="time" value="06:30" />
-                <p style="font-size:10px;color:var(--app-muted);margin-top:4px;">端末のアラーム連携はネイティブ版で対応予定</p>
-              </div>
-              <div id="wakeCallFields" class="fieldGroup" hidden>
-                <input id="wakeCallNumber" class="mini" type="tel" placeholder="電話番号（例: 09012345678）" />
-              </div>
-              <div id="wakeNoneNote" class="fieldGroup" hidden>
-                <p style="font-size:11px;color:var(--app-muted);">通知なし。自分のペースで勉強記録を開始します。</p>
-              </div>
+            <div class="quickStartDock">
+              <button type="button" id="quickStartBtn" class="quickStartBtn">勉強をスタート</button>
             </div>
 
-            <div class="demoPanel sessionSetup">
-              <p class="optLabel">終了のしかた</p>
-              <div class="endModeRow">
-                <button type="button" class="endModeBtn on" data-end="time">勉強時間で終了</button>
-                <button type="button" class="endModeBtn" data-end="content">勉強達成で終了</button>
-              </div>
-              <p id="contentLockNote" class="contentLockNote" hidden>※ セッション開始後は他のアプリを開けません（達成するまでロック）。</p>
-              <select id="endMode" class="mini" hidden aria-hidden="true">
-                <option value="time" selected>time</option>
-                <option value="content">content</option>
-              </select>
-              <div id="endTimeFields" class="fieldGroup">
-                <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
-              </div>
-              <div id="endContentFields" class="fieldGroup" hidden>
-                <input id="contentDoneText" class="mini" placeholder="達成条件（例: 英単語200完了）" />
-              </div>
-              <input id="subjectInput" class="mini" placeholder="今日の科目（例: 英語・世界史）" />
-              <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
-              <p class="optLabel" style="margin-top:8px;">記録モード</p>
-              <div class="sessionTypeRow">
-                <button type="button" class="sessionTypeBtn on" data-session-type="free">自分で</button>
-                <button type="button" class="sessionTypeBtn" data-session-type="forced">強制</button>
-              </div>
-              <p id="forcedModeNote" class="contentLockNote" hidden>※ 強制：設定した勉強時間が終わるまでカメラを閉じられません</p>
-              <div class="demoRow" style="margin-top:8px;">
-                <button class="modeBtn on" data-mode="study">カメラ</button>
-                <button class="modeBtn" data-mode="vlog">Vlog</button>
-              </div>
-              <div class="demoRow" style="margin-top:8px;">
-                <button id="startSession" class="ctl main">勉強記録をはじめる</button>
-                <button id="stopSession" class="ctl sub">終了</button>
-              </div>
-              <button id="markContentDone" class="ctl sub" type="button" style="width:100%;margin-top:6px;display:none;">内容達成で終了</button>
-            </div>
-
-            <div class="camStage" id="camStage">
+            <div class="camStage camFirst" id="camStage">
               <div id="camWrap" class="camWrap layout-stand viewport-portrait frame-4x3 facing-environment">
                 <button type="button" id="camLaunch" class="camLaunchBtn" aria-label="カメラを起動">
                   <span class="camLaunchIcon" aria-hidden="true">
@@ -1966,7 +2638,48 @@
               <p class="status" id="camStatus">カメラをタップして起動 · スワイプでズーム</p>
             </div>
 
-            <div class="demoPanel camOpts">
+            <details class="demoPanel swmSettings sessionSetupCollapsible">
+              <summary>設定 · 科目 · 強制モード</summary>
+              <div style="margin-top:10px;">
+              <p class="optLabel">終了のしかた</p>
+              <div class="endModeRow">
+                <button type="button" class="endModeBtn on" data-end="time">勉強時間で終了</button>
+                <button type="button" class="endModeBtn" data-end="content">勉強達成で終了</button>
+              </div>
+              <p id="contentLockNote" class="contentLockNote" hidden>※ セッション開始後は他のアプリを開けません（達成するまでロック）。</p>
+              <select id="endMode" class="mini" hidden aria-hidden="true">
+                <option value="time" selected>time</option>
+                <option value="content">content</option>
+              </select>
+              <div id="endTimeFields" class="fieldGroup">
+                <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
+              </div>
+              <div id="endContentFields" class="fieldGroup" hidden>
+                <input id="contentDoneText" class="mini" placeholder="達成条件（例: 英単語200完了）" />
+              </div>
+              <input id="subjectInput" class="mini" placeholder="今日の科目（例: 英語・世界史）" />
+              <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
+              <p class="optLabel" style="margin-top:8px;">記録モード</p>
+              <div class="sessionTypeRow">
+                <button type="button" class="sessionTypeBtn on" data-session-type="free">自分で</button>
+                <button type="button" class="sessionTypeBtn" data-session-type="forced">強制</button>
+              </div>
+              <p id="forcedModeNote" class="contentLockNote" hidden>※ 強制：設定した勉強時間が終わるまでカメラを閉じられません</p>
+              <div class="demoRow" style="margin-top:8px;">
+                <button class="modeBtn on" data-mode="study">カメラ</button>
+                <button class="modeBtn" data-mode="vlog">Vlog</button>
+              </div>
+              <div class="demoRow" style="margin-top:8px;">
+                <button id="startSession" class="ctl sub">詳細設定で開始</button>
+                <button id="stopSession" class="ctl sub">終了</button>
+              </div>
+              <button id="markContentDone" class="ctl sub" type="button" style="width:100%;margin-top:6px;display:none;">内容達成で終了</button>
+              </div>
+            </details>
+
+            <details class="demoPanel swmSettings camOpts">
+              <summary>カメラ詳細設定</summary>
+              <div style="margin-top:10px;">
               <p class="optLabel">画面（端末の持ち方）</p>
               <div class="chipRow" id="viewportPicker">
                 <button type="button" class="facingChip on" data-viewport="portrait">縦持ち</button>
@@ -1992,28 +2705,29 @@
                 <button type="button" class="layoutChip" data-layout="full">全体</button>
               </div>
               <button type="button" id="switchCamBtn" class="ctl sub" style="width:100%;margin-top:6px;">カメラ切替</button>
-              <p style="font-size:10px;color:var(--app-muted);margin-top:6px;line-height:1.5;">縦持ちのまま16:9横長フレーム（iPhoneと同じ）が使えます。1本指で胸元・手元を動かし、ピンチ／下のバーで0.5×〜3×。</p>
-            </div>
-
-            <div class="demoPanel">
-              <div class="kpi">
-                <div>モード: <b id="kMode">カメラ</b></div>
-                <div>セッション: <b id="kTimer">00:00</b></div>
-                <div>離脱検知: <b id="kFocus">0回</b></div>
-                <div>素材保存: <b id="kShots">0件</b></div>
+              <p style="font-size:10px;margin-top:6px;line-height:1.5;opacity:0.7;">手元カメラ · 0.5×〜3× · ドラッグで位置調整</p>
               </div>
+            </details>
+
+            <div class="vlogCreateDock" style="position:relative;z-index:3;">
+              <button type="button" id="createVlogBtn" class="ctl main" disabled>今日のVlogを自動生成</button>
+              <p class="vlogCreateHint">勉強のあと、1タップでタイムラプスが完成</p>
             </div>
 
-            <div class="vlogCreateDock">
-              <button type="button" id="createVlogBtn" class="ctl main" disabled>Vlogを作成する</button>
-              <p class="vlogCreateHint">タップすると、記録した勉強時間から自動でVlogが完成します</p>
+            <div id="countdownOverlay" class="countdownOverlay" aria-hidden="true"><span id="countdownNum">3</span></div>
+            <div id="departureToast" class="departureToast"></div>
+            <div id="pomodoroCelebrate" class="pomodoroCelebrate" aria-hidden="true">
+              <div class="pomodoroCelebrateInner">
+                <b>25分 達成</b>
+                <span>+EXP · 今日の積み上げが増えた</span>
+              </div>
             </div>
           </div>
 
           <div id="focusLockOverlay" class="focusLockOverlay" aria-hidden="true">
-            <div class="focusLockCard">
-              <h3>勉強ロック中</h3>
-              <p>他のアプリは開けません。<br>Mustudyに戻って、勉強達成まで続けましょう。</p>
+            <div class="focusLockCard emotional" id="focusLockCard">
+              <h3 id="focusLockTitle">努力が途切れそう</h3>
+              <p id="focusLockText">ここで離れると、今日の連続記録に「離脱」が残ります。<br>あと少しだけ、未来の自分のために戻ろう。</p>
               <button type="button" id="focusLockDismiss" class="ctl main">勉強に戻る</button>
             </div>
           </div>
@@ -2027,8 +2741,12 @@
               <h3 class="pageTitle">フィードバック</h3>
             </header>
             <div class="demoPanel">
-              <button id="makeAI" class="ctl main" style="width:100%;">フィードバックを見る</button>
-              <div id="aiFeed" class="feed" style="margin-top:10px;">セッション終了後にフィードバックが表示されます。</div>
+              <button id="makeAI" class="ctl main" style="width:100%;">AI振り返りを見る</button>
+              <div id="aiFeed" class="feed" style="margin-top:10px;">セッション終了後に、感情のあるコメントが表示されます。</div>
+            </div>
+            <div class="futureTeaser">
+              <h4>3ヶ月後、見返したくなる。</h4>
+              <p>朝勉 · 模試前 · 泣きそうな日 — 全部が受験ドキュメンタリーになる。努力した自分を、好きになれる記録。</p>
             </div>
           </div>
 
@@ -2040,6 +2758,29 @@
               </button>
               <h3 class="pageTitle">勉強計画</h3>
             </header>
+            <div class="demoPanel wakePanel">
+              <p class="optLabel">朝の起こし方</p>
+              <div class="wakeModeGrid" id="wakeModePicker">
+                <button type="button" class="wakeModeBtn on" data-wake="app">アプリ通知</button>
+                <button type="button" class="wakeModeBtn" data-wake="alarm">アラーム</button>
+                <button type="button" class="wakeModeBtn" data-wake="none">通知なし</button>
+                <button type="button" class="wakeModeBtn" data-wake="call">電話で起こす</button>
+              </div>
+              <div id="wakeAppFields" class="fieldGroup">
+                <input id="wakeNotifyTime" class="mini" type="time" value="06:30" />
+                <p style="font-size:10px;color:var(--app-muted);margin-top:4px;">Mustudyから朝の勉強開始をプッシュ通知（デモ）</p>
+              </div>
+              <div id="wakeAlarmFields" class="fieldGroup" hidden>
+                <input id="wakeAlarmTime" class="mini" type="time" value="06:30" />
+                <p style="font-size:10px;color:var(--app-muted);margin-top:4px;">端末のアラーム連携はネイティブ版で対応予定</p>
+              </div>
+              <div id="wakeCallFields" class="fieldGroup" hidden>
+                <input id="wakeCallNumber" class="mini" type="tel" placeholder="電話番号（例: 09012345678）" />
+              </div>
+              <div id="wakeNoneNote" class="fieldGroup" hidden>
+                <p style="font-size:11px;color:var(--app-muted);">通知なし。自分のペースで勉強記録を開始します。</p>
+              </div>
+            </div>
             <div id="studyPlanPanel" class="demoPanel planPanel show">
               <input id="alarmTime" class="mini" type="time" value="06:30" />
               <input id="studyStartTime" class="mini" type="time" value="07:00" />
@@ -2295,7 +3036,7 @@
       <span class="tabIcon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 8h2l1.5-2h9L18 8h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
       </span>
-      <span class="tabLabel">カメラ</span>
+      <span class="tabLabel">勉強</span>
     </button>
     <button class="tabBtn" type="button" data-target="#demo" data-app-action="feedback" aria-label="勉強フィードバック">
       <span class="tabIcon" aria-hidden="true">
@@ -2339,7 +3080,9 @@
       camFullscreen: false,
       cameraLive: false,
       studyLock: false,
+      forcedLock: false,
       pendingLockWarn: false,
+      dayDetailDayKey: null,
       wakeLock: null,
       wakeMode: "app",
       currentScreen: "camera",
@@ -2347,6 +3090,8 @@
       statsPeriod: "week",
       calendarMonth: null,
       selectedCalendarDay: null,
+      pomodoroDone: false,
+      streakAtRisk: false,
       friends: [
         { name: "あおい", initial: "A", subject: "数学II", mins: 47, ago: "12分前" },
         { name: "けんた", initial: "K", subject: "英語長文", mins: 32, ago: "28分前" },
@@ -2386,6 +3131,12 @@
     const planSummary = document.getElementById("planSummary");
     const vlogTools = document.getElementById("vlogTools");
     const vlogLength = document.getElementById("vlogLength");
+    const vlogBgmBlock = document.getElementById("vlogBgmBlock");
+    const vlogBgmOn = document.getElementById("vlogBgmOn");
+    const vlogBgmOnLabel = document.getElementById("vlogBgmOnLabel");
+    const vlogBgmTrack = document.getElementById("vlogBgmTrack");
+    const vlogBgmVolume = document.getElementById("vlogBgmVolume");
+    const vlogBgmPreviewBtn = document.getElementById("vlogBgmPreviewBtn");
     const vlogPreview = document.getElementById("vlogPreview");
     const vlogStudyClock = document.getElementById("vlogStudyClock");
     const vlogSpeedInfo = document.getElementById("vlogSpeedInfo");
@@ -2400,6 +3151,33 @@
     const calPrev = document.getElementById("calPrev");
     const calNext = document.getElementById("calNext");
     const timelineTodayStudy = document.getElementById("timelineTodayStudy");
+    const dayDetailSheet = document.getElementById("dayDetailSheet");
+    const dayDetailTitle = document.getElementById("dayDetailTitle");
+    const dayDetailTotal = document.getElementById("dayDetailTotal");
+    const dayDetailSessions = document.getElementById("dayDetailSessions");
+    const dayDetailClose = document.getElementById("dayDetailClose");
+    const dayDetailPlayVlog = document.getElementById("dayDetailPlayVlog");
+    const quickStartBtn = document.getElementById("quickStartBtn");
+    const landingSceneTimer = document.getElementById("landingSceneTimer");
+    const swmStreakNum = document.getElementById("swmStreakNum");
+    const swmTodayMin = document.getElementById("swmTodayMin");
+    const swmFocusFill = document.getElementById("swmFocusFill");
+    const swmFocusPct = document.getElementById("swmFocusPct");
+    const recoveryBanner = document.getElementById("recoveryBanner");
+    const recoveryMessage = document.getElementById("recoveryMessage");
+    const recoveryStartBtn = document.getElementById("recoveryStartBtn");
+    const countdownOverlay = document.getElementById("countdownOverlay");
+    const countdownNum = document.getElementById("countdownNum");
+    const departureToast = document.getElementById("departureToast");
+    const pomodoroCelebrate = document.getElementById("pomodoroCelebrate");
+    const focusLockTitle = document.getElementById("focusLockTitle");
+    const focusLockText = document.getElementById("focusLockText");
+    const tlStreak = document.getElementById("tlStreak");
+    const tlTodayMin = document.getElementById("tlTodayMin");
+    const tlTotalH = document.getElementById("tlTotalH");
+    const recStreak = document.getElementById("recStreak");
+    const recTodayMin = document.getElementById("recTodayMin");
+    const recMonthMin = document.getElementById("recMonthMin");
     const friendFeed = document.getElementById("friendFeed");
     const todayGoalText = document.getElementById("todayGoalText");
     const screenMyPage = document.getElementById("screenMyPage");
@@ -2432,6 +3210,227 @@
     const forcedRemain = document.getElementById("forcedRemain");
     const stopSessionBtn = document.getElementById("stopSession");
     const forcedModeNote = document.getElementById("forcedModeNote");
+
+    const VLOG_BGM_KEY = "mustudyVlogBgm";
+    const VLOG_BGM_VOL_KEY = "mustudyVlogBgmVol";
+    const VLOG_BGM_ON_KEY = "mustudyVlogBgmOn";
+    const VLOG_BGM_TRACKS = [
+      {
+        group: "TikTok · 勉強Vlog定番",
+        tracks: [
+          {
+            id: "lofi",
+            label: "Lo-fi hip hop（#studyvlog 定番）",
+            src: "https://assets.mixkit.co/music/preview/mixkit-lofi-chill-438.mp3"
+          },
+          {
+            id: "chill",
+            label: "Chill vibes（TT勉強 montage）",
+            src: "https://assets.mixkit.co/music/preview/mixkit-chill-vibes-530.mp3"
+          },
+          {
+            id: "serene",
+            label: "Serene · 集中ループ",
+            src: "https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3"
+          }
+        ]
+      },
+      {
+        group: "Aesthetic · 深夜勉強",
+        tracks: [
+          {
+            id: "dream",
+            label: "Night study · dreamy",
+            src: "https://assets.mixkit.co/music/preview/mixkit-dreaming-out-loud-27.mp3"
+          },
+          {
+            id: "piano",
+            label: "Soft piano · emotional",
+            src: "https://assets.mixkit.co/music/preview/mixkit-piano-horizons-495.mp3"
+          },
+          {
+            id: "haze",
+            label: "Aesthetic · ふわっと",
+            src: "https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3"
+          }
+        ]
+      },
+      {
+        group: "チル · カフェ · 達成感",
+        tracks: [
+          {
+            id: "cafe",
+            label: "Cafe · 作業用（setlog風）",
+            src: "https://assets.mixkit.co/music/preview/mixkit-sleepy-cat-135.mp3"
+          },
+          {
+            id: "uplift",
+            label: "Upbeat · 25分達成 montage",
+            src: "https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3"
+          },
+          {
+            id: "cinematic",
+            label: "Cinematic · 受験ドキュ感",
+            src: "https://assets.mixkit.co/music/preview/mixkit-driving-ambition-32.mp3"
+          }
+        ]
+      }
+    ];
+
+    let vlogBgmAudio = null;
+    let vlogBgmStopTimer = null;
+    let vlogBgmPreviewTimer = null;
+
+    function allVlogBgmTracks() {
+      const list = [];
+      VLOG_BGM_TRACKS.forEach((g) => g.tracks.forEach((t) => list.push(t)));
+      return list;
+    }
+
+    function getVlogBgmTrackById(id) {
+      return allVlogBgmTracks().find((t) => t.id === id) || allVlogBgmTracks()[0];
+    }
+
+    function isVlogBgmEnabled() {
+      if (vlogBgmOn) return vlogBgmOn.checked;
+      const stored = localStorage.getItem(VLOG_BGM_ON_KEY);
+      return stored !== "0";
+    }
+
+    function getSelectedVlogBgmTrack() {
+      if (!isVlogBgmEnabled()) return null;
+      const id = (vlogBgmTrack && vlogBgmTrack.value) || localStorage.getItem(VLOG_BGM_KEY) || "lofi";
+      return getVlogBgmTrackById(id);
+    }
+
+    function getVlogBgmVolume() {
+      const raw = vlogBgmVolume
+        ? parseInt(vlogBgmVolume.value, 10)
+        : parseInt(localStorage.getItem(VLOG_BGM_VOL_KEY) || "45", 10);
+      return Math.min(1, Math.max(0, raw / 100));
+    }
+
+    function stopVlogBgm() {
+      if (vlogBgmStopTimer) {
+        clearTimeout(vlogBgmStopTimer);
+        vlogBgmStopTimer = null;
+      }
+      if (vlogBgmPreviewTimer) {
+        clearTimeout(vlogBgmPreviewTimer);
+        vlogBgmPreviewTimer = null;
+      }
+      if (vlogBgmAudio) {
+        vlogBgmAudio.pause();
+        vlogBgmAudio.currentTime = 0;
+        vlogBgmAudio.removeAttribute("src");
+        vlogBgmAudio.load();
+        vlogBgmAudio = null;
+      }
+    }
+
+    async function startVlogBgm(durationSec) {
+      stopVlogBgm();
+      const track = getSelectedVlogBgmTrack();
+      if (!track || !track.src) return null;
+      vlogBgmAudio = new Audio(track.src);
+      vlogBgmAudio.crossOrigin = "anonymous";
+      vlogBgmAudio.loop = true;
+      vlogBgmAudio.volume = getVlogBgmVolume();
+      try {
+        await vlogBgmAudio.play();
+      } catch (_) {
+        vlogBgmAudio = null;
+        return null;
+      }
+      if (durationSec > 0) {
+        vlogBgmStopTimer = setTimeout(() => stopVlogBgm(), durationSec * 1000);
+      }
+      return vlogBgmAudio;
+    }
+
+    function updateVlogBgmUi() {
+      const on = isVlogBgmEnabled();
+      if (vlogBgmOnLabel) vlogBgmOnLabel.textContent = on ? "ON" : "OFF";
+      if (vlogBgmBlock) vlogBgmBlock.classList.toggle("is-off", !on);
+      if (vlogBgmTrack) vlogBgmTrack.disabled = !on;
+      if (vlogBgmVolume) vlogBgmVolume.disabled = !on;
+      if (vlogBgmPreviewBtn) vlogBgmPreviewBtn.disabled = !on;
+    }
+
+    function persistVlogBgmSettings() {
+      if (vlogBgmOn) localStorage.setItem(VLOG_BGM_ON_KEY, vlogBgmOn.checked ? "1" : "0");
+      if (vlogBgmTrack) localStorage.setItem(VLOG_BGM_KEY, vlogBgmTrack.value);
+      if (vlogBgmVolume) localStorage.setItem(VLOG_BGM_VOL_KEY, String(vlogBgmVolume.value));
+    }
+
+    function initVlogBgmUi() {
+      if (!vlogBgmTrack) return;
+      vlogBgmTrack.innerHTML = "";
+      VLOG_BGM_TRACKS.forEach((group) => {
+        const og = document.createElement("optgroup");
+        og.label = group.group;
+        group.tracks.forEach((t) => {
+          const opt = document.createElement("option");
+          opt.value = t.id;
+          opt.textContent = t.label;
+          og.appendChild(opt);
+        });
+        vlogBgmTrack.appendChild(og);
+      });
+      const savedId = localStorage.getItem(VLOG_BGM_KEY) || "lofi";
+      if (allVlogBgmTracks().some((t) => t.id === savedId)) vlogBgmTrack.value = savedId;
+      if (vlogBgmOn) {
+        const onStored = localStorage.getItem(VLOG_BGM_ON_KEY);
+        vlogBgmOn.checked = onStored !== "0";
+      }
+      const volStored = localStorage.getItem(VLOG_BGM_VOL_KEY);
+      if (vlogBgmVolume && volStored) vlogBgmVolume.value = volStored;
+      updateVlogBgmUi();
+    }
+
+    async function previewVlogBgm() {
+      stopVlogBgm();
+      if (!isVlogBgmEnabled()) return;
+      const track = getSelectedVlogBgmTrack();
+      if (!track || !track.src) return;
+      if (camStatus) camStatus.textContent = "BGM試聴中: " + track.label;
+      await startVlogBgm(12);
+      vlogBgmPreviewTimer = setTimeout(() => {
+        stopVlogBgm();
+        if (camStatus) camStatus.textContent = "BGM試聴を終了しました";
+      }, 12000);
+    }
+
+    async function attachBgmToCanvasStream(videoStream, durationMs) {
+      const track = getSelectedVlogBgmTrack();
+      if (!track || !track.src) return { stream: videoStream, cleanup: () => {} };
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const audioEl = new Audio(track.src);
+        audioEl.crossOrigin = "anonymous";
+        audioEl.loop = true;
+        const srcNode = audioCtx.createMediaElementSource(audioEl);
+        const gain = audioCtx.createGain();
+        gain.gain.value = getVlogBgmVolume();
+        srcNode.connect(gain);
+        const dest = audioCtx.createMediaStreamDestination();
+        gain.connect(dest);
+        await audioEl.play();
+        const combined = new MediaStream([
+          ...videoStream.getVideoTracks(),
+          ...dest.stream.getAudioTracks()
+        ]);
+        const cleanup = () => {
+          audioEl.pause();
+          audioEl.removeAttribute("src");
+          audioCtx.close().catch(() => {});
+        };
+        if (durationMs > 0) setTimeout(cleanup, durationMs + 500);
+        return { stream: combined, cleanup };
+      } catch (_) {
+        return { stream: videoStream, cleanup: () => {} };
+      }
+    }
 
     const ZOOM_MIN = 0.5;
     const ZOOM_MAX = 3;
@@ -2709,10 +3708,91 @@
       };
     }
 
+    function enterCamFullscreen() {
+      if (state.camFullscreen) return;
+      state.camFullscreen = true;
+      if (camStage) camStage.classList.add("is-maximized");
+      if (camFullscreenBtn) camFullscreenBtn.textContent = "✕";
+    }
+
+    function exitCamFullscreenIfAllowed() {
+      if (isForcedSessionActive() && state.forcedLock) return false;
+      if (state.camFullscreen) {
+        state.camFullscreen = false;
+        if (camStage) camStage.classList.remove("is-maximized");
+        if (camFullscreenBtn) camFullscreenBtn.textContent = "⛶";
+      }
+      return true;
+    }
+
     function toggleCamFullscreen() {
+      if (state.camFullscreen && isForcedSessionActive() && state.forcedLock) {
+        if (camStatus) camStatus.textContent = "強制モード：時間が終わるまで全画面を解除できません";
+        return;
+      }
       state.camFullscreen = !state.camFullscreen;
       if (camStage) camStage.classList.toggle("is-maximized", state.camFullscreen);
       if (camFullscreenBtn) camFullscreenBtn.textContent = state.camFullscreen ? "✕" : "⛶";
+    }
+
+    function isAppNavigationLocked() {
+      return isForcedSessionActive() && state.forcedLock;
+    }
+
+    function showAppLockOverlay() {
+      if (focusLockOverlay) {
+        focusLockOverlay.classList.add("show");
+        focusLockOverlay.setAttribute("aria-hidden", "false");
+      }
+      if (isForcedSessionActive()) {
+        if (focusLockTitle) focusLockTitle.textContent = "集中が途切れる";
+        if (focusLockText) {
+          focusLockText.innerHTML = "ここで離れると、今日の努力が記録に「離脱」として残ります。<br>あと " + fmt(Math.max(0, getForcedTargetSec() - state.elapsed)) + " — 戻って続けよう。";
+        }
+      }
+    }
+
+    function enableForcedLock() {
+      state.forcedLock = true;
+      document.body.classList.add("forcedAppLock");
+      if (studyLockBanner) {
+        studyLockBanner.hidden = false;
+        studyLockBanner.textContent = "強制勉強中 — この画面から移動できません";
+      }
+      requestWakeLock();
+      enterCamFullscreen();
+    }
+
+    function disableForcedLock() {
+      state.forcedLock = false;
+      document.body.classList.remove("forcedAppLock");
+      if (!state.studyLock && studyLockBanner) studyLockBanner.hidden = true;
+      exitCamFullscreenIfAllowed();
+    }
+
+    async function quickStartStudy() {
+      if (state.timerId) {
+        stopSession();
+        return;
+      }
+      if (!state.cameraLive) {
+        if (camStatus) camStatus.textContent = "カメラを起動しています…";
+        await startCam();
+      }
+      if (!state.stream) return;
+      if (studyMinutes) studyMinutes.value = studyMinutes.value || "25";
+      runCountdownThen(() => startSession());
+    }
+
+    function updateQuickStartBtn() {
+      if (!quickStartBtn) return;
+      if (state.timerId) {
+        quickStartBtn.textContent = "勉強を終了";
+        quickStartBtn.classList.add("recording");
+      } else {
+        quickStartBtn.textContent = "勉強をスタート";
+        quickStartBtn.classList.remove("recording");
+      }
     }
 
     function getVisualZoomScale(camZoom) {
@@ -2894,7 +3974,9 @@
       const mime = MediaRecorder.isTypeSupported("video/webm;codecs=vp8")
         ? "video/webm;codecs=vp8"
         : "video/webm";
-      const stream = canvas.captureStream(24);
+      const videoStream = canvas.captureStream(24);
+      const exportMs = targetSec * 1000;
+      const { stream, cleanup } = await attachBgmToCanvasStream(videoStream, exportMs);
       const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 2500000 });
       const chunks = [];
       rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
@@ -2918,7 +4000,9 @@
         await sleep(Math.max(40, Math.floor((targetSec * 1000) / steps)));
       }
       rec.stop();
-      return done;
+      const blob = await done;
+      cleanup();
+      return blob;
     }
 
     async function saveVlogVideo() {
@@ -2927,7 +4011,8 @@
         if (camStatus) camStatus.textContent = "先に勉強記録を完了してください";
         return;
       }
-      if (camStatus) camStatus.textContent = "Vlog動画を作成中（Mustudyロゴ入り）…";
+      const bgmLabel = getSelectedVlogBgmTrack() ? getSelectedVlogBgmTrack().label : "なし";
+      if (camStatus) camStatus.textContent = "Vlog動画を作成中（BGM: " + bgmLabel + "）…";
       if (saveVlogVideoBtn) saveVlogVideoBtn.disabled = true;
       try {
         const blob = await exportWatermarkedVlog();
@@ -2973,7 +4058,7 @@
       }
       if (camWrap) camWrap.classList.remove("is-live", "is-recording");
       state.cameraLive = false;
-      if (state.camFullscreen) toggleCamFullscreen();
+      exitCamFullscreenIfAllowed();
       return true;
     }
 
@@ -3328,6 +4413,9 @@
         camStatus.textContent = label + " · ドラッグで位置 · 0.5×〜3×";
         updateStudyTimerHud(state.timerId ? state.elapsed : 0);
         applyCamTransform();
+        if (state.forcedLock || (state.sessionType === "forced" && state.timerId)) {
+          enterCamFullscreen();
+        }
       } catch (e) {
         camStatus.textContent = "カメラ接続に失敗しました（権限を許可してください）";
       }
@@ -3349,12 +4437,175 @@
 
     function renderFriendFeed() {
       if (!friendFeed) return;
+      renderStreakUI();
       friendFeed.innerHTML = state.friends.map((f) => (
         '<div class="friendItem">' +
         '<div class="friendAv">' + f.initial + '</div>' +
         '<div class="friendMeta"><b>' + f.name + ' · ' + f.subject + '</b>' +
         '<span>' + f.mins + '分勉強 · ' + f.ago + '</span></div></div>'
       )).join("");
+    }
+
+    const STREAK_KEY = "mustudyStreak";
+    const POMODORO_SEC = 25 * 60;
+
+    function loadStreakData() {
+      try {
+        return JSON.parse(localStorage.getItem(STREAK_KEY) || "{}");
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function saveStreakData(data) {
+      localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+    }
+
+    function computeCurrentStreak() {
+      const sessions = loadSessions();
+      const studyDays = new Set(sessions.map((s) => dateKeyFromIso(s.createdAt)));
+      const today = dateKeyFromDate(new Date());
+      if (state.timerId) studyDays.add(today);
+      const d = new Date();
+      if (!studyDays.has(today)) d.setDate(d.getDate() - 1);
+      let streak = 0;
+      for (let i = 0; i < 400; i++) {
+        const key = dateKeyFromDate(d);
+        if (!studyDays.has(key)) break;
+        streak++;
+        d.setDate(d.getDate() - 1);
+      }
+      return streak;
+    }
+
+    function renderStreakUI() {
+      const streak = computeCurrentStreak();
+      const sessions = loadSessions();
+      const now = new Date();
+      const todayStart = new Date(now);
+      todayStart.setHours(0, 0, 0, 0);
+      const todayEnd = new Date(now);
+      todayEnd.setHours(23, 59, 59, 999);
+      const todaySec = sumSecondsInRange(sessions, todayStart, todayEnd) + (state.timerId ? state.elapsed : 0);
+      const totalSec = sessions.reduce((s, x) => s + (x.durationSec || 0), 0) + (state.timerId ? state.elapsed : 0);
+      const month = getMonthRange(now.getFullYear(), now.getMonth());
+      const monthSec = sumSecondsInRange(sessions, month.start, month.end) + (state.timerId ? state.elapsed : 0);
+      const todayMin = Math.round(todaySec / 60);
+      const todayLabel = formatStudyMinutes(todaySec);
+      if (swmStreakNum) swmStreakNum.textContent = String(streak);
+      if (swmTodayMin) swmTodayMin.textContent = todayLabel;
+      if (tlStreak) tlStreak.textContent = String(streak);
+      if (tlTodayMin) tlTodayMin.textContent = String(todayMin);
+      if (tlTotalH) tlTotalH.textContent = String(Math.floor(totalSec / 3600));
+      if (recStreak) recStreak.textContent = String(streak);
+      if (recTodayMin) recTodayMin.textContent = String(todayMin);
+      if (recMonthMin) recMonthMin.textContent = String(Math.round(monthSec / 60));
+      const statStreak = document.getElementById("statStreak");
+      if (statStreak) statStreak.textContent = String(streak);
+    }
+
+    function showRecoveryIfNeeded() {
+      if (!recoveryBanner) return;
+      const today = dateKeyFromDate(new Date());
+      const sessions = loadSessions();
+      const studiedToday = sessions.some((s) => dateKeyFromIso(s.createdAt) === today) || state.timerId;
+      if (studiedToday) {
+        recoveryBanner.hidden = true;
+        return;
+      }
+      const data = loadStreakData();
+      const y = new Date();
+      y.setDate(y.getDate() - 1);
+      const yKey = dateKeyFromDate(y);
+      const missed = data.lastStudyDate && data.lastStudyDate < yKey;
+      const neverToday = !studiedToday;
+      if (neverToday && (missed || sessions.length > 0)) {
+        const msgs = [
+          "今日は15分だけやろう。ゼロからでも、また積み上がる。",
+          "1日空いても大丈夫。ここから戻れば、未来の自分が残る。",
+          "罪悪感より、15分。それが一番強い復帰。"
+        ];
+        if (recoveryMessage) {
+          recoveryMessage.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+        }
+        recoveryBanner.hidden = false;
+      } else {
+        recoveryBanner.hidden = true;
+      }
+    }
+
+    function showDepartureToast() {
+      if (!departureToast) return;
+      departureToast.textContent =
+        "努力の流れが切れた — 今日の記録に「離脱」が残り、streak が止まります";
+      departureToast.classList.add("show");
+      setTimeout(() => departureToast.classList.remove("show"), 4500);
+    }
+
+    function handleDepartureEvent() {
+      if (!state.timerId) return;
+      state.awayCount += 1;
+      state.streakAtRisk = true;
+      if (kFocus) kFocus.textContent = state.awayCount + "回";
+      showDepartureToast();
+      updateFocusGauge();
+      if (focusLockTitle) focusLockTitle.textContent = "努力が途切れそう";
+      if (focusLockText) {
+        focusLockText.innerHTML =
+          "離脱 " + state.awayCount + " 回目。<br>戻ればまだ今日の記録は続く。離れたままだと streak が止まります。";
+      }
+    }
+
+    function updateFocusGauge() {
+      if (!swmFocusFill) return;
+      if (!state.timerId) {
+        swmFocusFill.style.width = "0%";
+        if (swmFocusPct) swmFocusPct.textContent = "0%";
+        return;
+      }
+      const target = getForcedTargetSec();
+      let pct = Math.min(100, Math.round((state.elapsed / target) * 100));
+      pct = Math.max(0, pct - state.awayCount * 12);
+      swmFocusFill.style.width = pct + "%";
+      if (swmFocusPct) swmFocusPct.textContent = pct + "%";
+      if (state.elapsed >= POMODORO_SEC && !state.pomodoroDone) {
+        state.pomodoroDone = true;
+        if (pomodoroCelebrate) {
+          pomodoroCelebrate.classList.add("show");
+          setTimeout(() => pomodoroCelebrate.classList.remove("show"), 2600);
+        }
+      }
+    }
+
+    function runCountdownThen(fn) {
+      if (!countdownOverlay || !countdownNum) {
+        fn();
+        return;
+      }
+      let n = 3;
+      countdownOverlay.classList.add("show");
+      countdownNum.textContent = String(n);
+      const iv = setInterval(() => {
+        n -= 1;
+        if (n <= 0) {
+          clearInterval(iv);
+          countdownOverlay.classList.remove("show");
+          fn();
+        } else {
+          countdownNum.textContent = String(n);
+        }
+      }, 750);
+    }
+
+    function updateStreakOnSessionComplete(sec, awayCount) {
+      const data = loadStreakData();
+      const today = dateKeyFromDate(new Date());
+      data.lastStudyDate = today;
+      if (awayCount === 0) data.lastCleanDay = today;
+      if (awayCount > 0) data.todayHadDeparture = true;
+      data.totalExp = (data.totalExp || 0) + Math.floor(sec / 60) + (awayCount === 0 ? 10 : 0);
+      saveStreakData(data);
+      renderStreakUI();
     }
 
     function loadSessions() {
@@ -3380,11 +4631,16 @@
         durationSec: sec,
         mode: state.mode,
         awayCount: state.awayCount,
+        hadDeparture: state.awayCount > 0,
         shotsCount: state.shots.length,
         camLayout: state.camLayout,
         facingMode: state.facingMode,
         createdAt: new Date().toISOString(),
-        shotsMeta: state.shots.map(({ atSec, label }) => ({ atSec, label }))
+        shotsMeta: state.shots.map(({ atSec, label }) => ({ atSec, label })),
+        shotsPreview: state.shots
+          .filter((s) => s.image)
+          .slice(-6)
+          .map(({ atSec, label, image }) => ({ atSec, label, image }))
       };
       const list = loadSessions();
       list.unshift(entry);
@@ -3499,6 +4755,7 @@
           todayTotalMin.textContent = liveLabel;
         }
       }
+      renderStreakUI();
     }
 
     function renderStudyBarChart() {
@@ -3585,9 +4842,90 @@
         btn.addEventListener("click", () => {
           state.selectedCalendarDay = btn.dataset.day;
           renderStudyCalendar();
-          renderRecordDayGroups();
+          openDayDetail(btn.dataset.day);
         });
       });
+    }
+
+    function getSessionsForDay(dayKey) {
+      return loadSessions().filter((s) => dateKeyFromIso(s.createdAt) === dayKey);
+    }
+
+    function generatePlaceholderFrame(label, totalSec) {
+      const c = document.createElement("canvas");
+      c.width = 640;
+      c.height = 360;
+      const ctx = c.getContext("2d");
+      const g = ctx.createLinearGradient(0, 0, 640, 360);
+      g.addColorStop(0, "#1e3a5f");
+      g.addColorStop(1, "#0f172a");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 640, 360);
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      ctx.font = "bold 28px Inter, sans-serif";
+      ctx.fillText(label, 28, 48);
+      ctx.font = "bold 20px Inter, sans-serif";
+      ctx.fillText(formatStudyMinutes(totalSec), 28, 88);
+      return c.toDataURL("image/jpeg", 0.82);
+    }
+
+    function openDayDetail(dayKey) {
+      if (!dayDetailSheet || !dayKey) return;
+      state.dayDetailDayKey = dayKey;
+      const sessions = getSessionsForDay(dayKey);
+      const totalSec = sessions.reduce((sum, s) => sum + (s.durationSec || 0), 0);
+      if (dayDetailTitle) dayDetailTitle.textContent = formatDayLabel(dayKey);
+      if (dayDetailTotal) dayDetailTotal.textContent = formatStudyMinutes(totalSec);
+      if (dayDetailSessions) {
+        if (!sessions.length) {
+          dayDetailSessions.innerHTML = '<p class="recordEmpty">この日の記録はありません</p>';
+        } else {
+          dayDetailSessions.innerHTML = sessions.map((s) => (
+            '<div class="dayDetailSession" data-id="' + s.id + '">' +
+            "<b>" + s.subject + " · " + fmt(s.durationSec) + "</b>" +
+            "<span>" + formatRecordDate(s.createdAt) + " · 離脱" + s.awayCount + "回</span></div>"
+          )).join("");
+          dayDetailSessions.querySelectorAll(".dayDetailSession").forEach((el) => {
+            el.addEventListener("click", () => {
+              state.selectedRecordId = el.dataset.id;
+              const rec = sessions.find((r) => r.id === el.dataset.id);
+              if (rec) {
+                state.lastSessionSec = rec.durationSec;
+                updateVlogClock(0, rec.durationSec);
+              }
+            });
+          });
+        }
+      }
+      dayDetailSheet.classList.add("show");
+      dayDetailSheet.setAttribute("aria-hidden", "false");
+    }
+
+    function closeDayDetail() {
+      if (!dayDetailSheet) return;
+      dayDetailSheet.classList.remove("show");
+      dayDetailSheet.setAttribute("aria-hidden", "true");
+    }
+
+    async function playVlogForDay(dayKey) {
+      const sessions = getSessionsForDay(dayKey);
+      if (!sessions.length) return;
+      const totalSec = sessions.reduce((sum, s) => sum + (s.durationSec || 0), 0);
+      let frames = [];
+      sessions.forEach((s) => {
+        if (s.shotsPreview && s.shotsPreview.length) {
+          frames = frames.concat(s.shotsPreview);
+        }
+      });
+      if (!frames.length) {
+        frames = [{ image: generatePlaceholderFrame(formatDayLabel(dayKey), totalSec), atSec: 0, label: "day" }];
+      }
+      state.shots = frames;
+      state.lastSessionSec = totalSec;
+      closeDayDetail();
+      if (vlogTools) vlogTools.classList.add("show");
+      updateVlogClock(0, totalSec);
+      await playVlog();
     }
 
     function groupSessionsByDay(sessions) {
@@ -3625,8 +4963,8 @@
       }
       recordDayGroups.innerHTML = groups.map((g) => (
         '<div class="recordDayGroup">' +
-        '<div class="recordDayHead"><b>' + formatDayLabel(g.key) + '</b>' +
-        '<span>合計 ' + formatStudyMinutes(g.totalSec) + "</span></div>" +
+        '<div class="recordDayHead" data-day="' + g.key + '" role="button" tabindex="0"><b>' + formatDayLabel(g.key) + '</b>' +
+        '<span>合計 ' + formatStudyMinutes(g.totalSec) + ' · タップで詳細</span></div>' +
         '<div class="recordDaySessions">' +
         g.sessions.map((s) => (
           '<div class="recordItem' + (s.id === state.selectedRecordId ? " on" : "") + '" data-id="' + s.id + '">' +
@@ -3636,13 +4974,24 @@
         )).join("") +
         "</div></div>"
       )).join("");
+      recordDayGroups.querySelectorAll(".recordDayHead").forEach((el) => {
+        el.addEventListener("click", () => openDayDetail(el.dataset.day));
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openDayDetail(el.dataset.day);
+          }
+        });
+      });
       recordDayGroups.querySelectorAll(".recordItem").forEach((el) => {
-        el.addEventListener("click", () => {
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
           state.selectedRecordId = el.dataset.id;
           const rec = loadSessions().find((r) => r.id === state.selectedRecordId);
           if (rec) {
             state.lastSessionSec = rec.durationSec;
             updateVlogClock(0, rec.durationSec);
+            openDayDetail(dateKeyFromIso(rec.createdAt));
           }
           renderRecordDayGroups();
           refreshVlogToolsVisibility();
@@ -3663,6 +5012,11 @@
     }
 
     function switchAppScreen(name) {
+      if (isAppNavigationLocked() && name !== "camera") {
+        showAppLockOverlay();
+        if (camStatus) camStatus.textContent = "強制モード：カメラ画面のまま勉強を続けてください";
+        return;
+      }
       state.currentScreen = name;
       Object.keys(SCREENS).forEach((key) => {
         const el = document.getElementById(SCREENS[key]);
@@ -3676,6 +5030,8 @@
         syncTodayGoal();
         renderFriendFeed();
         updateStudySummaryCards();
+        showRecoveryIfNeeded();
+        renderStreakUI();
       }
       if (name === "record") {
         renderStudyDashboard();
@@ -3684,6 +5040,10 @@
     }
 
     function openMyPage() {
+      if (isAppNavigationLocked()) {
+        showAppLockOverlay();
+        return;
+      }
       if (screenMyPage) {
         screenMyPage.classList.add("active");
         screenMyPage.setAttribute("aria-hidden", "false");
@@ -3873,6 +5233,7 @@
         vlogPreview.removeAttribute("src");
         vlogPreview.load();
       }
+      stopVlogBgm();
       setVlogTimerHudVisible(false);
     }
 
@@ -3896,7 +5257,10 @@
       updateStudyTimerHud(0);
       updateVlogClock(0, studySec);
       const speed = (studySec / targetSec).toFixed(1);
-      if (vlogSpeedInfo) vlogSpeedInfo.textContent = "倍速約 " + speed + "x（" + targetSec + "秒Vlog）";
+      const slideBgm = getSelectedVlogBgmTrack();
+      const bgmNote = slideBgm ? " · BGM: " + slideBgm.label : " · BGMオフ";
+      if (vlogSpeedInfo) vlogSpeedInfo.textContent = "倍速約 " + speed + "x（" + targetSec + "秒Vlog）" + bgmNote;
+      startVlogBgm(targetSec);
 
       state.vlogSlideshowTimer = setInterval(() => {
         const frame = frames[idx % frames.length];
@@ -3908,6 +5272,7 @@
         if (idx >= frames.length) {
           clearInterval(state.vlogSlideshowTimer);
           state.vlogSlideshowTimer = null;
+          stopVlogBgm();
           updateVlogClock(studySec, studySec);
           updateStudyTimerHud(studySec);
           setVlogTimerHudVisible(false);
@@ -3927,8 +5292,11 @@
 
       stopVlogPlayback();
       const speed = studySec / targetSec;
+      const bgmTrack = getSelectedVlogBgmTrack();
+      const bgmNote = bgmTrack ? " · BGM: " + bgmTrack.label : " · BGMオフ";
       if (vlogSpeedInfo) {
-        vlogSpeedInfo.textContent = "倍速約 " + speed.toFixed(1) + "x（勉強" + fmt(studySec) + " → Vlog" + targetSec + "秒）";
+        vlogSpeedInfo.textContent =
+          "倍速約 " + speed.toFixed(1) + "x（勉強" + fmt(studySec) + " → Vlog" + targetSec + "秒）" + bgmNote;
       }
 
       if (state.recordedBlob) {
@@ -3957,6 +5325,9 @@
           return;
         }
 
+        const playSec = speed > maxRate ? studySec / maxRate : targetSec;
+        startVlogBgm(playSec);
+
         if (speed > maxRate) {
           const realPlaySec = studySec / maxRate;
           vlogPreview.onended = null;
@@ -3965,6 +5336,7 @@
             URL.revokeObjectURL(url);
             if (state.shots.length >= 2) playVlogSlideshow(targetSec, studySec);
             else {
+              stopVlogBgm();
               updateVlogClock(studySec, studySec);
               camStatus.textContent = "Vlog再生が完了しました";
             }
@@ -3991,6 +5363,8 @@
       if (state.timerId) return;
       state.elapsed = 0;
       state.awayCount = 0;
+      state.pomodoroDone = false;
+      state.streakAtRisk = false;
       state.shots = [];
       kFocus.textContent = "0回";
       kShots.textContent = "0件";
@@ -4003,6 +5377,8 @@
         state.elapsed += 1;
         updateStudyTimerHud(state.elapsed);
         updateStudySummaryCards();
+        updateFocusGauge();
+        renderStreakUI();
         updateForcedSessionUI();
         if (endMode && endMode.value === "time") {
           const total = getForcedTargetSec();
@@ -4014,7 +5390,9 @@
         if (state.elapsed % 5 === 0) snapshot("timelapse");
       }, 1000);
       if (state.sessionType === "forced") {
-        camStatus.textContent = "強制モード — 設定時間までカメラを閉じられません";
+        enableForcedLock();
+        enterCamFullscreen();
+        camStatus.textContent = "強制モード — 全画面で勉強中（解除不可）";
       } else if (endMode && endMode.value === "content") {
         enableStudyLock();
         camStatus.textContent = "勉強ロック中 · 他のアプリは開けません";
@@ -4022,6 +5400,7 @@
         camStatus.textContent = "勉強記録中 · " + (studyMinutes && studyMinutes.value) + "分";
       }
       updateCreateVlogBtn();
+      updateQuickStartBtn();
     }
 
     function stopSession(forceEnd) {
@@ -4039,6 +5418,7 @@
       stopRecorder();
       snapshot("end");
       disableStudyLock();
+      disableForcedLock();
       updateForcedSessionUI();
       setStudyTimerHudVisible(false);
       setVlogTimerHudVisible(false);
@@ -4048,27 +5428,44 @@
         vlogTools.classList.add("show");
         updateVlogClock(0, state.lastSessionSec);
       }
+      updateStreakOnSessionComplete(state.lastSessionSec, state.awayCount);
       buildAiComment();
+      renderStreakUI();
+      showRecoveryIfNeeded();
       updateCreateVlogBtn();
+      updateQuickStartBtn();
     }
 
     function buildAiComment() {
-      const personaList = ["鬼コーチ", "優しい先輩", "東大生風", "体育会系"];
-      const persona = personaList[state.elapsed % personaList.length];
-      const subject = subjectInput.value || "未入力";
-      const goal = goalInput.value || "未入力";
-      const focusScore = Math.max(40, 95 - state.awayCount * 12);
-      const morningRate = state.elapsed >= 1500 ? 90 : state.elapsed >= 900 ? 70 : 55;
-      const lines = [
-        "【" + persona + "AI フィードバック】",
-        "科目: " + subject,
-        "目標: " + goal,
-        "集中分析: " + focusScore + "/100",
-        "朝勉成功率(推定): " + morningRate + "%",
-        "離脱検知: " + state.awayCount + "回",
-        "改善点: " + (state.awayCount > 0 ? "開始後15分の離脱を減らすため、最初のタスクを5分単位に分割。" : "離脱ゼロを維持。次回は開始前に具体目標を数値化。"),
-        "感情コメント: 今日の継続は才能じゃなく設計の勝ち。明日もこの再現性でいこう。"
-      ];
+      if (!aiFeed) return;
+      const subject = (subjectInput && subjectInput.value) || "未入力";
+      const goal = (goalInput && goalInput.value) || "";
+      const sessions = loadSessions();
+      const today = dateKeyFromDate(new Date());
+      const todaySessions = sessions.filter((s) => dateKeyFromIso(s.createdAt) === today);
+      const morningCount = todaySessions.filter((s) => new Date(s.createdAt).getHours() < 9).length;
+      const streak = computeCurrentStreak();
+      const subjects = todaySessions.map((s) => s.subject);
+      const hasMath = subjects.some((s) => /数|数学|算/.test(s));
+      const hasEnglish = subjects.some((s) => /英/.test(s));
+      const lines = [];
+      if (state.awayCount > 0) {
+        lines.push("今日は " + state.awayCount + " 回、画面から離れました。努力の流れが切れた時間も、ちゃんと記録に残っています。");
+      } else {
+        lines.push("今日は離脱ゼロ。集中の質が、そのまま未来の自分への信頼になっています。");
+      }
+      if (morningCount >= 1 || (state.timerId && new Date().getHours() < 9)) {
+        lines.push("朝勉が続いています（" + Math.max(morningCount, state.timerId ? 1 : 0) + " セッション）。このリズムはかなり強いです。");
+      }
+      if (!hasMath && hasEnglish && /英/.test(subject)) {
+        lines.push("今日は英語中心でした。数学は少し避けがちかも — 明日は数学を15分だけ先に入れるとバランスが戻ります。");
+      } else if (hasMath && !hasEnglish) {
+        lines.push("数学に集中できた一日。英語は明日の朝イチ15分だけでも効果が出ます。");
+      }
+      lines.push("連続 " + streak + " 日目。" + (streak >= 3 ? " このペースは、受験ドキュメンタリーの「第" + streak + "章」です。" : ""));
+      lines.push("「" + subject + "」— " + (goal || "目標を一言で書いておくと、明日のAIがもっと的確になります。"));
+      lines.push("");
+      lines.push("今日の努力は、3ヶ月後の自分が見返したくなる1ページになります。");
       aiFeed.textContent = lines.join("\n");
     }
 
@@ -4080,6 +5477,9 @@
         durationSec: state.lastSessionSec || state.elapsed,
         vlogLengthSec: parseInt((vlogLength && vlogLength.value) || "30", 10),
         speedMultiplier: (state.lastSessionSec || state.elapsed) / parseInt((vlogLength && vlogLength.value) || "30", 10),
+        vlogBgmOn: isVlogBgmEnabled(),
+        vlogBgmTrack: getSelectedVlogBgmTrack() ? getSelectedVlogBgmTrack().id : null,
+        vlogBgmVolume: getVlogBgmVolume(),
         awayCount: state.awayCount,
         camLayout: state.camLayout,
         facingMode: state.facingMode,
@@ -4262,6 +5662,27 @@
       const el = document.getElementById(id);
       if (el) el.addEventListener("change", saveWakeSettings);
     });
+    initVlogBgmUi();
+    if (vlogBgmOn) {
+      vlogBgmOn.addEventListener("change", () => {
+        persistVlogBgmSettings();
+        updateVlogBgmUi();
+        if (!vlogBgmOn.checked) stopVlogBgm();
+      });
+    }
+    if (vlogBgmTrack) {
+      vlogBgmTrack.addEventListener("change", () => {
+        persistVlogBgmSettings();
+        stopVlogBgm();
+      });
+    }
+    if (vlogBgmVolume) {
+      vlogBgmVolume.addEventListener("input", () => {
+        persistVlogBgmSettings();
+        if (vlogBgmAudio) vlogBgmAudio.volume = getVlogBgmVolume();
+      });
+    }
+    if (vlogBgmPreviewBtn) vlogBgmPreviewBtn.addEventListener("click", previewVlogBgm);
     document.getElementById("playVlog").addEventListener("click", playVlog);
     document.getElementById("stopVlogPlay").addEventListener("click", stopVlogPlayback);
     if (savePlanBtn) savePlanBtn.addEventListener("click", savePlan);
@@ -4271,6 +5692,11 @@
     function openAppView() {
       document.body.classList.add("appOpen");
       switchAppScreen("camera");
+      document.querySelectorAll(".tabBtn").forEach((b) => {
+        b.classList.toggle("on", b.dataset.appAction === "camera");
+      });
+      renderStreakUI();
+      showRecoveryIfNeeded();
       renderFriendFeed();
       renderStudyDashboard();
       restoreProfile();
@@ -4287,6 +5713,36 @@
     }
 
     if (openAppBtn) openAppBtn.addEventListener("click", openAppView);
+    if (quickStartBtn) quickStartBtn.addEventListener("click", quickStartStudy);
+    if (dayDetailClose) dayDetailClose.addEventListener("click", closeDayDetail);
+    if (dayDetailSheet) {
+      dayDetailSheet.addEventListener("click", (e) => {
+        if (e.target === dayDetailSheet) closeDayDetail();
+      });
+    }
+    if (dayDetailPlayVlog) {
+      dayDetailPlayVlog.addEventListener("click", () => {
+        if (state.dayDetailDayKey) playVlogForDay(state.dayDetailDayKey);
+      });
+    }
+    if (recoveryStartBtn) {
+      recoveryStartBtn.addEventListener("click", () => {
+        if (studyMinutes) studyMinutes.value = "15";
+        if (recoveryBanner) recoveryBanner.hidden = true;
+        openAppView();
+        quickStartStudy();
+      });
+    }
+    if (landingSceneTimer) {
+      let t = 2 * 3600 + 14 * 60 + 38;
+      setInterval(() => {
+        t += 1;
+        const h = String(Math.floor(t / 3600)).padStart(2, "0");
+        const m = String(Math.floor((t % 3600) / 60)).padStart(2, "0");
+        const s = String(t % 60).padStart(2, "0");
+        landingSceneTimer.textContent = h + ":" + m + ":" + s;
+      }, 1000);
+    }
     if (closeAppBtn) closeAppBtn.addEventListener("click", closeAppView);
     if (markContentDoneBtn) {
       markContentDoneBtn.addEventListener("click", () => {
@@ -4323,6 +5779,9 @@
     updateMyPageOrbs();
     renderFriendFeed();
     renderStudyDashboard();
+    updateQuickStartBtn();
+    renderStreakUI();
+    showRecoveryIfNeeded();
     try {
       const g = JSON.parse(localStorage.getItem("mustudyTodayGoal") || "null");
       if (g && subjectInput && goalInput) {
@@ -4339,6 +5798,10 @@
         const isApp = document.body.classList.contains("appOpen");
         const action = btn.dataset.appAction;
         if (isApp && action) {
+          if (isAppNavigationLocked() && action !== "camera") {
+            showAppLockOverlay();
+            return;
+          }
           switchAppScreen(action);
           if (action === "camera") {
             setMode("study");
@@ -4361,12 +5824,11 @@
     document.addEventListener("visibilitychange", () => {
       if (!state.timerId) return;
       if (document.hidden) {
-        state.awayCount += 1;
-        kFocus.textContent = state.awayCount + "回";
-        if (state.studyLock) state.pendingLockWarn = true;
-      } else if (state.pendingLockWarn && state.studyLock) {
+        handleDepartureEvent();
+        if (state.studyLock || state.forcedLock) state.pendingLockWarn = true;
+      } else if (state.pendingLockWarn && (state.studyLock || state.forcedLock)) {
         state.pendingLockWarn = false;
-        showFocusLockOverlay();
+        showAppLockOverlay();
       }
     });
     window.addEventListener("beforeunload", (e) => {
