@@ -301,6 +301,8 @@
       font-size: 12px;
       white-space: pre-wrap;
     }
+    .planPanel { display: none; }
+    .planPanel.show { display: block; }
 
     .storyGrid {
       display: grid;
@@ -401,24 +403,18 @@
       border: none;
       background: transparent;
       color: rgba(255, 255, 255, 0.72);
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       border-radius: 12px;
       padding: 6px 2px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 2px;
+      gap: 0;
       min-height: 48px;
     }
-    .tabIcon {
-      font-size: 16px;
-      line-height: 1;
-    }
-    .tabLabel {
-      line-height: 1;
-    }
+    .tabLabel { line-height: 1; }
     .tabBtn.on {
       color: #ffffff;
     }
@@ -436,11 +432,8 @@
       background: #ffffff;
       color: #0b0b0d;
     }
-    .tabBtn.cameraTab .tabIcon {
-      font-size: 20px;
-    }
     .tabBtn.cameraTab .tabLabel {
-      display: none;
+      display: block;
     }
     .appOpen .hero,
     .appOpen #concept,
@@ -473,6 +466,7 @@
       .secLead { display: none; }
       .mobileTabbar { display: grid; }
       body { padding-bottom: 92px; }
+      #concept, #mvp, #growth, #retention, #stories, #tech, #goal, footer { display: none; }
       .demoPanel { padding: 10px; }
       .ctl { width: 100%; }
       .demoRow { gap: 6px; }
@@ -566,11 +560,19 @@
                 </div>
                 <input id="subjectInput" class="mini" placeholder="今日の科目（例: 英語・世界史）" />
                 <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
+                <select id="endMode" class="mini">
+                  <option value="time">勉強時間で終了</option>
+                  <option value="content">勉強内容達成で終了</option>
+                </select>
+                <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
+                <input id="contentDoneText" class="mini" placeholder="内容達成条件（例: 英単語200完了）" />
                 <div class="demoRow">
                   <button id="startCam" class="ctl sub">1. カメラON</button>
                   <button id="startSession" class="ctl main">2. 強制勉強スタート</button>
                   <button id="stopSession" class="ctl sub">終了</button>
+                  <button id="markContentDone" class="ctl sub">内容達成で終了</button>
                 </div>
+                <p style="font-size:11px;color:#9fb0c5;margin-top:4px;">※ スマホのスクリーンタイム連携はWebでは直接制御できないため、離脱検知と終了までの警告で代替します。</p>
               </div>
               <div class="demoPanel">
                 <div class="kpi">
@@ -586,6 +588,20 @@
                   <button id="saveVlog" class="ctl sub">Vlog素材JSON保存</button>
                 </div>
                 <div id="aiFeed" class="feed">ここにAIコーチング結果が出ます。</div>
+              </div>
+              <div id="studyPlanPanel" class="demoPanel planPanel">
+                <p style="font-size:12px;font-weight:700;margin-bottom:8px;">勉強計画</p>
+                <input id="alarmTime" class="mini" type="time" value="06:30" />
+                <input id="studyStartTime" class="mini" type="time" value="07:00" />
+                <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#dbeafe;margin:4px 0 8px;">
+                  <input id="callReminder" type="checkbox" />
+                  電話リマインドを使う
+                </label>
+                <input id="callNumber" class="mini" type="tel" placeholder="電話番号（例: 09012345678）" />
+                <div class="demoRow">
+                  <button id="savePlanBtn" class="ctl main">計画を保存</button>
+                </div>
+                <div id="planSummary" class="feed" style="min-height:80px;">計画はまだ保存されていません。</div>
               </div>
             </div>
           </div>
@@ -813,11 +829,11 @@
     </div>
   </footer>
   <nav class="mobileTabbar" aria-label="モバイルタブ">
-    <button class="tabBtn" data-target="#concept" data-app-action="timeline"><span class="tabIcon">🏠</span><span class="tabLabel">タイムライン</span></button>
-    <button class="tabBtn" data-target="#growth" data-app-action="record"><span class="tabIcon">📝</span><span class="tabLabel">記録する</span></button>
-    <button class="tabBtn cameraTab on" data-target="#demo" data-app-action="camera"><span class="tabIcon">📷</span><span class="tabLabel">カメラ</span></button>
-    <button class="tabBtn" data-target="#stories" data-app-action="feedback"><span class="tabIcon">🔎</span><span class="tabLabel">さがす</span></button>
-    <button class="tabBtn" data-target="#retention" data-app-action="save"><span class="tabIcon">👤</span><span class="tabLabel">マイページ</span></button>
+    <button class="tabBtn" data-target="#demo" data-app-action="timeline"><span class="tabLabel">タイムライン</span></button>
+    <button class="tabBtn" data-target="#demo" data-app-action="record"><span class="tabLabel">勉強記録</span></button>
+    <button class="tabBtn cameraTab on" data-target="#demo" data-app-action="camera"><span class="tabLabel">カメラ</span></button>
+    <button class="tabBtn" data-target="#demo" data-app-action="feedback"><span class="tabLabel">勉強FB</span></button>
+    <button class="tabBtn" data-target="#demo" data-app-action="plan"><span class="tabLabel">勉強計画</span></button>
   </nav>
   <script>
     const state = {
@@ -840,6 +856,16 @@
     const aiFeed = document.getElementById("aiFeed");
     const subjectInput = document.getElementById("subjectInput");
     const goalInput = document.getElementById("goalInput");
+    const endMode = document.getElementById("endMode");
+    const studyMinutes = document.getElementById("studyMinutes");
+    const markContentDoneBtn = document.getElementById("markContentDone");
+    const studyPlanPanel = document.getElementById("studyPlanPanel");
+    const alarmTimeInput = document.getElementById("alarmTime");
+    const studyStartTimeInput = document.getElementById("studyStartTime");
+    const callReminderInput = document.getElementById("callReminder");
+    const callNumberInput = document.getElementById("callNumber");
+    const savePlanBtn = document.getElementById("savePlanBtn");
+    const planSummary = document.getElementById("planSummary");
 
     function fmt(sec) {
       const m = String(Math.floor(sec / 60)).padStart(2, "0");
@@ -858,7 +884,10 @@
     async function startCam() {
       if (state.stream) return;
       try {
-        state.stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        state.stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user", width: { ideal: 720 }, height: { ideal: 1280 } },
+          audio: false
+        });
         cam.srcObject = state.stream;
         camStatus.textContent = "カメラ接続中";
       } catch (e) {
@@ -911,6 +940,14 @@
       state.timerId = setInterval(() => {
         state.elapsed += 1;
         kTimer.textContent = fmt(state.elapsed);
+        if (endMode && endMode.value === "time") {
+          const total = Math.max(1, parseInt(studyMinutes.value || "25", 10)) * 60;
+          if (state.elapsed >= total) {
+            stopSession();
+            camStatus.textContent = "設定時間に到達して終了しました";
+            buildAiComment();
+          }
+        }
         if (state.mode === "vlog" && state.elapsed % 20 === 0) snapshot("timelapse");
       }, 1000);
       camStatus.textContent = "勉強セッション中（カメラ監視）";
@@ -964,6 +1001,58 @@
       URL.revokeObjectURL(a.href);
     }
 
+    function hidePlanPanel() {
+      if (studyPlanPanel) studyPlanPanel.classList.remove("show");
+    }
+
+    function showPlanPanel() {
+      if (studyPlanPanel) studyPlanPanel.classList.add("show");
+      if (alarmTimeInput) alarmTimeInput.focus();
+    }
+
+    function renderPlanSummary(plan) {
+      if (!planSummary) return;
+      if (!plan) {
+        planSummary.textContent = "計画はまだ保存されていません。";
+        return;
+      }
+      planSummary.textContent = [
+        "保存済み勉強計画",
+        "アラーム: " + plan.alarmTime,
+        "勉強開始: " + plan.studyStartTime,
+        "電話リマインド: " + (plan.callReminder ? "ON" : "OFF"),
+        "電話番号: " + (plan.callNumber || "未設定")
+      ].join("\n");
+    }
+
+    function savePlan() {
+      const plan = {
+        alarmTime: (alarmTimeInput && alarmTimeInput.value) || "",
+        studyStartTime: (studyStartTimeInput && studyStartTimeInput.value) || "",
+        callReminder: !!(callReminderInput && callReminderInput.checked),
+        callNumber: (callNumberInput && callNumberInput.value) || "",
+        updatedAt: new Date().toISOString()
+      };
+      localStorage.setItem("mustudyPlan", JSON.stringify(plan));
+      renderPlanSummary(plan);
+      camStatus.textContent = "勉強計画を保存しました";
+    }
+
+    function restorePlan() {
+      try {
+        const raw = localStorage.getItem("mustudyPlan");
+        if (!raw) return;
+        const plan = JSON.parse(raw);
+        if (alarmTimeInput) alarmTimeInput.value = plan.alarmTime || "06:30";
+        if (studyStartTimeInput) studyStartTimeInput.value = plan.studyStartTime || "07:00";
+        if (callReminderInput) callReminderInput.checked = !!plan.callReminder;
+        if (callNumberInput) callNumberInput.value = plan.callNumber || "";
+        renderPlanSummary(plan);
+      } catch (_) {
+        renderPlanSummary(null);
+      }
+    }
+
     document.querySelectorAll(".modeBtn").forEach(btn => {
       btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
@@ -972,6 +1061,7 @@
     document.getElementById("stopSession").addEventListener("click", stopSession);
     document.getElementById("makeAI").addEventListener("click", buildAiComment);
     document.getElementById("saveVlog").addEventListener("click", saveVlogJson);
+    if (savePlanBtn) savePlanBtn.addEventListener("click", savePlan);
     const openAppBtn = document.getElementById("openAppBtn");
     const closeAppBtn = document.getElementById("closeAppBtn");
 
@@ -989,6 +1079,29 @@
 
     if (openAppBtn) openAppBtn.addEventListener("click", openAppView);
     if (closeAppBtn) closeAppBtn.addEventListener("click", closeAppView);
+    if (markContentDoneBtn) {
+      markContentDoneBtn.addEventListener("click", () => {
+        if (endMode && endMode.value !== "content") {
+          camStatus.textContent = "終了条件を「勉強内容達成」に変更してください";
+          return;
+        }
+        stopSession();
+        camStatus.textContent = "内容達成で終了しました";
+        buildAiComment();
+      });
+    }
+
+    // Mobile-first behavior: open app screen automatically on first view.
+    function shouldAutoOpenApp() {
+      const isMobile = window.matchMedia("(max-width: 860px)").matches;
+      return isMobile;
+    }
+
+    if (shouldAutoOpenApp()) {
+      // Wait one frame so layout is ready before smooth scrolling.
+      requestAnimationFrame(() => openAppView());
+    }
+    restorePlan();
 
     document.querySelectorAll(".tabBtn").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -998,19 +1111,23 @@
         if (isApp) {
           const action = btn.dataset.appAction;
           if (action === "timeline") {
+            hidePlanPanel();
             const demo = document.querySelector("#demo");
             if (demo) demo.scrollIntoView({ behavior: "smooth", block: "start" });
           } else if (action === "record") {
+            hidePlanPanel();
             setMode("vlog");
             const goal = document.getElementById("goalInput");
             if (goal) goal.focus();
           } else if (action === "camera") {
+            hidePlanPanel();
             setMode("study");
             startCam();
           } else if (action === "feedback") {
+            hidePlanPanel();
             buildAiComment();
-          } else if (action === "save") {
-            saveVlogJson();
+          } else if (action === "plan") {
+            showPlanPanel();
           }
           return;
         }
@@ -1023,6 +1140,12 @@
       if (document.hidden && state.timerId) {
         state.awayCount += 1;
         kFocus.textContent = state.awayCount + "回";
+      }
+    });
+    window.addEventListener("beforeunload", (e) => {
+      if (state.timerId && endMode && endMode.value === "time") {
+        e.preventDefault();
+        e.returnValue = "勉強時間が終わるまで移動しないでください。";
       }
     });
   </script>
