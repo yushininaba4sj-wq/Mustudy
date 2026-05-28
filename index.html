@@ -15,22 +15,22 @@
       --brand: #0ea5b8;
       --brand-dark: #0b7285;
       --accent: #e8f9fc;
-      /* App（勉強×トレンド） */
-      --app-bg: #07090d;
-      --app-bg-elevated: #0b0f15;
-      --app-card: rgba(255, 255, 255, 0.045);
-      --app-border: rgba(255, 255, 255, 0.09);
-      --app-border-strong: rgba(255, 255, 255, 0.14);
-      --app-text: #eef3fa;
-      --app-muted: #8b9cb5;
-      --app-brand: #4d9cf7;
-      --app-brand-dim: #3a7fd4;
-      --app-brand-soft: rgba(77, 156, 247, 0.18);
-      --app-mint: #5eead4;
-      --app-mint-soft: rgba(94, 234, 212, 0.12);
-      --app-warm: #fcd34d;
-      --tab-inactive: #6d7d94;
-      --tab-active: #4d9cf7;
+      /* App（白基調・勉強） */
+      --app-bg: #f3f5f8;
+      --app-bg-elevated: #ffffff;
+      --app-card: #ffffff;
+      --app-border: rgba(15, 23, 42, 0.08);
+      --app-border-strong: rgba(15, 23, 42, 0.12);
+      --app-text: #1e293b;
+      --app-muted: #64748b;
+      --app-brand: #3b82f6;
+      --app-brand-dim: #2563eb;
+      --app-brand-soft: rgba(59, 130, 246, 0.14);
+      --app-mint: #0d9488;
+      --app-mint-soft: rgba(13, 148, 136, 0.1);
+      --app-warm: #d97706;
+      --tab-inactive: #94a3b8;
+      --tab-active: #3b82f6;
       --radius-sm: 10px;
       --radius-md: 14px;
       --radius-lg: 18px;
@@ -39,9 +39,8 @@
     body {
       background: var(--app-bg);
       background-image:
-        radial-gradient(ellipse 90% 55% at 50% -15%, rgba(77, 156, 247, 0.14), transparent 55%),
-        radial-gradient(ellipse 50% 40% at 100% 30%, rgba(94, 234, 212, 0.07), transparent 50%),
-        radial-gradient(ellipse 40% 35% at 0% 80%, rgba(77, 156, 247, 0.06), transparent 45%);
+        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.1), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 100% 20%, rgba(13, 148, 136, 0.06), transparent 50%);
       color: var(--app-text);
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
       line-height: 1.7;
@@ -305,7 +304,7 @@
       cursor: pointer;
     }
     .ctl.main { background: linear-gradient(135deg, var(--app-brand), var(--app-brand-dim)); color: #061018; box-shadow: 0 4px 14px var(--app-brand-soft); }
-    .ctl.sub { background: rgba(255, 255, 255, 0.08); color: var(--app-text); border: 1px solid var(--app-border); }
+    .ctl.sub { background: var(--app-bg); color: var(--app-text); border: 1px solid var(--app-border-strong); }
     .mini {
       width: 100%;
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -358,18 +357,44 @@
       margin-bottom: 12px;
       min-height: 32px;
     }
+    .myPageOrb {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 2px solid var(--app-brand-soft);
+      background: var(--app-bg);
+      box-shadow: 0 2px 10px rgba(59, 130, 246, 0.2);
+      cursor: pointer;
+      flex-shrink: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .myPageOrbInitial {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--app-brand);
+    }
+    .myPageOrbImg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .myPageLink {
       border: none;
-      background: rgba(255, 255, 255, 0.08);
-      color: #9fb0c5;
-      font-size: 11px;
+      background: var(--app-bg);
+      color: var(--app-muted);
+      font-size: 12px;
       font-weight: 700;
-      padding: 6px 10px;
+      padding: 8px 12px;
       border-radius: 999px;
       cursor: pointer;
       flex-shrink: 0;
+      border: 1px solid var(--app-border);
     }
-    .myPageLink:hover { color: #e2e8f0; background: rgba(255, 255, 255, 0.12); }
     .pageTitle {
       font-size: 15px;
       font-weight: 800;
@@ -377,18 +402,19 @@
       letter-spacing: 0.02em;
       flex: 1;
       text-align: center;
-      margin-right: 72px;
+      margin-right: 48px;
     }
     .pageHead .pageTitle:last-child { margin-right: 0; }
     .camStage { margin-bottom: 10px; }
     .camWrap {
       position: relative;
       width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: #0f172a;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--app-border-strong);
+      background: #e8ecf1;
       aspect-ratio: 9 / 16;
       overflow: hidden;
+      touch-action: none;
     }
     .camWrap .demoVideo {
       width: 100%;
@@ -398,41 +424,261 @@
       aspect-ratio: unset;
       object-fit: cover;
       object-position: center center;
-      transform: scale(1);
       transform-origin: center center;
-      transition: object-position .2s ease, transform .2s ease;
+      will-change: transform;
     }
-    .camWrap.layout-desk .demoVideo {
-      transform: scale(1.55);
-      object-position: center 72%;
+    .camWrap .demoVideo.is-hidden { display: none; }
+    .camLaunchBtn {
+      position: absolute;
+      inset: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 2;
     }
-    .camWrap.layout-hands .demoVideo {
-      transform: scale(2.1);
-      object-position: center 88%;
+    .camWrap.is-live .camLaunchBtn { display: none; }
+    .camLaunchIcon {
+      width: 88px;
+      height: 88px;
+      border-radius: 999px;
+      background: var(--app-bg-elevated);
+      border: 2px solid var(--app-border-strong);
+      box-shadow: 0 8px 28px rgba(59, 130, 246, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--app-brand);
     }
-    .camWrap.layout-face .demoVideo {
-      transform: scale(1.35);
-      object-position: center 22%;
+    .camLaunchIcon svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+    .camLaunchText { font-size: 13px; font-weight: 700; color: var(--app-muted); }
+    .studyTimerHud {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 5;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--app-border-strong);
+      border-radius: 10px;
+      padding: 6px 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      pointer-events: none;
     }
-    .camWrap.layout-book .demoVideo {
-      transform: scale(1.75);
-      object-position: center 58%;
+    .studyTimerHud.show { display: flex; }
+    .studyTimerHud .studyTimerLabel {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--app-muted);
+      letter-spacing: 0.06em;
     }
-    .camWrap.layout-center .demoVideo {
-      transform: scale(1.9);
-      object-position: center center;
+    .studyTimerHud .studyTimerTime {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--app-brand-dim);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .mustudyWatermark {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--app-border);
+      border-radius: 999px;
+      padding: 4px 10px 4px 4px;
+      pointer-events: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .mustudyMark {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--app-brand), var(--app-brand-dim));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .mustudyWatermark span:last-child {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--app-brand-dim);
+      letter-spacing: 0.02em;
+    }
+    .vlogPreviewWrap {
+      position: relative;
+      margin-top: 8px;
+    }
+    .vlogPreviewWrap .vlogPreview { margin-top: 0; }
+    .wakeModeGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .wakeModeBtn {
+      border: 1px solid var(--app-border-strong);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--app-bg);
+      color: var(--app-muted);
+      cursor: pointer;
+      line-height: 1.35;
+      text-align: center;
+    }
+    .wakeModeBtn.on {
+      background: var(--app-brand-soft);
+      border-color: var(--app-brand);
+      color: var(--app-brand-dim);
+    }
+    .zoomHud {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 3;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--app-text);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--app-border);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .camWrap.is-live .zoomHud { opacity: 1; }
+    .camWrap .mustudyWatermark { display: none; }
+    .camWrap.is-live .mustudyWatermark { display: flex; }
+    .standHint {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(30, 41, 59, 0.55);
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      pointer-events: none;
     }
     .layoutGuide {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      border: 2px dashed rgba(77, 156, 247, 0.5);
+      border: 2px dashed rgba(59, 130, 246, 0.45);
       border-radius: 10px;
-      margin: 8%;
+      margin: 10% 8% 22% 8%;
+      z-index: 1;
       opacity: 0;
       transition: opacity .2s ease;
     }
-    .camWrap:not(.layout-full) .layoutGuide { opacity: 1; }
+    .camWrap.is-live:not(.layout-full) .layoutGuide { opacity: 1; }
+    .endModeRow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .endModeBtn {
+      border: 1px solid var(--app-border-strong);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--app-bg);
+      color: var(--app-muted);
+      cursor: pointer;
+      line-height: 1.35;
+      text-align: center;
+    }
+    .endModeBtn.on {
+      background: var(--app-brand-soft);
+      border-color: var(--app-brand);
+      color: var(--app-brand-dim);
+    }
+    .fieldGroup { margin-bottom: 8px; }
+    .fieldGroup[hidden] { display: none; }
+    .studyLockBanner {
+      display: none;
+      margin-bottom: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--app-brand);
+      background: var(--app-brand-soft);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--app-brand-dim);
+      line-height: 1.45;
+    }
+    body.studyLockActive .studyLockBanner { display: block; }
+    .contentLockNote {
+      font-size: 10px;
+      color: var(--app-muted);
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+    .focusLockOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .focusLockOverlay.show { display: flex; }
+    .focusLockCard {
+      width: min(340px, 100%);
+      background: var(--app-bg-elevated);
+      border: 1px solid var(--app-border-strong);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    }
+    .focusLockCard h3 { font-size: 16px; margin-bottom: 8px; color: var(--app-text); }
+    .focusLockCard p { font-size: 12px; color: var(--app-muted); line-height: 1.6; margin-bottom: 14px; }
+    .vlogCreateDock {
+      margin-top: 12px;
+      padding: 14px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--app-border-strong);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+    }
+    .vlogCreateDock .ctl { width: 100%; }
+    .vlogCreateHint {
+      font-size: 10px;
+      color: var(--app-muted);
+      text-align: center;
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+    #createVlogBtn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
     .camOpts { margin-bottom: 10px; }
     .optLabel {
       font-size: 11px;
@@ -447,8 +693,8 @@
       padding: 6px 10px;
       font-size: 11px;
       font-weight: 700;
-      background: rgba(255, 255, 255, 0.06);
-      color: #cbd5e1;
+      background: var(--app-bg);
+      color: var(--app-muted);
       cursor: pointer;
     }
     .layoutChip.on, .facingChip.on {
@@ -464,7 +710,7 @@
       background: var(--app-card);
     }
     .tlCard h4 { font-size: 13px; margin-bottom: 6px; color: var(--app-brand); }
-    .tlCard p, .tlCard li { font-size: 12px; color: #cbd5e1; }
+    .tlCard p, .tlCard li { font-size: 12px; color: var(--app-muted); }
     .tlCard ul { margin-left: 16px; }
     .friendItem {
       display: flex;
@@ -574,7 +820,7 @@
     .brandWhisper {
       margin: 0 0 14px;
       padding: 10px 0 10px 12px;
-      border-left: 2px solid rgba(77, 156, 247, 0.28);
+      border-left: 2px solid rgba(59, 130, 246, 0.35);
     }
     .brandWhisper p {
       font-size: 11px;
@@ -585,11 +831,59 @@
       letter-spacing: 0.02em;
     }
     .brandWhisper p:last-child { margin-bottom: 0; }
-    .brandWhisper .brandLead {
+    .brandWhisper .brandHero {
+      font-size: clamp(24px, 7vw, 36px);
+      line-height: 1.2;
+      font-weight: 900;
+      color: var(--app-text);
+      letter-spacing: -0.03em;
+      margin: 0 0 14px;
+      padding-left: 0;
+      border: none;
+    }
+    .brandWhisper .brandConcept {
       font-size: 12px;
-      color: rgba(238, 243, 250, 0.7);
+      color: var(--app-text);
+      opacity: 0.88;
       font-weight: 600;
+      line-height: 1.75;
       margin-bottom: 10px;
+    }
+    .profileMeta {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 10px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--app-muted);
+      line-height: 1.45;
+    }
+    .profileMetaRow {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 8px;
+    }
+    .profileMetaTag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--app-brand-soft);
+      color: var(--app-brand-dim);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .profileEmailLine {
+      font-size: 11px;
+      color: var(--app-muted);
+      word-break: break-all;
+    }
+    .emailOk {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--app-mint);
+      margin-top: 4px;
     }
     .storyGrid {
       display: grid;
@@ -871,11 +1165,14 @@
             <div class="profileHero">
               <div class="profileAv" id="profileInitial">Y</div>
               <p style="font-size:16px;font-weight:800;" id="profileName">受験生ユーザー</p>
-              <p style="font-size:12px;color:#9fb0c5;margin-top:4px;" id="profileGrade">高校3年 · 共通テスト対策</p>
+              <div class="profileMeta" id="profileMetaDisplay">
+                <div class="profileMetaRow" id="profileTagsRow"></div>
+                <p class="profileEmailLine" id="profileEmailDisplay" hidden></p>
+              </div>
             </div>
             <blockquote class="brandWhisper">
-              <p class="brandLead">今日の努力が、一生の思い出になる。</p>
-              <p>他のアプリは開けない。勉強時間になると、スマホは勉強専用になる。</p>
+              <p class="brandHero">今日の努力が、一生の思い出になる。</p>
+              <p class="brandConcept">他のアプリは開けない。<br>勉強時間になると、スマホは勉強専用になる。</p>
               <p>だからこそ、目の前の机に本気で向き合える。</p>
               <p>勉強が、努力した毎日が、君だけの成長物語になる。</p>
             </blockquote>
@@ -885,16 +1182,37 @@
               <div class="statBox"><strong id="statSessions">0</strong><span>セッション</span></div>
             </div>
             <div class="demoPanel">
-              <p class="optLabel">プロフィール（デモ）</p>
+              <p class="optLabel">メールアドレス登録</p>
+              <input id="profileEmailInput" class="mini" type="email" placeholder="example@email.com" autocomplete="email" />
+              <p id="emailRegisteredMsg" class="emailOk" hidden>登録済みのメールアドレスです</p>
+              <button type="button" id="registerEmailBtn" class="ctl sub" style="width:100%;margin-top:6px;">メールアドレスを登録</button>
+              <p class="optLabel" style="margin-top:12px;">アイコン画像</p>
+              <input id="profileIconInput" class="mini" type="file" accept="image/*" />
+              <p class="optLabel" style="margin-top:10px;">プロフィール</p>
               <input id="profileNameInput" class="mini" placeholder="表示名" value="受験生ユーザー" />
-              <input id="profileGradeInput" class="mini" placeholder="学年・目標（例: 浪人1年目）" value="高校3年 · 共通テスト対策" />
-              <button type="button" id="saveProfileBtn" class="ctl main">プロフィール保存</button>
+              <input id="profileGradeInput" class="mini" placeholder="学年（例: 高校3年 / 浪人1年目）" value="高校3年" />
+              <input id="profileSchoolInput" class="mini" placeholder="志望校（例: 東京大学 文科一類）" />
+              <select id="profilePurposeInput" class="mini">
+                <option value="">使用目的を選択</option>
+                <option value="大学受験">大学受験</option>
+                <option value="高校受験">高校受験</option>
+                <option value="共通テスト・国公立">共通テスト・国公立</option>
+                <option value="資格・検定">資格・検定</option>
+                <option value="定期テスト対策">定期テスト対策</option>
+                <option value="勉強習慣づくり">勉強習慣づくり</option>
+                <option value="その他">その他</option>
+              </select>
+              <input id="profileGoalInput" class="mini" placeholder="目標メモ（例: 共通テスト対策）" value="共通テスト対策" />
+              <button type="button" id="saveProfileBtn" class="ctl main" style="margin-top:8px;">プロフィール保存</button>
             </div>
           </div>
 
           <div id="screenTimeline" class="appScreen">
             <header class="pageHead">
-              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                <img class="myPageOrbImg" alt="" hidden />
+                <span class="myPageOrbInitial">Y</span>
+              </button>
               <h3 class="pageTitle">タイムライン</h3>
             </header>
             <div class="tlCard" id="todayGoalCard">
@@ -909,7 +1227,7 @@
               <h4>その他</h4>
               <div class="moreGrid">
                 <button type="button" class="moreBtn" data-goto="plan">勉強計画<small>アラーム・開始時刻</small></button>
-                <button type="button" class="moreBtn" data-goto="feedback">AIフィードバック<small>今日の分析を見る</small></button>
+                <button type="button" class="moreBtn" data-goto="feedback">フィードバック<small>今日の分析を見る</small></button>
                 <button type="button" class="moreBtn" data-goto="record">過去のVlog<small>勉強記録から再生</small></button>
                 <button type="button" class="moreBtn" data-goto="camera">勉強を始める<small>カメラセッション</small></button>
               </div>
@@ -918,7 +1236,10 @@
 
           <div id="screenRecord" class="appScreen">
             <header class="pageHead">
-              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                <img class="myPageOrbImg" alt="" hidden />
+                <span class="myPageOrbInitial">Y</span>
+              </button>
               <h3 class="pageTitle">勉強記録</h3>
             </header>
             <p class="optLabel">過去のセッション（タップで選択）</p>
@@ -934,64 +1255,134 @@
                 <button id="playVlog" class="ctl main">勉強時間を再生</button>
                 <button id="stopVlogPlay" class="ctl sub">再生停止</button>
               </div>
-              <video id="vlogPreview" class="vlogPreview" playsinline muted></video>
+              <div class="vlogPreviewWrap">
+                <video id="vlogPreview" class="vlogPreview" playsinline muted></video>
+                <div id="vlogTimerHud" class="studyTimerHud" aria-live="polite">
+                  <span class="studyTimerLabel">勉強時間</span>
+                  <span class="studyTimerTime" id="vlogTimerHudTime">00:00</span>
+                </div>
+                <div class="mustudyWatermark" aria-hidden="true">
+                  <span class="mustudyMark">M</span>
+                  <span>Mustudy</span>
+                </div>
+              </div>
               <p id="vlogStudyClock" class="vlogClock">勉強時間: 00:00 / 00:00</p>
-              <p id="vlogSpeedInfo" style="font-size:11px;color:#9fb0c5;margin-top:4px;">記録を選んでから倍速Vlogを再生できます。</p>
+              <p id="vlogSpeedInfo" style="font-size:11px;color:var(--app-muted);margin-top:4px;">記録を選んでから倍速Vlogを再生できます。</p>
+              <button id="saveVlogVideo" class="ctl main" style="margin-top:8px;width:100%;">Vlog動画を保存（Mustudyロゴ入り）</button>
               <button id="saveVlog" class="ctl sub" style="margin-top:8px;width:100%;">Vlog素材JSON保存</button>
             </div>
           </div>
 
           <div id="screenCamera" class="appScreen active">
             <header class="pageHead">
-              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                <img class="myPageOrbImg" alt="" hidden />
+                <span class="myPageOrbInitial">Y</span>
+              </button>
               <h3 class="pageTitle">カメラ</h3>
             </header>
-            <div class="camStage">
-              <div id="camWrap" class="camWrap layout-full">
-                <video id="cam" class="demoVideo" autoplay playsinline muted></video>
-                <div class="layoutGuide" aria-hidden="true"></div>
-              </div>
-              <p class="status" id="camStatus">カメラ未接続</p>
+
+            <div id="studyLockBanner" class="studyLockBanner" hidden>
+              勉強ロック中 — 他のアプリは開けません。Mustudyで勉強を続けてください。
             </div>
-            <div class="demoPanel camOpts">
-              <p class="optLabel">カメラ向き</p>
-              <div class="chipRow" id="facingPicker">
-                <button type="button" class="facingChip on" data-facing="user">内カメ（うちカメ）</button>
-                <button type="button" class="facingChip" data-facing="environment">外カメ</button>
+
+            <div class="demoPanel wakePanel">
+              <p class="optLabel">朝の起こし方</p>
+              <div class="wakeModeGrid" id="wakeModePicker">
+                <button type="button" class="wakeModeBtn on" data-wake="app">アプリ通知</button>
+                <button type="button" class="wakeModeBtn" data-wake="alarm">アラーム</button>
+                <button type="button" class="wakeModeBtn" data-wake="none">通知なし</button>
+                <button type="button" class="wakeModeBtn" data-wake="call">電話で起こす</button>
               </div>
-              <p class="optLabel">撮影レイアウト</p>
-              <div class="chipRow" id="layoutPicker">
-                <button type="button" class="layoutChip on" data-layout="full">全体</button>
-                <button type="button" class="layoutChip" data-layout="desk">机・ノート</button>
-                <button type="button" class="layoutChip" data-layout="hands">手元だけ</button>
-                <button type="button" class="layoutChip" data-layout="book">教科書寄り</button>
-                <button type="button" class="layoutChip" data-layout="face">顔・上半身</button>
-                <button type="button" class="layoutChip" data-layout="center">中央ズーム</button>
+              <div id="wakeAppFields" class="fieldGroup">
+                <input id="wakeNotifyTime" class="mini" type="time" value="06:30" />
+                <p style="font-size:10px;color:var(--app-muted);margin-top:4px;">Mustudyから朝の勉強開始をプッシュ通知（デモ）</p>
               </div>
-              <p style="font-size:10px;color:#9fb0c5;margin-top:6px;">※ 手元・机はズーム＋位置で切り抜き。三脚・スタンドの位置調整も併用してください。</p>
+              <div id="wakeAlarmFields" class="fieldGroup" hidden>
+                <input id="wakeAlarmTime" class="mini" type="time" value="06:30" />
+                <p style="font-size:10px;color:var(--app-muted);margin-top:4px;">端末のアラーム連携はネイティブ版で対応予定</p>
+              </div>
+              <div id="wakeCallFields" class="fieldGroup" hidden>
+                <input id="wakeCallNumber" class="mini" type="tel" placeholder="電話番号（例: 09012345678）" />
+              </div>
+              <div id="wakeNoneNote" class="fieldGroup" hidden>
+                <p style="font-size:11px;color:var(--app-muted);">通知なし。自分のペースで勉強記録を開始します。</p>
+              </div>
             </div>
-            <div class="demoPanel">
-              <div class="demoRow">
-                <button class="modeBtn on" data-mode="study">カメラ</button>
-                <button class="modeBtn" data-mode="vlog">Vlog</button>
+
+            <div class="demoPanel sessionSetup">
+              <p class="optLabel">終了のしかた</p>
+              <div class="endModeRow">
+                <button type="button" class="endModeBtn on" data-end="time">勉強時間で終了</button>
+                <button type="button" class="endModeBtn" data-end="content">勉強達成で終了</button>
+              </div>
+              <p id="contentLockNote" class="contentLockNote" hidden>※ セッション開始後は他のアプリを開けません（達成するまでロック）。</p>
+              <select id="endMode" class="mini" hidden aria-hidden="true">
+                <option value="time" selected>time</option>
+                <option value="content">content</option>
+              </select>
+              <div id="endTimeFields" class="fieldGroup">
+                <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
+              </div>
+              <div id="endContentFields" class="fieldGroup" hidden>
+                <input id="contentDoneText" class="mini" placeholder="達成条件（例: 英単語200完了）" />
               </div>
               <input id="subjectInput" class="mini" placeholder="今日の科目（例: 英語・世界史）" />
               <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
-              <select id="endMode" class="mini">
-                <option value="time">勉強時間で終了</option>
-                <option value="content">勉強内容達成で終了</option>
-              </select>
-              <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
-              <input id="contentDoneText" class="mini" placeholder="内容達成条件（例: 英単語200完了）" />
-              <div class="demoRow">
-                <button id="startCam" class="ctl sub">1. カメラON</button>
-                <button id="switchCamBtn" class="ctl sub">カメラ切替</button>
-                <button id="startSession" class="ctl main">2. 強制勉強スタート</button>
-                <button id="stopSession" class="ctl sub">終了</button>
-                <button id="markContentDone" class="ctl sub">内容達成で終了</button>
+              <div class="demoRow" style="margin-top:8px;">
+                <button class="modeBtn on" data-mode="study">カメラ</button>
+                <button class="modeBtn" data-mode="vlog">Vlog</button>
               </div>
-              <p style="font-size:11px;color:#9fb0c5;margin-top:4px;">※ 離脱検知でサボり防止。スクリーンタイム制御はネイティブアプリで対応予定。</p>
+              <div class="demoRow" style="margin-top:8px;">
+                <button id="startSession" class="ctl main">勉強記録をはじめる</button>
+                <button id="stopSession" class="ctl sub">終了</button>
+              </div>
+              <button id="markContentDone" class="ctl sub" type="button" style="width:100%;margin-top:6px;display:none;">内容達成で終了</button>
             </div>
+
+            <div class="camStage">
+              <div id="camWrap" class="camWrap layout-stand">
+                <button type="button" id="camLaunch" class="camLaunchBtn" aria-label="カメラを起動">
+                  <span class="camLaunchIcon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 8h2l1.5-2h9L18 8h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
+                  </span>
+                  <span class="camLaunchText">タップしてカメラを起動</span>
+                </button>
+                <video id="cam" class="demoVideo is-hidden" playsinline muted></video>
+                <div id="camTimerHud" class="studyTimerHud" aria-live="polite">
+                  <span class="studyTimerLabel">勉強時間</span>
+                  <span class="studyTimerTime" id="camTimerHudTime">00:00</span>
+                </div>
+                <div class="mustudyWatermark" aria-hidden="true">
+                  <span class="mustudyMark">M</span>
+                  <span>Mustudy</span>
+                </div>
+                <div class="layoutGuide" aria-hidden="true"></div>
+                <span class="zoomHud" id="zoomLabel">1.0x</span>
+                <span class="standHint" id="standHint">壁立てのまま手元を映す</span>
+              </div>
+              <p class="status" id="camStatus">カメラをタップして起動</p>
+            </div>
+
+            <div class="demoPanel camOpts">
+              <p class="optLabel">カメラ向き</p>
+              <div class="chipRow" id="facingPicker">
+                <button type="button" class="facingChip" data-facing="user">内カメ</button>
+                <button type="button" class="facingChip on" data-facing="environment">外カメ（推奨）</button>
+              </div>
+              <p class="optLabel">撮影レイアウト · ピンチで拡大縮小</p>
+              <div class="chipRow" id="layoutPicker">
+                <button type="button" class="layoutChip on" data-layout="stand">壁立て（手元）</button>
+                <button type="button" class="layoutChip" data-layout="hands">手元だけ</button>
+                <button type="button" class="layoutChip" data-layout="desk">机・ノート</button>
+                <button type="button" class="layoutChip" data-layout="book">教科書</button>
+                <button type="button" class="layoutChip" data-layout="face">顔</button>
+                <button type="button" class="layoutChip" data-layout="full">全体</button>
+              </div>
+              <button type="button" id="switchCamBtn" class="ctl sub" style="width:100%;margin-top:6px;">カメラ切替</button>
+              <p style="font-size:10px;color:var(--app-muted);margin-top:6px;line-height:1.5;">スマホを壁に立てかけるだけで手元が映るよう調整済み。映像上で指を伸ばしてズームできます。</p>
+            </div>
+
             <div class="demoPanel">
               <div class="kpi">
                 <div>モード: <b id="kMode">カメラ</b></div>
@@ -1000,28 +1391,47 @@
                 <div>素材保存: <b id="kShots">0件</b></div>
               </div>
             </div>
+
+            <div class="vlogCreateDock">
+              <button type="button" id="createVlogBtn" class="ctl main" disabled>Vlogを作成する</button>
+              <p class="vlogCreateHint">タップすると、記録した勉強時間から自動でVlogが完成します</p>
+            </div>
+          </div>
+
+          <div id="focusLockOverlay" class="focusLockOverlay" aria-hidden="true">
+            <div class="focusLockCard">
+              <h3>勉強ロック中</h3>
+              <p>他のアプリは開けません。<br>Mustudyに戻って、勉強達成まで続けましょう。</p>
+              <button type="button" id="focusLockDismiss" class="ctl main">勉強に戻る</button>
+            </div>
           </div>
 
           <div id="screenFeedback" class="appScreen">
             <header class="pageHead">
-              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
-              <h3 class="pageTitle">勉強FB</h3>
+              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                <img class="myPageOrbImg" alt="" hidden />
+                <span class="myPageOrbInitial">Y</span>
+              </button>
+              <h3 class="pageTitle">フィードバック</h3>
             </header>
             <div class="demoPanel">
-              <button id="makeAI" class="ctl main" style="width:100%;">AIフィードバック生成</button>
-              <div id="aiFeed" class="feed" style="margin-top:10px;">セッション終了後にAIコーチング結果を表示します。</div>
+              <button id="makeAI" class="ctl main" style="width:100%;">フィードバックを見る</button>
+              <div id="aiFeed" class="feed" style="margin-top:10px;">セッション終了後にフィードバックが表示されます。</div>
             </div>
           </div>
 
           <div id="screenPlan" class="appScreen">
             <header class="pageHead">
-              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                <img class="myPageOrbImg" alt="" hidden />
+                <span class="myPageOrbInitial">Y</span>
+              </button>
               <h3 class="pageTitle">勉強計画</h3>
             </header>
             <div id="studyPlanPanel" class="demoPanel planPanel show">
               <input id="alarmTime" class="mini" type="time" value="06:30" />
               <input id="studyStartTime" class="mini" type="time" value="07:00" />
-              <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#dbeafe;margin:4px 0 8px;">
+              <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--app-text);margin:4px 0 8px;">
                 <input id="callReminder" type="checkbox" />
                 電話リマインドを使う
               </label>
@@ -1302,8 +1712,14 @@
       lastSessionSec: 0,
       vlogPlayTimer: null,
       vlogSlideshowTimer: null,
-      facingMode: "user",
-      camLayout: "full",
+      facingMode: "environment",
+      camLayout: "stand",
+      camZoom: 1,
+      cameraLive: false,
+      studyLock: false,
+      pendingLockWarn: false,
+      wakeLock: null,
+      wakeMode: "app",
       currentScreen: "camera",
       selectedRecordId: null,
       friends: [
@@ -1351,10 +1767,249 @@
     const todayGoalText = document.getElementById("todayGoalText");
     const screenMyPage = document.getElementById("screenMyPage");
     const switchCamBtn = document.getElementById("switchCamBtn");
+    const camLaunch = document.getElementById("camLaunch");
+    const zoomLabel = document.getElementById("zoomLabel");
+    const standHint = document.getElementById("standHint");
+    const studyLockBanner = document.getElementById("studyLockBanner");
+    const contentLockNote = document.getElementById("contentLockNote");
+    const focusLockOverlay = document.getElementById("focusLockOverlay");
+    const focusLockDismiss = document.getElementById("focusLockDismiss");
+    const createVlogBtn = document.getElementById("createVlogBtn");
+    const contentDoneText = document.getElementById("contentDoneText");
+    const camTimerHud = document.getElementById("camTimerHud");
+    const camTimerHudTime = document.getElementById("camTimerHudTime");
+    const vlogTimerHud = document.getElementById("vlogTimerHud");
+    const vlogTimerHudTime = document.getElementById("vlogTimerHudTime");
+    const saveVlogVideoBtn = document.getElementById("saveVlogVideo");
+
+    const LAYOUT_PRESETS = {
+      stand: { scale: 2.15, posX: 50, posY: 84 },
+      hands: { scale: 2.45, posX: 50, posY: 88 },
+      desk: { scale: 1.65, posX: 50, posY: 72 },
+      book: { scale: 1.75, posX: 50, posY: 58 },
+      face: { scale: 1.3, posX: 50, posY: 22 },
+      full: { scale: 1, posX: 50, posY: 50 }
+    };
+
     function fmt(sec) {
       const m = String(Math.floor(sec / 60)).padStart(2, "0");
       const s = String(sec % 60).padStart(2, "0");
       return m + ":" + s;
+    }
+
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    function updateStudyTimerHud(currentSec) {
+      const t = fmt(currentSec || 0);
+      if (camTimerHudTime) camTimerHudTime.textContent = t;
+      if (vlogTimerHudTime) vlogTimerHudTime.textContent = t;
+      if (kTimer) kTimer.textContent = t;
+    }
+
+    function setStudyTimerHudVisible(visible) {
+      if (camTimerHud) camTimerHud.classList.toggle("show", visible);
+    }
+
+    function setVlogTimerHudVisible(visible) {
+      if (vlogTimerHud) vlogTimerHud.classList.toggle("show", visible);
+    }
+
+    function setWakeMode(mode) {
+      state.wakeMode = mode;
+      document.querySelectorAll(".wakeModeBtn").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.wake === mode);
+      });
+      const wakeAppFields = document.getElementById("wakeAppFields");
+      const wakeAlarmFields = document.getElementById("wakeAlarmFields");
+      const wakeCallFields = document.getElementById("wakeCallFields");
+      const wakeNoneNote = document.getElementById("wakeNoneNote");
+      if (wakeAppFields) wakeAppFields.hidden = mode !== "app";
+      if (wakeAlarmFields) wakeAlarmFields.hidden = mode !== "alarm";
+      if (wakeCallFields) wakeCallFields.hidden = mode !== "call";
+      if (wakeNoneNote) wakeNoneNote.hidden = mode !== "none";
+      saveWakeSettings();
+    }
+
+    function saveWakeSettings() {
+      const wakeNotifyTime = document.getElementById("wakeNotifyTime");
+      const wakeAlarmTime = document.getElementById("wakeAlarmTime");
+      const wakeCallNumber = document.getElementById("wakeCallNumber");
+      const data = {
+        wakeMode: state.wakeMode || "app",
+        wakeNotifyTime: (wakeNotifyTime && wakeNotifyTime.value) || "06:30",
+        wakeAlarmTime: (wakeAlarmTime && wakeAlarmTime.value) || "06:30",
+        wakeCallNumber: (wakeCallNumber && wakeCallNumber.value) || ""
+      };
+      localStorage.setItem("mustudyWake", JSON.stringify(data));
+      let plan = {};
+      try {
+        plan = JSON.parse(localStorage.getItem("mustudyPlan") || "{}");
+      } catch (_) {}
+      plan.wakeMode = data.wakeMode;
+      plan.alarmTime = data.wakeAlarmTime;
+      plan.callNumber = data.wakeCallNumber;
+      plan.callReminder = data.wakeMode === "call";
+      localStorage.setItem("mustudyPlan", JSON.stringify(plan));
+    }
+
+    function restoreWakeSettings() {
+      try {
+        const raw = localStorage.getItem("mustudyWake");
+        if (!raw) return;
+        const w = JSON.parse(raw);
+        const wakeNotifyTime = document.getElementById("wakeNotifyTime");
+        const wakeAlarmTime = document.getElementById("wakeAlarmTime");
+        const wakeCallNumber = document.getElementById("wakeCallNumber");
+        if (wakeNotifyTime && w.wakeNotifyTime) wakeNotifyTime.value = w.wakeNotifyTime;
+        if (wakeAlarmTime && w.wakeAlarmTime) wakeAlarmTime.value = w.wakeAlarmTime;
+        if (wakeCallNumber && w.wakeCallNumber) wakeCallNumber.value = w.wakeCallNumber;
+        if (w.wakeMode) setWakeMode(w.wakeMode);
+      } catch (_) {}
+    }
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    function drawCoverImage(ctx, img, w, h) {
+      const ir = img.width / img.height;
+      const cr = w / h;
+      let dw, dh, dx, dy;
+      if (ir > cr) {
+        dh = h;
+        dw = h * ir;
+        dx = (w - dw) / 2;
+        dy = 0;
+      } else {
+        dw = w;
+        dh = w / ir;
+        dx = 0;
+        dy = (h - dh) / 2;
+      }
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+
+    function roundRectPath(ctx, x, y, rw, rh, r) {
+      if (ctx.roundRect) {
+        ctx.beginPath();
+        ctx.roundRect(x, y, rw, rh, r);
+        return;
+      }
+      ctx.beginPath();
+      ctx.rect(x, y, rw, rh);
+    }
+
+    function drawMustudyWatermarkCanvas(ctx, w, h) {
+      const pad = 14;
+      const boxH = 30;
+      const boxW = 108;
+      const x = w - boxW - pad;
+      const y = h - boxH - pad;
+      ctx.fillStyle = "rgba(255,255,255,0.93)";
+      roundRectPath(ctx, x, y, boxW, boxH, 15);
+      ctx.fill();
+      ctx.fillStyle = "#3b82f6";
+      ctx.beginPath();
+      ctx.arc(x + 15, y + 15, 11, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 12px -apple-system, sans-serif";
+      ctx.fillText("M", x + 10, y + 19);
+      ctx.fillStyle = "#2563eb";
+      ctx.font = "bold 11px -apple-system, sans-serif";
+      ctx.fillText("Mustudy", x + 30, y + 19);
+    }
+
+    function drawStudyTimeCanvas(ctx, w, currentSec) {
+      ctx.fillStyle = "rgba(255,255,255,0.93)";
+      roundRectPath(ctx, 14, 14, 72, 40, 10);
+      ctx.fill();
+      ctx.fillStyle = "#64748b";
+      ctx.font = "bold 9px -apple-system, sans-serif";
+      ctx.fillText("勉強時間", 22, 28);
+      ctx.fillStyle = "#2563eb";
+      ctx.font = "bold 17px -apple-system, sans-serif";
+      ctx.fillText(fmt(currentSec), 22, 48);
+    }
+
+    function downloadBlob(blob, filename) {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    async function exportWatermarkedVlog() {
+      const targetSec = Math.max(15, parseInt((vlogLength && vlogLength.value) || "30", 10));
+      const studySec = state.lastSessionSec || state.elapsed;
+      const frames = state.shots.length ? state.shots : [];
+      if (!frames.length && !state.recordedBlob) {
+        if (camStatus) camStatus.textContent = "保存するVlog素材がありません";
+        return null;
+      }
+      const w = 720;
+      const h = 1280;
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      const mime = MediaRecorder.isTypeSupported("video/webm;codecs=vp8")
+        ? "video/webm;codecs=vp8"
+        : "video/webm";
+      const stream = canvas.captureStream(24);
+      const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 2500000 });
+      const chunks = [];
+      rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+      const done = new Promise((resolve) => { rec.onstop = () => resolve(new Blob(chunks, { type: mime })); });
+      rec.start();
+      const list = frames.length ? frames : [{ image: null }];
+      const steps = Math.max(list.length, Math.ceil(targetSec * 24 / 6));
+      for (let i = 0; i < steps; i++) {
+        const frame = list[i % list.length];
+        ctx.fillStyle = "#e8ecf1";
+        ctx.fillRect(0, 0, w, h);
+        if (frame.image) {
+          try {
+            const img = await loadImage(frame.image);
+            drawCoverImage(ctx, img, w, h);
+          } catch (_) {}
+        }
+        const currentSec = Math.min(studySec, Math.floor((i / steps) * studySec));
+        drawStudyTimeCanvas(ctx, w, currentSec);
+        drawMustudyWatermarkCanvas(ctx, w, h);
+        await sleep(Math.max(40, Math.floor((targetSec * 1000) / steps)));
+      }
+      rec.stop();
+      return done;
+    }
+
+    async function saveVlogVideo() {
+      const studySec = state.lastSessionSec || state.elapsed;
+      if (!studySec || studySec < 3) {
+        if (camStatus) camStatus.textContent = "先に勉強記録を完了してください";
+        return;
+      }
+      if (camStatus) camStatus.textContent = "Vlog動画を作成中（Mustudyロゴ入り）…";
+      if (saveVlogVideoBtn) saveVlogVideoBtn.disabled = true;
+      try {
+        const blob = await exportWatermarkedVlog();
+        if (!blob) return;
+        const date = new Date().toISOString().slice(0, 10);
+        downloadBlob(blob, "mustudy-vlog-" + date + ".webm");
+        if (camStatus) camStatus.textContent = "Vlog動画を保存しました";
+      } catch (e) {
+        if (camStatus) camStatus.textContent = "Vlog動画の保存に失敗しました";
+      } finally {
+        if (saveVlogVideoBtn) saveVlogVideoBtn.disabled = false;
+      }
     }
 
     function refreshVlogToolsVisibility() {
@@ -1378,16 +2033,220 @@
         state.stream.getTracks().forEach((t) => t.stop());
         state.stream = null;
       }
-      if (cam) cam.srcObject = null;
+      if (cam) {
+        cam.srcObject = null;
+        cam.classList.add("is-hidden");
+      }
+      if (camWrap) camWrap.classList.remove("is-live");
+      state.cameraLive = false;
+    }
+
+    function applyCamTransform() {
+      if (!cam) return;
+      const preset = LAYOUT_PRESETS[state.camLayout] || LAYOUT_PRESETS.stand;
+      const scale = preset.scale * state.camZoom;
+      cam.style.transform = "scale(" + scale + ")";
+      cam.style.objectPosition = preset.posX + "% " + preset.posY + "%";
+      if (zoomLabel) zoomLabel.textContent = state.camZoom.toFixed(1) + "x";
+      if (standHint) {
+        standHint.style.display =
+          state.camLayout === "stand" || state.camLayout === "hands" ? "" : "none";
+      }
+    }
+
+    function showCamLive() {
+      if (!cam || !camWrap) return;
+      cam.classList.remove("is-hidden");
+      camWrap.classList.add("is-live");
+      state.cameraLive = true;
+      applyCamTransform();
     }
 
     function setCamLayout(layout) {
       state.camLayout = layout;
+      state.camZoom = 1;
       if (!camWrap) return;
-      camWrap.className = "camWrap layout-" + layout;
+      camWrap.className = "camWrap layout-" + layout + (state.cameraLive ? " is-live" : "");
       document.querySelectorAll(".layoutChip").forEach((btn) => {
         btn.classList.toggle("on", btn.dataset.layout === layout);
       });
+      if ((layout === "stand" || layout === "hands") && state.facingMode !== "environment") {
+        setFacing("environment", state.cameraLive);
+      }
+      applyCamTransform();
+    }
+
+    function initPinchZoom() {
+      if (!camWrap) return;
+      let startDist = 0;
+      let startZoom = 1;
+      camWrap.addEventListener("touchstart", (e) => {
+        if (e.touches.length === 2) {
+          startDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          startZoom = state.camZoom;
+        }
+      }, { passive: true });
+      camWrap.addEventListener("touchmove", (e) => {
+        if (e.touches.length === 2 && state.cameraLive) {
+          e.preventDefault();
+          const dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          if (startDist > 0) {
+            state.camZoom = Math.min(3, Math.max(0.5, startZoom * (dist / startDist)));
+            applyCamTransform();
+          }
+        }
+      }, { passive: false });
+    }
+
+    function setEndMode(mode) {
+      document.querySelectorAll(".endModeBtn").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.end === mode);
+      });
+      if (endMode) endMode.value = mode;
+      const timeFields = document.getElementById("endTimeFields");
+      const contentFields = document.getElementById("endContentFields");
+      if (timeFields) timeFields.hidden = mode !== "time";
+      if (contentFields) contentFields.hidden = mode !== "content";
+      if (contentLockNote) contentLockNote.hidden = mode !== "content";
+      if (markContentDoneBtn) {
+        markContentDoneBtn.style.display = mode === "content" ? "block" : "none";
+      }
+    }
+
+    function updateCreateVlogBtn() {
+      if (!createVlogBtn) return;
+      const sec = state.lastSessionSec || state.elapsed;
+      const ready = sec >= 3 && (state.shots.length > 0 || state.recordedBlob);
+      createVlogBtn.disabled = !ready;
+    }
+
+    async function requestWakeLock() {
+      try {
+        if ("wakeLock" in navigator) {
+          state.wakeLock = await navigator.wakeLock.request("screen");
+        }
+      } catch (_) {}
+    }
+
+    function releaseWakeLock() {
+      if (state.wakeLock) {
+        state.wakeLock.release();
+        state.wakeLock = null;
+      }
+    }
+
+    function tryStudyFullscreen() {
+      const el = document.documentElement;
+      if (el.requestFullscreen) {
+        el.requestFullscreen().catch(() => {});
+      } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+      }
+    }
+
+    function exitStudyFullscreen() {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function showFocusLockOverlay() {
+      if (!focusLockOverlay || !state.studyLock) return;
+      focusLockOverlay.classList.add("show");
+      focusLockOverlay.setAttribute("aria-hidden", "false");
+    }
+
+    function hideFocusLockOverlay() {
+      if (!focusLockOverlay) return;
+      focusLockOverlay.classList.remove("show");
+      focusLockOverlay.setAttribute("aria-hidden", "true");
+    }
+
+    function enableStudyLock() {
+      if (!endMode || endMode.value !== "content") return;
+      state.studyLock = true;
+      document.body.classList.add("studyLockActive");
+      if (studyLockBanner) studyLockBanner.hidden = false;
+      requestWakeLock();
+      tryStudyFullscreen();
+    }
+
+    function disableStudyLock() {
+      state.studyLock = false;
+      document.body.classList.remove("studyLockActive");
+      if (studyLockBanner) studyLockBanner.hidden = true;
+      hideFocusLockOverlay();
+      releaseWakeLock();
+      exitStudyFullscreen();
+    }
+
+    async function autoCreateVlog() {
+      const studySec = state.lastSessionSec || state.elapsed;
+      if (!studySec || studySec < 3) {
+        if (camStatus) camStatus.textContent = "先に勉強セッションを開始・記録してください";
+        return;
+      }
+      if (state.stream && state.shots.length < 2) {
+        snapshot("vlog-auto");
+        if (state.shots.length < 2) snapshot("vlog-auto");
+      }
+      if (!state.recordedBlob && state.shots.length < 1) {
+        if (camStatus) camStatus.textContent = "Vlog素材がありません。カメラを映した状態でセッションしてください";
+        return;
+      }
+      state.lastSessionSec = studySec;
+      setMode("vlog");
+      if (vlogTools) vlogTools.classList.add("show");
+      updateVlogClock(0, studySec);
+      if (vlogSpeedInfo) vlogSpeedInfo.textContent = "勉強記録からVlogを自動作成しています…";
+      switchAppScreen("record");
+      document.querySelectorAll(".tabBtn").forEach((b) => {
+        b.classList.toggle("on", b.dataset.appAction === "record");
+      });
+      await playVlog();
+      if (camStatus) camStatus.textContent = "Vlogを自動作成しました";
+      persistSession();
+      updateCreateVlogBtn();
+    }
+
+    function updateMyPageOrbs() {
+      let profile = {};
+      try {
+        profile = JSON.parse(localStorage.getItem("mustudyProfile") || "{}");
+      } catch (_) {}
+      const initial = (profile.name || "Y").charAt(0).toUpperCase();
+      document.querySelectorAll(".myPageOrb").forEach((orb) => {
+        const img = orb.querySelector(".myPageOrbImg");
+        const init = orb.querySelector(".myPageOrbInitial");
+        if (profile.avatar && img) {
+          img.src = profile.avatar;
+          img.hidden = false;
+          if (init) init.style.display = "none";
+        } else {
+          if (img) img.hidden = true;
+          if (init) {
+            init.style.display = "";
+            init.textContent = initial;
+          }
+        }
+      });
+      const profileInitial = document.getElementById("profileInitial");
+      if (profileInitial) {
+        if (profile.avatar) {
+          profileInitial.style.backgroundImage = "url(" + profile.avatar + ")";
+          profileInitial.style.backgroundSize = "cover";
+          profileInitial.textContent = "";
+        } else {
+          profileInitial.style.backgroundImage = "";
+          profileInitial.textContent = initial;
+        }
+      }
     }
 
     function setFacing(mode, restart) {
@@ -1395,7 +2254,7 @@
       document.querySelectorAll(".facingChip").forEach((btn) => {
         btn.classList.toggle("on", btn.dataset.facing === mode);
       });
-      if (restart && state.stream) {
+      if (restart && state.cameraLive) {
         stopCamStream();
         startCam();
       }
@@ -1403,8 +2262,12 @@
 
     function toggleFacing() {
       const next = state.facingMode === "user" ? "environment" : "user";
-      setFacing(next, true);
-      camStatus.textContent = next === "user" ? "内カメに切り替えました" : "外カメに切り替えました";
+      setFacing(next, state.cameraLive);
+      if (camStatus) {
+        camStatus.textContent = state.cameraLive
+          ? (next === "user" ? "内カメに切り替えました" : "外カメに切り替えました")
+          : (next === "user" ? "内カメを選択中" : "外カメを選択中");
+      }
     }
 
     async function startCam() {
@@ -1419,8 +2282,10 @@
           audio: false
         });
         cam.srcObject = state.stream;
+        await cam.play();
+        showCamLive();
         const label = state.facingMode === "user" ? "内カメ" : "外カメ";
-        camStatus.textContent = "カメラ接続中（" + label + "）";
+        camStatus.textContent = "カメラ起動中（" + label + "）· ピンチでズーム";
       } catch (e) {
         camStatus.textContent = "カメラ接続に失敗しました（権限を許可してください）";
       }
@@ -1543,7 +2408,6 @@
         renderRecordList();
         refreshVlogToolsVisibility();
       }
-      if (name === "camera" && !state.stream) startCam();
       refreshVlogToolsVisibility();
     }
 
@@ -1554,6 +2418,7 @@
       }
       updateProfileStats();
       restoreProfile();
+      updateMyPageOrbs();
     }
 
     function closeMyPage() {
@@ -1577,34 +2442,111 @@
       }
     }
 
-    function restoreProfile() {
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function renderProfileMeta(p) {
+      const tagsRow = document.getElementById("profileTagsRow");
+      const emailDisplay = document.getElementById("profileEmailDisplay");
+      const emailMsg = document.getElementById("emailRegisteredMsg");
+      const tags = [];
+      if (p.grade) tags.push(p.grade);
+      if (p.school) tags.push(p.school);
+      if (p.purpose) tags.push(p.purpose);
+      if (p.goal) tags.push(p.goal);
+      if (tagsRow) {
+        tagsRow.innerHTML = tags.length
+          ? tags.map((t) => '<span class="profileMetaTag">' + t + "</span>").join("")
+          : '<span class="profileMetaTag">プロフィール未設定</span>';
+      }
+      if (emailDisplay) {
+        if (p.email) {
+          emailDisplay.textContent = p.email;
+          emailDisplay.hidden = false;
+        } else {
+          emailDisplay.hidden = true;
+        }
+      }
+      if (emailMsg) emailMsg.hidden = !p.email;
+    }
+
+    function getProfileFromStorage() {
       try {
-        const raw = localStorage.getItem("mustudyProfile");
-        if (!raw) return;
-        const p = JSON.parse(raw);
-        const nameEl = document.getElementById("profileName");
-        const gradeEl = document.getElementById("profileGrade");
-        const initialEl = document.getElementById("profileInitial");
-        const nameIn = document.getElementById("profileNameInput");
-        const gradeIn = document.getElementById("profileGradeInput");
-        if (nameEl) nameEl.textContent = p.name || "受験生ユーザー";
-        if (gradeEl) gradeEl.textContent = p.grade || "";
-        if (initialEl && p.name) initialEl.textContent = p.name.charAt(0).toUpperCase();
-        if (nameIn) nameIn.value = p.name || "";
-        if (gradeIn) gradeIn.value = p.grade || "";
-      } catch (_) {}
+        return JSON.parse(localStorage.getItem("mustudyProfile") || "{}");
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function restoreProfile() {
+      const p = getProfileFromStorage();
+      const nameEl = document.getElementById("profileName");
+      const nameIn = document.getElementById("profileNameInput");
+      const gradeIn = document.getElementById("profileGradeInput");
+      const schoolIn = document.getElementById("profileSchoolInput");
+      const purposeIn = document.getElementById("profilePurposeInput");
+      const goalIn = document.getElementById("profileGoalInput");
+      const emailIn = document.getElementById("profileEmailInput");
+      if (nameEl) nameEl.textContent = p.name || "受験生ユーザー";
+      if (nameIn) nameIn.value = p.name || "";
+      if (gradeIn) gradeIn.value = p.grade || "";
+      if (schoolIn) schoolIn.value = p.school || "";
+      if (purposeIn) purposeIn.value = p.purpose || "";
+      if (goalIn) goalIn.value = p.goal || "";
+      if (emailIn) emailIn.value = p.email || "";
+      renderProfileMeta(p);
+      updateMyPageOrbs();
     }
 
     function saveProfile() {
       const nameIn = document.getElementById("profileNameInput");
       const gradeIn = document.getElementById("profileGradeInput");
+      const schoolIn = document.getElementById("profileSchoolInput");
+      const purposeIn = document.getElementById("profilePurposeInput");
+      const goalIn = document.getElementById("profileGoalInput");
+      const emailIn = document.getElementById("profileEmailInput");
+      const prev = getProfileFromStorage();
+      const email = (emailIn && emailIn.value.trim()) || prev.email || "";
+      if (email && !isValidEmail(email)) {
+        if (camStatus) camStatus.textContent = "メールアドレスの形式を確認してください";
+        return;
+      }
       const p = {
         name: (nameIn && nameIn.value) || "受験生ユーザー",
-        grade: (gradeIn && gradeIn.value) || ""
+        grade: (gradeIn && gradeIn.value.trim()) || "",
+        school: (schoolIn && schoolIn.value.trim()) || "",
+        purpose: (purposeIn && purposeIn.value) || "",
+        goal: (goalIn && goalIn.value.trim()) || "",
+        email: email,
+        emailRegisteredAt: email ? (prev.emailRegisteredAt || new Date().toISOString()) : "",
+        avatar: prev.avatar || ""
       };
       localStorage.setItem("mustudyProfile", JSON.stringify(p));
       restoreProfile();
-      camStatus.textContent = "プロフィールを保存しました";
+      updateMyPageOrbs();
+      if (camStatus) camStatus.textContent = "プロフィールを保存しました";
+    }
+
+    function registerEmail() {
+      const emailIn = document.getElementById("profileEmailInput");
+      const email = (emailIn && emailIn.value.trim()) || "";
+      if (!email) {
+        if (camStatus) camStatus.textContent = "メールアドレスを入力してください";
+        return;
+      }
+      if (!isValidEmail(email)) {
+        if (camStatus) camStatus.textContent = "メールアドレスの形式を確認してください";
+        return;
+      }
+      const prev = getProfileFromStorage();
+      const p = Object.assign({}, prev, {
+        email: email,
+        emailRegisteredAt: new Date().toISOString()
+      });
+      localStorage.setItem("mustudyProfile", JSON.stringify(p));
+      restoreProfile();
+      if (camStatus) camStatus.textContent = "メールアドレスを登録しました";
     }
 
     function snapshot(label) {
@@ -1620,6 +2562,7 @@
         image: cvs.toDataURL("image/jpeg", 0.72)
       });
       kShots.textContent = String(state.shots.length) + "件";
+      updateCreateVlogBtn();
     }
 
     function startRecorder() {
@@ -1633,6 +2576,7 @@
       state.recorder.onstop = () => {
         if (!state.chunks.length) return;
         state.recordedBlob = new Blob(state.chunks, { type: mime });
+        updateCreateVlogBtn();
       };
       state.recorder.start(1000);
     }
@@ -1657,6 +2601,7 @@
         vlogPreview.removeAttribute("src");
         vlogPreview.load();
       }
+      setVlogTimerHudVisible(false);
     }
 
     function updateVlogClock(currentSec, totalSec) {
@@ -1675,6 +2620,8 @@
       stopVlogPlayback();
       vlogPreview.style.display = "block";
       vlogPreview.poster = frames[0].image;
+      setVlogTimerHudVisible(true);
+      updateStudyTimerHud(0);
       updateVlogClock(0, studySec);
       const speed = (studySec / targetSec).toFixed(1);
       if (vlogSpeedInfo) vlogSpeedInfo.textContent = "倍速約 " + speed + "x（" + targetSec + "秒Vlog）";
@@ -1684,11 +2631,14 @@
         vlogPreview.poster = frame.image;
         const currentStudySec = Math.min(studySec, Math.floor((idx / frames.length) * studySec));
         updateVlogClock(currentStudySec, studySec);
+        updateStudyTimerHud(currentStudySec);
         idx += 1;
         if (idx >= frames.length) {
           clearInterval(state.vlogSlideshowTimer);
           state.vlogSlideshowTimer = null;
           updateVlogClock(studySec, studySec);
+          updateStudyTimerHud(studySec);
+          setVlogTimerHudVisible(false);
           camStatus.textContent = "Vlog再生が完了しました";
         }
       }, interval);
@@ -1717,10 +2667,14 @@
         const rate = Math.min(maxRate, speed);
         vlogPreview.playbackRate = rate;
 
+        setVlogTimerHudVisible(true);
+        updateStudyTimerHud(0);
+
         vlogPreview.onended = () => {
           stopVlogPlayback();
           URL.revokeObjectURL(url);
           updateVlogClock(studySec, studySec);
+          setVlogTimerHudVisible(false);
           camStatus.textContent = "Vlog再生が完了しました";
         };
 
@@ -1748,6 +2702,7 @@
         state.vlogPlayTimer = setInterval(() => {
           const currentStudySec = Math.min(studySec, Math.floor(vlogPreview.currentTime * rate));
           updateVlogClock(currentStudySec, studySec);
+          updateStudyTimerHud(currentStudySec);
         }, 200);
         camStatus.textContent = "勉強時間を倍速再生中";
         return;
@@ -1758,7 +2713,7 @@
 
     function startSession() {
       if (!state.stream) {
-        camStatus.textContent = "先にカメラONしてください";
+        camStatus.textContent = "先にカメラアイコンをタップして起動してください";
         return;
       }
       if (state.timerId) return;
@@ -1769,9 +2724,11 @@
       kShots.textContent = "0件";
       startRecorder();
       snapshot("start");
+      setStudyTimerHudVisible(true);
+      updateStudyTimerHud(0);
       state.timerId = setInterval(() => {
         state.elapsed += 1;
-        kTimer.textContent = fmt(state.elapsed);
+        updateStudyTimerHud(state.elapsed);
         if (endMode && endMode.value === "time") {
           const total = Math.max(1, parseInt(studyMinutes.value || "25", 10)) * 60;
           if (state.elapsed >= total) {
@@ -1779,9 +2736,15 @@
             camStatus.textContent = "設定時間に到達して終了しました";
           }
         }
-        if (state.mode === "vlog" && state.elapsed % 5 === 0) snapshot("timelapse");
+        if (state.elapsed % 5 === 0) snapshot("timelapse");
       }, 1000);
-      camStatus.textContent = "勉強セッション中（カメラ監視）";
+      enableStudyLock();
+      if (endMode && endMode.value === "content") {
+        camStatus.textContent = "勉強ロック中 · 他のアプリは開けません";
+      } else {
+        camStatus.textContent = "勉強セッション中（カメラ監視）";
+      }
+      updateCreateVlogBtn();
     }
 
     function stopSession() {
@@ -1792,6 +2755,9 @@
       state.lastSessionSec = state.elapsed;
       stopRecorder();
       snapshot("end");
+      disableStudyLock();
+      setStudyTimerHudVisible(false);
+      setVlogTimerHudVisible(false);
       persistSession();
       camStatus.textContent = "セッション終了（記録に保存しました）";
       if (vlogTools) {
@@ -1799,6 +2765,7 @@
         updateVlogClock(0, state.lastSessionSec);
       }
       buildAiComment();
+      updateCreateVlogBtn();
     }
 
     function buildAiComment() {
@@ -1889,8 +2856,16 @@
     document.querySelectorAll(".modeBtn").forEach(btn => {
       btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
-    document.getElementById("startCam").addEventListener("click", startCam);
+    if (camLaunch) camLaunch.addEventListener("click", startCam);
     if (switchCamBtn) switchCamBtn.addEventListener("click", toggleFacing);
+    initPinchZoom();
+    setEndMode("time");
+    setCamLayout("stand");
+    if (!localStorage.getItem("mustudyWake")) setWakeMode("app");
+    updateCreateVlogBtn();
+    document.querySelectorAll(".endModeBtn").forEach((btn) => {
+      btn.addEventListener("click", () => setEndMode(btn.dataset.end));
+    });
     document.querySelectorAll(".facingChip").forEach((btn) => {
       btn.addEventListener("click", () => setFacing(btn.dataset.facing, true));
     });
@@ -1902,6 +2877,25 @@
     document.querySelectorAll("[data-action='mypage']").forEach((btn) => {
       btn.addEventListener("click", openMyPage);
     });
+    const profileIconInput = document.getElementById("profileIconInput");
+    if (profileIconInput) {
+      profileIconInput.addEventListener("change", () => {
+        const file = profileIconInput.files && profileIconInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          let p = {};
+          try {
+            p = JSON.parse(localStorage.getItem("mustudyProfile") || "{}");
+          } catch (_) {}
+          p.avatar = reader.result;
+          localStorage.setItem("mustudyProfile", JSON.stringify(p));
+          updateMyPageOrbs();
+          restoreProfile();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
     document.querySelectorAll("[data-action='close-mypage']").forEach((btn) => {
       btn.addEventListener("click", closeMyPage);
     });
@@ -1915,11 +2909,21 @@
       });
     });
     const saveProfileBtn = document.getElementById("saveProfileBtn");
+    const registerEmailBtn = document.getElementById("registerEmailBtn");
     if (saveProfileBtn) saveProfileBtn.addEventListener("click", saveProfile);
+    if (registerEmailBtn) registerEmailBtn.addEventListener("click", registerEmail);
     document.getElementById("startSession").addEventListener("click", startSession);
     document.getElementById("stopSession").addEventListener("click", stopSession);
     document.getElementById("makeAI").addEventListener("click", buildAiComment);
     document.getElementById("saveVlog").addEventListener("click", saveVlogJson);
+    if (saveVlogVideoBtn) saveVlogVideoBtn.addEventListener("click", saveVlogVideo);
+    document.querySelectorAll(".wakeModeBtn").forEach((btn) => {
+      btn.addEventListener("click", () => setWakeMode(btn.dataset.wake));
+    });
+    ["wakeNotifyTime", "wakeAlarmTime", "wakeCallNumber"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener("change", saveWakeSettings);
+    });
     document.getElementById("playVlog").addEventListener("click", playVlog);
     document.getElementById("stopVlogPlay").addEventListener("click", stopVlogPlayback);
     if (savePlanBtn) savePlanBtn.addEventListener("click", savePlan);
@@ -1949,11 +2953,19 @@
     if (markContentDoneBtn) {
       markContentDoneBtn.addEventListener("click", () => {
         if (endMode && endMode.value !== "content") {
-          camStatus.textContent = "終了条件を「勉強内容達成」に変更してください";
+          camStatus.textContent = "終了条件を「勉強達成で終了」に変更してください";
           return;
         }
         stopSession();
-        camStatus.textContent = "内容達成で終了しました";
+        camStatus.textContent = "勉強達成で終了しました · Vlogを作成できます";
+        updateCreateVlogBtn();
+      });
+    }
+    if (createVlogBtn) createVlogBtn.addEventListener("click", autoCreateVlog);
+    if (focusLockDismiss) {
+      focusLockDismiss.addEventListener("click", () => {
+        hideFocusLockOverlay();
+        window.focus();
       });
     }
 
@@ -1968,7 +2980,9 @@
       requestAnimationFrame(() => openAppView());
     }
     restorePlan();
+    restoreWakeSettings();
     restoreProfile();
+    updateMyPageOrbs();
     renderFriendFeed();
     renderRecordList();
     try {
@@ -1990,7 +3004,6 @@
           switchAppScreen(action);
           if (action === "camera") {
             setMode("study");
-            startCam();
           } else if (action === "record") {
             if (loadSessions().length && vlogTools) vlogTools.classList.add("show");
           } else if (action === "feedback") {
@@ -2008,15 +3021,24 @@
     });
 
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden && state.timerId) {
+      if (!state.timerId) return;
+      if (document.hidden) {
         state.awayCount += 1;
         kFocus.textContent = state.awayCount + "回";
+        if (state.studyLock) state.pendingLockWarn = true;
+      } else if (state.pendingLockWarn && state.studyLock) {
+        state.pendingLockWarn = false;
+        showFocusLockOverlay();
       }
     });
     window.addEventListener("beforeunload", (e) => {
-      if (state.timerId && endMode && endMode.value === "time") {
+      if (!state.timerId || !endMode) return;
+      if (endMode.value === "time") {
         e.preventDefault();
         e.returnValue = "勉強時間が終わるまで移動しないでください。";
+      } else if (endMode.value === "content") {
+        e.preventDefault();
+        e.returnValue = "勉強達成するまで他のアプリに移動できません。";
       }
     });
   </script>
