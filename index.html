@@ -15,13 +15,37 @@
       --brand: #0ea5b8;
       --brand-dark: #0b7285;
       --accent: #e8f9fc;
+      /* App（勉強×トレンド） */
+      --app-bg: #07090d;
+      --app-bg-elevated: #0b0f15;
+      --app-card: rgba(255, 255, 255, 0.045);
+      --app-border: rgba(255, 255, 255, 0.09);
+      --app-border-strong: rgba(255, 255, 255, 0.14);
+      --app-text: #eef3fa;
+      --app-muted: #8b9cb5;
+      --app-brand: #4d9cf7;
+      --app-brand-dim: #3a7fd4;
+      --app-brand-soft: rgba(77, 156, 247, 0.18);
+      --app-mint: #5eead4;
+      --app-mint-soft: rgba(94, 234, 212, 0.12);
+      --app-warm: #fcd34d;
+      --tab-inactive: #6d7d94;
+      --tab-active: #4d9cf7;
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: #050608;
-      color: #eef2f7;
+      background: var(--app-bg);
+      background-image:
+        radial-gradient(ellipse 90% 55% at 50% -15%, rgba(77, 156, 247, 0.14), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 100% 30%, rgba(94, 234, 212, 0.07), transparent 50%),
+        radial-gradient(ellipse 40% 35% at 0% 80%, rgba(77, 156, 247, 0.06), transparent 45%);
+      color: var(--app-text);
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
       line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; text-decoration: none; }
     .wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
@@ -30,9 +54,9 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      backdrop-filter: blur(10px);
-      background: rgba(7, 9, 12, 0.9);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      background: rgba(7, 9, 13, 0.88);
+      border-bottom: 1px solid var(--app-border);
     }
     .navInner {
       height: 68px;
@@ -41,7 +65,7 @@
       justify-content: space-between;
       gap: 12px;
     }
-    .logo { font-weight: 900; font-size: 24px; letter-spacing: -0.02em; color: #27d7ef; }
+    .logo { font-weight: 900; font-size: 24px; letter-spacing: -0.02em; color: var(--app-brand); }
     .navLinks { display: flex; gap: 16px; color: #cbd5e1; font-size: 14px; font-weight: 700; }
     .loginBtn {
       padding: 9px 14px;
@@ -202,10 +226,11 @@
       padding: 22px;
     }
     .demoWrap {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 18px;
+      background: var(--app-card);
+      border: 1px solid var(--app-border-strong);
+      border-radius: var(--radius-lg);
       padding: 14px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
     }
     .appChrome {
       display: flex;
@@ -218,7 +243,7 @@
     .appTitle {
       font-size: 14px;
       font-weight: 800;
-      color: #67e8f9;
+      color: var(--app-brand);
       letter-spacing: 0.02em;
     }
     .appDot {
@@ -254,11 +279,11 @@
       object-fit: cover;
     }
     .demoPanel {
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 12px;
+      border: 1px solid var(--app-border);
+      border-radius: var(--radius-md);
       padding: 12px;
       margin-bottom: 10px;
-      background: rgba(255, 255, 255, 0.03);
+      background: var(--app-card);
     }
     .demoRow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
     .modeBtn {
@@ -270,7 +295,7 @@
       background: rgba(255, 255, 255, 0.06);
       cursor: pointer;
     }
-    .modeBtn.on { background: #22d3ee; color: #041018; border-color: #22d3ee; }
+    .modeBtn.on { background: var(--app-brand); color: #061018; border-color: var(--app-brand); }
     .ctl {
       border: none;
       border-radius: 10px;
@@ -279,8 +304,8 @@
       font-size: 13px;
       cursor: pointer;
     }
-    .ctl.main { background: #22d3ee; color: #041018; }
-    .ctl.sub { background: rgba(255, 255, 255, 0.14); color: #e2e8f0; }
+    .ctl.main { background: linear-gradient(135deg, var(--app-brand), var(--app-brand-dim)); color: #061018; box-shadow: 0 4px 14px var(--app-brand-soft); }
+    .ctl.sub { background: rgba(255, 255, 255, 0.08); color: var(--app-text); border: 1px solid var(--app-border); }
     .mini {
       width: 100%;
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -289,13 +314,14 @@
       font-size: 13px;
       margin-bottom: 8px;
     }
-    .status { font-size: 13px; color: #67e8f9; font-weight: 700; margin-top: 4px; }
+    .status { font-size: 13px; color: var(--app-mint); font-weight: 700; margin-top: 4px; }
     .kpi { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
     .kpi div { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 10px; padding: 8px; font-size: 12px; }
     .feed {
-      background: #0f172a;
-      color: #dbeafe;
-      border-radius: 10px;
+      background: var(--app-bg-elevated);
+      color: var(--app-text);
+      border: 1px solid var(--app-border);
+      border-radius: var(--radius-sm);
       padding: 10px;
       min-height: 112px;
       font-size: 12px;
@@ -303,7 +329,268 @@
     }
     .planPanel { display: none; }
     .planPanel.show { display: block; }
+    .vlogTools { display: none; }
+    .vlogTools.show { display: block; }
+    .vlogPreview {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: #0f172a;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      margin-top: 8px;
+    }
+    .vlogClock {
+      font-size: 13px;
+      color: var(--app-mint);
+      font-weight: 800;
+      margin-top: 6px;
+      text-align: center;
+    }
 
+    .appScreen { display: none; }
+    .appScreen.active { display: block; }
+    .pageHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      min-height: 32px;
+    }
+    .myPageLink {
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: #9fb0c5;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .myPageLink:hover { color: #e2e8f0; background: rgba(255, 255, 255, 0.12); }
+    .pageTitle {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--app-text);
+      letter-spacing: 0.02em;
+      flex: 1;
+      text-align: center;
+      margin-right: 72px;
+    }
+    .pageHead .pageTitle:last-child { margin-right: 0; }
+    .camStage { margin-bottom: 10px; }
+    .camWrap {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: #0f172a;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+    }
+    .camWrap .demoVideo {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0;
+      aspect-ratio: unset;
+      object-fit: cover;
+      object-position: center center;
+      transform: scale(1);
+      transform-origin: center center;
+      transition: object-position .2s ease, transform .2s ease;
+    }
+    .camWrap.layout-desk .demoVideo {
+      transform: scale(1.55);
+      object-position: center 72%;
+    }
+    .camWrap.layout-hands .demoVideo {
+      transform: scale(2.1);
+      object-position: center 88%;
+    }
+    .camWrap.layout-face .demoVideo {
+      transform: scale(1.35);
+      object-position: center 22%;
+    }
+    .camWrap.layout-book .demoVideo {
+      transform: scale(1.75);
+      object-position: center 58%;
+    }
+    .camWrap.layout-center .demoVideo {
+      transform: scale(1.9);
+      object-position: center center;
+    }
+    .layoutGuide {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border: 2px dashed rgba(77, 156, 247, 0.5);
+      border-radius: 10px;
+      margin: 8%;
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+    .camWrap:not(.layout-full) .layoutGuide { opacity: 1; }
+    .camOpts { margin-bottom: 10px; }
+    .optLabel {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--app-muted);
+      margin: 8px 0 6px;
+    }
+    .chipRow { display: flex; flex-wrap: wrap; gap: 6px; }
+    .layoutChip, .facingChip {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+    .layoutChip.on, .facingChip.on {
+      background: var(--app-brand);
+      color: #061018;
+      border-color: var(--app-brand);
+    }
+    .tlCard {
+      border: 1px solid var(--app-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-bottom: 10px;
+      background: var(--app-card);
+    }
+    .tlCard h4 { font-size: 13px; margin-bottom: 6px; color: var(--app-brand); }
+    .tlCard p, .tlCard li { font-size: 12px; color: #cbd5e1; }
+    .tlCard ul { margin-left: 16px; }
+    .friendItem {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .friendItem:last-child { border-bottom: none; padding-bottom: 0; }
+    .friendAv {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--app-brand), #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .friendMeta b { display: block; font-size: 12px; margin-bottom: 2px; }
+    .friendMeta span { font-size: 11px; color: #9fb0c5; }
+    .moreGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .moreBtn {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 12px 10px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #e2e8f0;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+    }
+    .moreBtn small { display: block; font-size: 10px; color: #9fb0c5; font-weight: 600; margin-top: 4px; }
+    .recordList { display: flex; flex-direction: column; gap: 8px; }
+    .recordItem {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+    }
+    .recordItem.on { border-color: var(--app-brand); background: var(--app-brand-soft); }
+    .recordItem b { font-size: 13px; display: block; margin-bottom: 4px; }
+    .recordItem span { font-size: 11px; color: #9fb0c5; }
+    .recordEmpty {
+      font-size: 12px;
+      color: #9fb0c5;
+      text-align: center;
+      padding: 24px 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+    }
+    .myPageScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: var(--app-bg);
+      padding: 16px;
+      overflow-y: auto;
+      padding-bottom: 100px;
+    }
+    .myPageScreen .pageHead .pageTitle { margin-right: 0; }
+    .profileHero {
+      text-align: center;
+      padding: 20px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 16px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .profileAv {
+      width: 72px;
+      height: 72px;
+      border-radius: 999px;
+      margin: 0 auto 10px;
+      background: linear-gradient(135deg, var(--app-brand), var(--app-mint));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: #041018;
+    }
+    .statRow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .statBox {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .statBox strong { display: block; font-size: 18px; color: var(--app-brand); }
+    .statBox span { font-size: 10px; color: #9fb0c5; font-weight: 700; }
+
+    .brandWhisper {
+      margin: 0 0 14px;
+      padding: 10px 0 10px 12px;
+      border-left: 2px solid rgba(77, 156, 247, 0.28);
+    }
+    .brandWhisper p {
+      font-size: 11px;
+      line-height: 1.8;
+      color: var(--app-muted);
+      font-weight: 500;
+      margin: 0 0 7px;
+      letter-spacing: 0.02em;
+    }
+    .brandWhisper p:last-child { margin-bottom: 0; }
+    .brandWhisper .brandLead {
+      font-size: 12px;
+      color: rgba(238, 243, 250, 0.7);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
     .storyGrid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -384,56 +671,73 @@
     }
     .mobileTabbar {
       position: fixed;
-      left: 50%;
-      bottom: 12px;
-      transform: translateX(-50%);
-      width: min(560px, calc(100% - 20px));
-      background: rgba(12, 12, 14, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 22px;
-      padding: 8px 8px 10px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 100%;
+      transform: none;
+      background: var(--app-bg-elevated);
+      border: none;
+      border-top: 1px solid var(--app-border-strong);
+      border-radius: 0;
+      padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px));
       display: none;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 6px;
+      gap: 0;
       z-index: 40;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 -1px 0 rgba(77, 156, 247, 0.08);
     }
     .tabBtn {
       border: none;
       background: transparent;
-      color: rgba(255, 255, 255, 0.72);
-      font-size: 11px;
+      color: var(--tab-inactive);
+      font-size: 10px;
       font-weight: 700;
-      border-radius: 12px;
-      padding: 6px 2px;
+      letter-spacing: 0.01em;
+      border-radius: 10px;
+      padding: 4px 2px 2px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0;
-      min-height: 48px;
+      gap: 3px;
+      min-height: 52px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
     }
-    .tabLabel { line-height: 1; }
+    .tabIcon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+    }
+    .tabIcon svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .tabLabel {
+      line-height: 1.15;
+      white-space: nowrap;
+      transform: scale(0.95);
+    }
     .tabBtn.on {
-      color: #ffffff;
+      color: var(--tab-active);
     }
-    .tabBtn.cameraTab {
-      background: #ffffff;
-      color: #0b0b0d;
-      border-radius: 999px;
-      width: 58px;
-      height: 58px;
-      min-height: 58px;
-      margin: -24px auto 0;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    .tabBtn.on .tabIcon svg {
+      stroke-width: 2;
     }
-    .tabBtn.cameraTab.on {
-      background: #ffffff;
-      color: #0b0b0d;
-    }
-    .tabBtn.cameraTab .tabLabel {
-      display: block;
+    .tabBtn.cameraTab.on .tabIcon svg {
+      filter: drop-shadow(0 0 6px rgba(77, 156, 247, 0.45));
     }
     .appOpen .hero,
     .appOpen #concept,
@@ -449,8 +753,19 @@
     .appOpen #demo {
       padding-top: 8px;
     }
+    .appOpen #demo > .wrap > .secEyebrow,
+    .appOpen #demo > .wrap > h2,
+    .appOpen #demo > .wrap > .secLead {
+      display: none;
+    }
+    .appOpen #appChromeBar {
+      display: none;
+    }
     .appOpen .loginBtn {
       display: none;
+    }
+    .myPageScreen.active {
+      display: block;
     }
 
     @media (max-width: 860px) {
@@ -465,7 +780,7 @@
       .secEyebrow { margin-bottom: 2px; font-size: 10px; opacity: .9; }
       .secLead { display: none; }
       .mobileTabbar { display: grid; }
-      body { padding-bottom: 92px; }
+      body { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
       #concept, #mvp, #growth, #retention, #stories, #tech, #goal, footer { display: none; }
       .demoPanel { padding: 10px; }
       .ctl { width: 100%; }
@@ -537,74 +852,187 @@
         <h2>強制勉強スタート</h2>
         <p class="secLead">カメラONで開始。必要な操作だけに絞ったスマホ向けセッション画面です。</p>
         <div class="demoWrap">
-          <div class="appChrome">
+          <div class="appChrome" id="appChromeBar">
             <div>
               <p class="appTitle">mustudy</p>
-              <p class="appHint">camera / log</p>
+              <p class="appHint" id="appChromeHint">camera</p>
             </div>
             <div style="display:flex;align-items:center;gap:8px;">
               <span class="appDot" aria-hidden="true"></span>
               <button id="closeAppBtn" class="appClose" type="button">サイトへ戻る</button>
             </div>
           </div>
-          <div class="demoGrid">
-            <div>
-              <video id="cam" class="demoVideo" autoplay playsinline muted></video>
-              <p class="status" id="camStatus">カメラ未接続</p>
+
+          <div id="screenMyPage" class="appScreen myPageScreen" aria-hidden="true">
+            <header class="pageHead">
+              <button type="button" class="myPageLink" data-action="close-mypage">← 戻る</button>
+              <h3 class="pageTitle">マイページ</h3>
+            </header>
+            <div class="profileHero">
+              <div class="profileAv" id="profileInitial">Y</div>
+              <p style="font-size:16px;font-weight:800;" id="profileName">受験生ユーザー</p>
+              <p style="font-size:12px;color:#9fb0c5;margin-top:4px;" id="profileGrade">高校3年 · 共通テスト対策</p>
             </div>
-            <div>
-              <div class="demoPanel">
-                <div class="demoRow">
-                  <button class="modeBtn on" data-mode="study">カメラ</button>
-                  <button class="modeBtn" data-mode="vlog">ログ</button>
-                </div>
-                <input id="subjectInput" class="mini" placeholder="今日の科目（例: 英語・世界史）" />
-                <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
-                <select id="endMode" class="mini">
-                  <option value="time">勉強時間で終了</option>
-                  <option value="content">勉強内容達成で終了</option>
-                </select>
-                <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
-                <input id="contentDoneText" class="mini" placeholder="内容達成条件（例: 英単語200完了）" />
-                <div class="demoRow">
-                  <button id="startCam" class="ctl sub">1. カメラON</button>
-                  <button id="startSession" class="ctl main">2. 強制勉強スタート</button>
-                  <button id="stopSession" class="ctl sub">終了</button>
-                  <button id="markContentDone" class="ctl sub">内容達成で終了</button>
-                </div>
-                <p style="font-size:11px;color:#9fb0c5;margin-top:4px;">※ スマホのスクリーンタイム連携はWebでは直接制御できないため、離脱検知と終了までの警告で代替します。</p>
-              </div>
-              <div class="demoPanel">
-                <div class="kpi">
-                  <div>モード: <b id="kMode">カメラ</b></div>
-                  <div>セッション: <b id="kTimer">00:00</b></div>
-                  <div>離脱検知: <b id="kFocus">0回</b></div>
-                  <div>素材保存: <b id="kShots">0件</b></div>
-                </div>
-              </div>
-              <div class="demoPanel">
-                <div class="demoRow">
-                  <button id="makeAI" class="ctl main">AIフィードバック生成</button>
-                  <button id="saveVlog" class="ctl sub">Vlog素材JSON保存</button>
-                </div>
-                <div id="aiFeed" class="feed">ここにAIコーチング結果が出ます。</div>
-              </div>
-              <div id="studyPlanPanel" class="demoPanel planPanel">
-                <p style="font-size:12px;font-weight:700;margin-bottom:8px;">勉強計画</p>
-                <input id="alarmTime" class="mini" type="time" value="06:30" />
-                <input id="studyStartTime" class="mini" type="time" value="07:00" />
-                <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#dbeafe;margin:4px 0 8px;">
-                  <input id="callReminder" type="checkbox" />
-                  電話リマインドを使う
-                </label>
-                <input id="callNumber" class="mini" type="tel" placeholder="電話番号（例: 09012345678）" />
-                <div class="demoRow">
-                  <button id="savePlanBtn" class="ctl main">計画を保存</button>
-                </div>
-                <div id="planSummary" class="feed" style="min-height:80px;">計画はまだ保存されていません。</div>
+            <blockquote class="brandWhisper">
+              <p class="brandLead">今日の努力が、一生の思い出になる。</p>
+              <p>他のアプリは開けない。勉強時間になると、スマホは勉強専用になる。</p>
+              <p>だからこそ、目の前の机に本気で向き合える。</p>
+              <p>勉強が、努力した毎日が、君だけの成長物語になる。</p>
+            </blockquote>
+            <div class="statRow">
+              <div class="statBox"><strong id="statStreak">0</strong><span>連続日数</span></div>
+              <div class="statBox"><strong id="statTotalMin">0</strong><span>累計(分)</span></div>
+              <div class="statBox"><strong id="statSessions">0</strong><span>セッション</span></div>
+            </div>
+            <div class="demoPanel">
+              <p class="optLabel">プロフィール（デモ）</p>
+              <input id="profileNameInput" class="mini" placeholder="表示名" value="受験生ユーザー" />
+              <input id="profileGradeInput" class="mini" placeholder="学年・目標（例: 浪人1年目）" value="高校3年 · 共通テスト対策" />
+              <button type="button" id="saveProfileBtn" class="ctl main">プロフィール保存</button>
+            </div>
+          </div>
+
+          <div id="screenTimeline" class="appScreen">
+            <header class="pageHead">
+              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <h3 class="pageTitle">タイムライン</h3>
+            </header>
+            <div class="tlCard" id="todayGoalCard">
+              <h4>今日の目標</h4>
+              <p id="todayGoalText">まだ設定されていません。カメラ画面で科目・目標を入力してください。</p>
+            </div>
+            <div class="tlCard">
+              <h4>友達の勉強記録</h4>
+              <div id="friendFeed"></div>
+            </div>
+            <div class="tlCard">
+              <h4>その他</h4>
+              <div class="moreGrid">
+                <button type="button" class="moreBtn" data-goto="plan">勉強計画<small>アラーム・開始時刻</small></button>
+                <button type="button" class="moreBtn" data-goto="feedback">AIフィードバック<small>今日の分析を見る</small></button>
+                <button type="button" class="moreBtn" data-goto="record">過去のVlog<small>勉強記録から再生</small></button>
+                <button type="button" class="moreBtn" data-goto="camera">勉強を始める<small>カメラセッション</small></button>
               </div>
             </div>
           </div>
+
+          <div id="screenRecord" class="appScreen">
+            <header class="pageHead">
+              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <h3 class="pageTitle">勉強記録</h3>
+            </header>
+            <p class="optLabel">過去のセッション（タップで選択）</p>
+            <div id="recordList" class="recordList"></div>
+            <div id="vlogTools" class="demoPanel vlogTools" style="margin-top:12px;">
+              <p style="font-size:12px;font-weight:700;margin-bottom:8px;">Vlog（倍速再生）</p>
+              <select id="vlogLength" class="mini">
+                <option value="15">15秒に圧縮（倍速）</option>
+                <option value="30" selected>30秒に圧縮（倍速）</option>
+                <option value="60">60秒に圧縮（倍速）</option>
+              </select>
+              <div class="demoRow">
+                <button id="playVlog" class="ctl main">勉強時間を再生</button>
+                <button id="stopVlogPlay" class="ctl sub">再生停止</button>
+              </div>
+              <video id="vlogPreview" class="vlogPreview" playsinline muted></video>
+              <p id="vlogStudyClock" class="vlogClock">勉強時間: 00:00 / 00:00</p>
+              <p id="vlogSpeedInfo" style="font-size:11px;color:#9fb0c5;margin-top:4px;">記録を選んでから倍速Vlogを再生できます。</p>
+              <button id="saveVlog" class="ctl sub" style="margin-top:8px;width:100%;">Vlog素材JSON保存</button>
+            </div>
+          </div>
+
+          <div id="screenCamera" class="appScreen active">
+            <header class="pageHead">
+              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <h3 class="pageTitle">カメラ</h3>
+            </header>
+            <div class="camStage">
+              <div id="camWrap" class="camWrap layout-full">
+                <video id="cam" class="demoVideo" autoplay playsinline muted></video>
+                <div class="layoutGuide" aria-hidden="true"></div>
+              </div>
+              <p class="status" id="camStatus">カメラ未接続</p>
+            </div>
+            <div class="demoPanel camOpts">
+              <p class="optLabel">カメラ向き</p>
+              <div class="chipRow" id="facingPicker">
+                <button type="button" class="facingChip on" data-facing="user">内カメ（うちカメ）</button>
+                <button type="button" class="facingChip" data-facing="environment">外カメ</button>
+              </div>
+              <p class="optLabel">撮影レイアウト</p>
+              <div class="chipRow" id="layoutPicker">
+                <button type="button" class="layoutChip on" data-layout="full">全体</button>
+                <button type="button" class="layoutChip" data-layout="desk">机・ノート</button>
+                <button type="button" class="layoutChip" data-layout="hands">手元だけ</button>
+                <button type="button" class="layoutChip" data-layout="book">教科書寄り</button>
+                <button type="button" class="layoutChip" data-layout="face">顔・上半身</button>
+                <button type="button" class="layoutChip" data-layout="center">中央ズーム</button>
+              </div>
+              <p style="font-size:10px;color:#9fb0c5;margin-top:6px;">※ 手元・机はズーム＋位置で切り抜き。三脚・スタンドの位置調整も併用してください。</p>
+            </div>
+            <div class="demoPanel">
+              <div class="demoRow">
+                <button class="modeBtn on" data-mode="study">カメラ</button>
+                <button class="modeBtn" data-mode="vlog">Vlog</button>
+              </div>
+              <input id="subjectInput" class="mini" placeholder="今日の科目（例: 英語・世界史）" />
+              <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
+              <select id="endMode" class="mini">
+                <option value="time">勉強時間で終了</option>
+                <option value="content">勉強内容達成で終了</option>
+              </select>
+              <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
+              <input id="contentDoneText" class="mini" placeholder="内容達成条件（例: 英単語200完了）" />
+              <div class="demoRow">
+                <button id="startCam" class="ctl sub">1. カメラON</button>
+                <button id="switchCamBtn" class="ctl sub">カメラ切替</button>
+                <button id="startSession" class="ctl main">2. 強制勉強スタート</button>
+                <button id="stopSession" class="ctl sub">終了</button>
+                <button id="markContentDone" class="ctl sub">内容達成で終了</button>
+              </div>
+              <p style="font-size:11px;color:#9fb0c5;margin-top:4px;">※ 離脱検知でサボり防止。スクリーンタイム制御はネイティブアプリで対応予定。</p>
+            </div>
+            <div class="demoPanel">
+              <div class="kpi">
+                <div>モード: <b id="kMode">カメラ</b></div>
+                <div>セッション: <b id="kTimer">00:00</b></div>
+                <div>離脱検知: <b id="kFocus">0回</b></div>
+                <div>素材保存: <b id="kShots">0件</b></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="screenFeedback" class="appScreen">
+            <header class="pageHead">
+              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <h3 class="pageTitle">勉強FB</h3>
+            </header>
+            <div class="demoPanel">
+              <button id="makeAI" class="ctl main" style="width:100%;">AIフィードバック生成</button>
+              <div id="aiFeed" class="feed" style="margin-top:10px;">セッション終了後にAIコーチング結果を表示します。</div>
+            </div>
+          </div>
+
+          <div id="screenPlan" class="appScreen">
+            <header class="pageHead">
+              <button type="button" class="myPageLink" data-action="mypage">マイページ</button>
+              <h3 class="pageTitle">勉強計画</h3>
+            </header>
+            <div id="studyPlanPanel" class="demoPanel planPanel show">
+              <input id="alarmTime" class="mini" type="time" value="06:30" />
+              <input id="studyStartTime" class="mini" type="time" value="07:00" />
+              <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#dbeafe;margin:4px 0 8px;">
+                <input id="callReminder" type="checkbox" />
+                電話リマインドを使う
+              </label>
+              <input id="callNumber" class="mini" type="tel" placeholder="電話番号（例: 09012345678）" />
+              <div class="demoRow">
+                <button id="savePlanBtn" class="ctl main">計画を保存</button>
+              </div>
+              <div id="planSummary" class="feed" style="min-height:80px;">計画はまだ保存されていません。</div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -829,11 +1257,36 @@
     </div>
   </footer>
   <nav class="mobileTabbar" aria-label="モバイルタブ">
-    <button class="tabBtn" data-target="#demo" data-app-action="timeline"><span class="tabLabel">タイムライン</span></button>
-    <button class="tabBtn" data-target="#demo" data-app-action="record"><span class="tabLabel">勉強記録</span></button>
-    <button class="tabBtn cameraTab on" data-target="#demo" data-app-action="camera"><span class="tabLabel">カメラ</span></button>
-    <button class="tabBtn" data-target="#demo" data-app-action="feedback"><span class="tabLabel">勉強FB</span></button>
-    <button class="tabBtn" data-target="#demo" data-app-action="plan"><span class="tabLabel">勉強計画</span></button>
+    <button class="tabBtn" type="button" data-target="#demo" data-app-action="timeline" aria-label="タイムライン">
+      <span class="tabIcon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="5" width="4" height="4" rx="1"/><path d="M11 7h9M11 12h9"/><rect x="4" y="14" width="4" height="4" rx="1"/><path d="M11 17h9"/></svg>
+      </span>
+      <span class="tabLabel">タイムライン</span>
+    </button>
+    <button class="tabBtn" type="button" data-target="#demo" data-app-action="record" aria-label="勉強記録">
+      <span class="tabIcon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20h3.5L18 9.5 14.5 6 4 16.5V20z"/><path d="M13.5 7.5l3 3"/></svg>
+      </span>
+      <span class="tabLabel">記録</span>
+    </button>
+    <button class="tabBtn cameraTab on" type="button" data-target="#demo" data-app-action="camera" aria-label="カメラ">
+      <span class="tabIcon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 8h2l1.5-2h9L18 8h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
+      </span>
+      <span class="tabLabel">カメラ</span>
+    </button>
+    <button class="tabBtn" type="button" data-target="#demo" data-app-action="feedback" aria-label="勉強フィードバック">
+      <span class="tabIcon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3a6 6 0 016 6c0 2.2-1.2 4.1-3 5.2V17l-3 3v-3.8A6 6 0 0112 3z"/><path d="M9.5 14.5h5"/></svg>
+      </span>
+      <span class="tabLabel">FB</span>
+    </button>
+    <button class="tabBtn" type="button" data-target="#demo" data-app-action="plan" aria-label="勉強計画">
+      <span class="tabIcon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M8 14h3M8 18h8"/></svg>
+      </span>
+      <span class="tabLabel">計画</span>
+    </button>
   </nav>
   <script>
     const state = {
@@ -844,7 +1297,28 @@
       timerId: null,
       elapsed: 0,
       awayCount: 0,
-      shots: []
+      shots: [],
+      recordedBlob: null,
+      lastSessionSec: 0,
+      vlogPlayTimer: null,
+      vlogSlideshowTimer: null,
+      facingMode: "user",
+      camLayout: "full",
+      currentScreen: "camera",
+      selectedRecordId: null,
+      friends: [
+        { name: "あおい", initial: "A", subject: "数学II", mins: 47, ago: "12分前" },
+        { name: "けんた", initial: "K", subject: "英語長文", mins: 32, ago: "28分前" },
+        { name: "みさき", initial: "M", subject: "世界史", mins: 61, ago: "1時間前" }
+      ]
+    };
+
+    const SCREENS = {
+      timeline: "screenTimeline",
+      record: "screenRecord",
+      camera: "screenCamera",
+      feedback: "screenFeedback",
+      plan: "screenPlan"
     };
 
     const cam = document.getElementById("cam");
@@ -866,33 +1340,271 @@
     const callNumberInput = document.getElementById("callNumber");
     const savePlanBtn = document.getElementById("savePlanBtn");
     const planSummary = document.getElementById("planSummary");
-
+    const vlogTools = document.getElementById("vlogTools");
+    const vlogLength = document.getElementById("vlogLength");
+    const vlogPreview = document.getElementById("vlogPreview");
+    const vlogStudyClock = document.getElementById("vlogStudyClock");
+    const vlogSpeedInfo = document.getElementById("vlogSpeedInfo");
+    const camWrap = document.getElementById("camWrap");
+    const recordList = document.getElementById("recordList");
+    const friendFeed = document.getElementById("friendFeed");
+    const todayGoalText = document.getElementById("todayGoalText");
+    const screenMyPage = document.getElementById("screenMyPage");
+    const switchCamBtn = document.getElementById("switchCamBtn");
     function fmt(sec) {
       const m = String(Math.floor(sec / 60)).padStart(2, "0");
       const s = String(sec % 60).padStart(2, "0");
       return m + ":" + s;
     }
 
+    function refreshVlogToolsVisibility() {
+      if (!vlogTools) return;
+      const show = state.currentScreen === "record" &&
+        (loadSessions().length > 0 || (state.lastSessionSec && state.lastSessionSec > 0));
+      vlogTools.classList.toggle("show", show);
+    }
+
     function setMode(mode) {
       state.mode = mode;
-      kMode.textContent = mode === "vlog" ? "ログ" : "カメラ";
+      kMode.textContent = mode === "vlog" ? "Vlog" : "カメラ";
       document.querySelectorAll(".modeBtn").forEach(btn => {
         btn.classList.toggle("on", btn.dataset.mode === mode);
       });
+      refreshVlogToolsVisibility();
+    }
+
+    function stopCamStream() {
+      if (state.stream) {
+        state.stream.getTracks().forEach((t) => t.stop());
+        state.stream = null;
+      }
+      if (cam) cam.srcObject = null;
+    }
+
+    function setCamLayout(layout) {
+      state.camLayout = layout;
+      if (!camWrap) return;
+      camWrap.className = "camWrap layout-" + layout;
+      document.querySelectorAll(".layoutChip").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.layout === layout);
+      });
+    }
+
+    function setFacing(mode, restart) {
+      state.facingMode = mode;
+      document.querySelectorAll(".facingChip").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.facing === mode);
+      });
+      if (restart && state.stream) {
+        stopCamStream();
+        startCam();
+      }
+    }
+
+    function toggleFacing() {
+      const next = state.facingMode === "user" ? "environment" : "user";
+      setFacing(next, true);
+      camStatus.textContent = next === "user" ? "内カメに切り替えました" : "外カメに切り替えました";
     }
 
     async function startCam() {
-      if (state.stream) return;
       try {
+        stopCamStream();
         state.stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "user", width: { ideal: 720 }, height: { ideal: 1280 } },
+          video: {
+            facingMode: { ideal: state.facingMode },
+            width: { ideal: 720 },
+            height: { ideal: 1280 }
+          },
           audio: false
         });
         cam.srcObject = state.stream;
-        camStatus.textContent = "カメラ接続中";
+        const label = state.facingMode === "user" ? "内カメ" : "外カメ";
+        camStatus.textContent = "カメラ接続中（" + label + "）";
       } catch (e) {
         camStatus.textContent = "カメラ接続に失敗しました（権限を許可してください）";
       }
+    }
+
+    function syncTodayGoal() {
+      const subject = (subjectInput && subjectInput.value) || "";
+      const goal = (goalInput && goalInput.value) || "";
+      const text = subject || goal
+        ? (subject ? "【" + subject + "】" : "") + (goal || "目標未入力")
+        : "まだ設定されていません。カメラ画面で科目・目標を入力してください。";
+      if (todayGoalText) todayGoalText.textContent = text;
+      localStorage.setItem("mustudyTodayGoal", JSON.stringify({
+        subject,
+        goal,
+        updatedAt: new Date().toISOString()
+      }));
+    }
+
+    function renderFriendFeed() {
+      if (!friendFeed) return;
+      friendFeed.innerHTML = state.friends.map((f) => (
+        '<div class="friendItem">' +
+        '<div class="friendAv">' + f.initial + '</div>' +
+        '<div class="friendMeta"><b>' + f.name + ' · ' + f.subject + '</b>' +
+        '<span>' + f.mins + '分勉強 · ' + f.ago + '</span></div></div>'
+      )).join("");
+    }
+
+    function loadSessions() {
+      try {
+        const raw = localStorage.getItem("mustudySessions");
+        return raw ? JSON.parse(raw) : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveSessions(list) {
+      localStorage.setItem("mustudySessions", JSON.stringify(list.slice(0, 80)));
+    }
+
+    function persistSession() {
+      const sec = state.lastSessionSec || state.elapsed;
+      if (!sec || sec < 3) return;
+      const entry = {
+        id: String(Date.now()),
+        subject: (subjectInput && subjectInput.value) || "未入力",
+        goal: (goalInput && goalInput.value) || "",
+        durationSec: sec,
+        mode: state.mode,
+        awayCount: state.awayCount,
+        shotsCount: state.shots.length,
+        camLayout: state.camLayout,
+        facingMode: state.facingMode,
+        createdAt: new Date().toISOString(),
+        shotsMeta: state.shots.map(({ atSec, label }) => ({ atSec, label }))
+      };
+      const list = loadSessions();
+      list.unshift(entry);
+      saveSessions(list);
+      state.selectedRecordId = entry.id;
+      renderRecordList();
+      updateProfileStats();
+      syncTodayGoal();
+    }
+
+    function formatRecordDate(iso) {
+      const d = new Date(iso);
+      const now = new Date();
+      const sameDay = d.toDateString() === now.toDateString();
+      if (sameDay) {
+        return "今日 " + d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0");
+      }
+      return (d.getMonth() + 1) + "/" + d.getDate() + " " + d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0");
+    }
+
+    function renderRecordList() {
+      if (!recordList) return;
+      const list = loadSessions();
+      if (!list.length) {
+        recordList.innerHTML = '<p class="recordEmpty">まだ記録がありません。<br>カメラで勉強を終えるとここに残ります。</p>';
+        return;
+      }
+      if (!state.selectedRecordId) state.selectedRecordId = list[0].id;
+      recordList.innerHTML = list.map((s) => (
+        '<div class="recordItem' + (s.id === state.selectedRecordId ? " on" : "") + '" data-id="' + s.id + '">' +
+        "<b>" + s.subject + " · " + fmt(s.durationSec) + "</b>" +
+        "<span>" + formatRecordDate(s.createdAt) + " · " + (s.mode === "vlog" ? "Vlog" : "カメラ") +
+        " · 離脱" + s.awayCount + "回</span></div>"
+      )).join("");
+      recordList.querySelectorAll(".recordItem").forEach((el) => {
+        el.addEventListener("click", () => {
+          state.selectedRecordId = el.dataset.id;
+          const rec = loadSessions().find((r) => r.id === state.selectedRecordId);
+          if (rec) {
+            state.lastSessionSec = rec.durationSec;
+            updateVlogClock(0, rec.durationSec);
+          }
+          renderRecordList();
+        });
+      });
+    }
+
+    function switchAppScreen(name) {
+      state.currentScreen = name;
+      Object.keys(SCREENS).forEach((key) => {
+        const el = document.getElementById(SCREENS[key]);
+        if (el) el.classList.toggle("active", key === name);
+      });
+      if (screenMyPage) {
+        screenMyPage.classList.remove("active");
+        screenMyPage.setAttribute("aria-hidden", "true");
+      }
+      if (name === "timeline") {
+        syncTodayGoal();
+        renderFriendFeed();
+      }
+      if (name === "record") {
+        renderRecordList();
+        refreshVlogToolsVisibility();
+      }
+      if (name === "camera" && !state.stream) startCam();
+      refreshVlogToolsVisibility();
+    }
+
+    function openMyPage() {
+      if (screenMyPage) {
+        screenMyPage.classList.add("active");
+        screenMyPage.setAttribute("aria-hidden", "false");
+      }
+      updateProfileStats();
+      restoreProfile();
+    }
+
+    function closeMyPage() {
+      if (screenMyPage) {
+        screenMyPage.classList.remove("active");
+        screenMyPage.setAttribute("aria-hidden", "true");
+      }
+    }
+
+    function updateProfileStats() {
+      const list = loadSessions();
+      const totalSec = list.reduce((sum, s) => sum + (s.durationSec || 0), 0);
+      const statTotalMin = document.getElementById("statTotalMin");
+      const statSessions = document.getElementById("statSessions");
+      const statStreak = document.getElementById("statStreak");
+      if (statTotalMin) statTotalMin.textContent = String(Math.floor(totalSec / 60));
+      if (statSessions) statSessions.textContent = String(list.length);
+      if (statStreak) {
+        const days = new Set(list.map((s) => new Date(s.createdAt).toDateString()));
+        statStreak.textContent = String(days.size);
+      }
+    }
+
+    function restoreProfile() {
+      try {
+        const raw = localStorage.getItem("mustudyProfile");
+        if (!raw) return;
+        const p = JSON.parse(raw);
+        const nameEl = document.getElementById("profileName");
+        const gradeEl = document.getElementById("profileGrade");
+        const initialEl = document.getElementById("profileInitial");
+        const nameIn = document.getElementById("profileNameInput");
+        const gradeIn = document.getElementById("profileGradeInput");
+        if (nameEl) nameEl.textContent = p.name || "受験生ユーザー";
+        if (gradeEl) gradeEl.textContent = p.grade || "";
+        if (initialEl && p.name) initialEl.textContent = p.name.charAt(0).toUpperCase();
+        if (nameIn) nameIn.value = p.name || "";
+        if (gradeIn) gradeIn.value = p.grade || "";
+      } catch (_) {}
+    }
+
+    function saveProfile() {
+      const nameIn = document.getElementById("profileNameInput");
+      const gradeIn = document.getElementById("profileGradeInput");
+      const p = {
+        name: (nameIn && nameIn.value) || "受験生ユーザー",
+        grade: (gradeIn && gradeIn.value) || ""
+      };
+      localStorage.setItem("mustudyProfile", JSON.stringify(p));
+      restoreProfile();
+      camStatus.textContent = "プロフィールを保存しました";
     }
 
     function snapshot(label) {
@@ -913,8 +1625,15 @@
     function startRecorder() {
       if (!state.stream || !window.MediaRecorder) return;
       state.chunks = [];
-      state.recorder = new MediaRecorder(state.stream, { mimeType: "video/webm" });
+      const mime = MediaRecorder.isTypeSupported("video/webm;codecs=vp8")
+        ? "video/webm;codecs=vp8"
+        : "video/webm";
+      state.recorder = new MediaRecorder(state.stream, { mimeType: mime });
       state.recorder.ondataavailable = (e) => { if (e.data.size) state.chunks.push(e.data); };
+      state.recorder.onstop = () => {
+        if (!state.chunks.length) return;
+        state.recordedBlob = new Blob(state.chunks, { type: mime });
+      };
       state.recorder.start(1000);
     }
 
@@ -922,6 +1641,119 @@
       if (state.recorder && state.recorder.state !== "inactive") {
         state.recorder.stop();
       }
+    }
+
+    function stopVlogPlayback() {
+      if (state.vlogPlayTimer) {
+        clearInterval(state.vlogPlayTimer);
+        state.vlogPlayTimer = null;
+      }
+      if (state.vlogSlideshowTimer) {
+        clearInterval(state.vlogSlideshowTimer);
+        state.vlogSlideshowTimer = null;
+      }
+      if (vlogPreview) {
+        vlogPreview.pause();
+        vlogPreview.removeAttribute("src");
+        vlogPreview.load();
+      }
+    }
+
+    function updateVlogClock(currentSec, totalSec) {
+      if (!vlogStudyClock) return;
+      vlogStudyClock.textContent = "勉強時間: " + fmt(currentSec) + " / " + fmt(totalSec);
+    }
+
+    function playVlogSlideshow(targetSec, studySec) {
+      const frames = state.shots.length ? state.shots : [];
+      if (frames.length < 2) {
+        camStatus.textContent = "Vlog素材が不足しています。Vlogモードで再度セッションしてください。";
+        return;
+      }
+      const interval = Math.max(80, Math.floor((targetSec * 1000) / frames.length));
+      let idx = 0;
+      stopVlogPlayback();
+      vlogPreview.style.display = "block";
+      vlogPreview.poster = frames[0].image;
+      updateVlogClock(0, studySec);
+      const speed = (studySec / targetSec).toFixed(1);
+      if (vlogSpeedInfo) vlogSpeedInfo.textContent = "倍速約 " + speed + "x（" + targetSec + "秒Vlog）";
+
+      state.vlogSlideshowTimer = setInterval(() => {
+        const frame = frames[idx % frames.length];
+        vlogPreview.poster = frame.image;
+        const currentStudySec = Math.min(studySec, Math.floor((idx / frames.length) * studySec));
+        updateVlogClock(currentStudySec, studySec);
+        idx += 1;
+        if (idx >= frames.length) {
+          clearInterval(state.vlogSlideshowTimer);
+          state.vlogSlideshowTimer = null;
+          updateVlogClock(studySec, studySec);
+          camStatus.textContent = "Vlog再生が完了しました";
+        }
+      }, interval);
+      camStatus.textContent = "Vlogを倍速再生中（スライドショー）";
+    }
+
+    async function playVlog() {
+      const targetSec = Math.max(15, parseInt((vlogLength && vlogLength.value) || "30", 10));
+      const studySec = state.lastSessionSec || state.elapsed;
+      if (!studySec || studySec < 5) {
+        camStatus.textContent = "先に勉強セッションを終了してください";
+        return;
+      }
+
+      stopVlogPlayback();
+      const speed = studySec / targetSec;
+      if (vlogSpeedInfo) {
+        vlogSpeedInfo.textContent = "倍速約 " + speed.toFixed(1) + "x（勉強" + fmt(studySec) + " → Vlog" + targetSec + "秒）";
+      }
+
+      if (state.recordedBlob) {
+        const url = URL.createObjectURL(state.recordedBlob);
+        vlogPreview.src = url;
+        vlogPreview.currentTime = 0;
+        const maxRate = 16;
+        const rate = Math.min(maxRate, speed);
+        vlogPreview.playbackRate = rate;
+
+        vlogPreview.onended = () => {
+          stopVlogPlayback();
+          URL.revokeObjectURL(url);
+          updateVlogClock(studySec, studySec);
+          camStatus.textContent = "Vlog再生が完了しました";
+        };
+
+        try {
+          await vlogPreview.play();
+        } catch (_) {
+          playVlogSlideshow(targetSec, studySec);
+          return;
+        }
+
+        if (speed > maxRate) {
+          const realPlaySec = studySec / maxRate;
+          vlogPreview.onended = null;
+          setTimeout(() => {
+            vlogPreview.pause();
+            URL.revokeObjectURL(url);
+            if (state.shots.length >= 2) playVlogSlideshow(targetSec, studySec);
+            else {
+              updateVlogClock(studySec, studySec);
+              camStatus.textContent = "Vlog再生が完了しました";
+            }
+          }, realPlaySec * 1000);
+        }
+
+        state.vlogPlayTimer = setInterval(() => {
+          const currentStudySec = Math.min(studySec, Math.floor(vlogPreview.currentTime * rate));
+          updateVlogClock(currentStudySec, studySec);
+        }, 200);
+        camStatus.textContent = "勉強時間を倍速再生中";
+        return;
+      }
+
+      playVlogSlideshow(targetSec, studySec);
     }
 
     function startSession() {
@@ -945,10 +1777,9 @@
           if (state.elapsed >= total) {
             stopSession();
             camStatus.textContent = "設定時間に到達して終了しました";
-            buildAiComment();
           }
         }
-        if (state.mode === "vlog" && state.elapsed % 20 === 0) snapshot("timelapse");
+        if (state.mode === "vlog" && state.elapsed % 5 === 0) snapshot("timelapse");
       }, 1000);
       camStatus.textContent = "勉強セッション中（カメラ監視）";
     }
@@ -958,9 +1789,16 @@
         clearInterval(state.timerId);
         state.timerId = null;
       }
+      state.lastSessionSec = state.elapsed;
       stopRecorder();
       snapshot("end");
-      camStatus.textContent = "セッション終了";
+      persistSession();
+      camStatus.textContent = "セッション終了（記録に保存しました）";
+      if (vlogTools) {
+        vlogTools.classList.add("show");
+        updateVlogClock(0, state.lastSessionSec);
+      }
+      buildAiComment();
     }
 
     function buildAiComment() {
@@ -988,8 +1826,12 @@
         mode: state.mode,
         subject: subjectInput.value || "",
         goal: goalInput.value || "",
-        durationSec: state.elapsed,
+        durationSec: state.lastSessionSec || state.elapsed,
+        vlogLengthSec: parseInt((vlogLength && vlogLength.value) || "30", 10),
+        speedMultiplier: (state.lastSessionSec || state.elapsed) / parseInt((vlogLength && vlogLength.value) || "30", 10),
         awayCount: state.awayCount,
+        camLayout: state.camLayout,
+        facingMode: state.facingMode,
         shots: state.shots.map(({ atSec, label }) => ({ atSec, label })),
         createdAt: new Date().toISOString()
       };
@@ -999,15 +1841,6 @@
       a.download = "mustudy-vlog-material.json";
       a.click();
       URL.revokeObjectURL(a.href);
-    }
-
-    function hidePlanPanel() {
-      if (studyPlanPanel) studyPlanPanel.classList.remove("show");
-    }
-
-    function showPlanPanel() {
-      if (studyPlanPanel) studyPlanPanel.classList.add("show");
-      if (alarmTimeInput) alarmTimeInput.focus();
     }
 
     function renderPlanSummary(plan) {
@@ -1057,22 +1890,56 @@
       btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
     document.getElementById("startCam").addEventListener("click", startCam);
+    if (switchCamBtn) switchCamBtn.addEventListener("click", toggleFacing);
+    document.querySelectorAll(".facingChip").forEach((btn) => {
+      btn.addEventListener("click", () => setFacing(btn.dataset.facing, true));
+    });
+    document.querySelectorAll(".layoutChip").forEach((btn) => {
+      btn.addEventListener("click", () => setCamLayout(btn.dataset.layout));
+    });
+    if (subjectInput) subjectInput.addEventListener("input", syncTodayGoal);
+    if (goalInput) goalInput.addEventListener("input", syncTodayGoal);
+    document.querySelectorAll("[data-action='mypage']").forEach((btn) => {
+      btn.addEventListener("click", openMyPage);
+    });
+    document.querySelectorAll("[data-action='close-mypage']").forEach((btn) => {
+      btn.addEventListener("click", closeMyPage);
+    });
+    document.querySelectorAll(".moreBtn[data-goto]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.goto;
+        switchAppScreen(target);
+        document.querySelectorAll(".tabBtn").forEach((b) => {
+          b.classList.toggle("on", b.dataset.appAction === target);
+        });
+      });
+    });
+    const saveProfileBtn = document.getElementById("saveProfileBtn");
+    if (saveProfileBtn) saveProfileBtn.addEventListener("click", saveProfile);
     document.getElementById("startSession").addEventListener("click", startSession);
     document.getElementById("stopSession").addEventListener("click", stopSession);
     document.getElementById("makeAI").addEventListener("click", buildAiComment);
     document.getElementById("saveVlog").addEventListener("click", saveVlogJson);
+    document.getElementById("playVlog").addEventListener("click", playVlog);
+    document.getElementById("stopVlogPlay").addEventListener("click", stopVlogPlayback);
     if (savePlanBtn) savePlanBtn.addEventListener("click", savePlan);
     const openAppBtn = document.getElementById("openAppBtn");
     const closeAppBtn = document.getElementById("closeAppBtn");
 
     function openAppView() {
       document.body.classList.add("appOpen");
+      switchAppScreen("camera");
+      renderFriendFeed();
+      renderRecordList();
+      restoreProfile();
+      syncTodayGoal();
       const demo = document.querySelector("#demo");
       if (demo) demo.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function closeAppView() {
       document.body.classList.remove("appOpen");
+      closeMyPage();
       const hero = document.querySelector(".hero");
       if (hero) hero.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -1087,7 +1954,6 @@
         }
         stopSession();
         camStatus.textContent = "内容達成で終了しました";
-        buildAiComment();
       });
     }
 
@@ -1102,35 +1968,40 @@
       requestAnimationFrame(() => openAppView());
     }
     restorePlan();
+    restoreProfile();
+    renderFriendFeed();
+    renderRecordList();
+    try {
+      const g = JSON.parse(localStorage.getItem("mustudyTodayGoal") || "null");
+      if (g && subjectInput && goalInput) {
+        if (g.subject) subjectInput.value = g.subject;
+        if (g.goal) goalInput.value = g.goal;
+        syncTodayGoal();
+      }
+    } catch (_) {}
 
     document.querySelectorAll(".tabBtn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".tabBtn").forEach(b => b.classList.remove("on"));
         btn.classList.add("on");
         const isApp = document.body.classList.contains("appOpen");
-        if (isApp) {
-          const action = btn.dataset.appAction;
-          if (action === "timeline") {
-            hidePlanPanel();
-            const demo = document.querySelector("#demo");
-            if (demo) demo.scrollIntoView({ behavior: "smooth", block: "start" });
-          } else if (action === "record") {
-            hidePlanPanel();
-            setMode("vlog");
-            const goal = document.getElementById("goalInput");
-            if (goal) goal.focus();
-          } else if (action === "camera") {
-            hidePlanPanel();
+        const action = btn.dataset.appAction;
+        if (isApp && action) {
+          switchAppScreen(action);
+          if (action === "camera") {
             setMode("study");
             startCam();
+          } else if (action === "record") {
+            if (loadSessions().length && vlogTools) vlogTools.classList.add("show");
           } else if (action === "feedback") {
-            hidePlanPanel();
             buildAiComment();
-          } else if (action === "plan") {
-            showPlanPanel();
+          } else if (action === "plan" && alarmTimeInput) {
+            alarmTimeInput.focus();
           }
           return;
         }
+        if (!isApp) openAppView();
+        if (action) switchAppScreen(action);
         const el = document.querySelector(btn.dataset.target);
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       });
