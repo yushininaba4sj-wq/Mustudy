@@ -460,31 +460,238 @@
       position: absolute;
       top: 10px;
       left: 10px;
-      z-index: 5;
+      z-index: 6;
       display: none;
       flex-direction: column;
       gap: 2px;
-      background: rgba(255, 255, 255, 0.94);
-      border: 1px solid var(--app-border-strong);
-      border-radius: 10px;
-      padding: 6px 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      background: rgba(15, 23, 42, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 8px 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
       pointer-events: none;
+      min-width: 88px;
     }
     .studyTimerHud.show { display: flex; }
+    .camWrap.is-live .studyTimerHud { display: flex; }
     .studyTimerHud .studyTimerLabel {
       font-size: 9px;
       font-weight: 800;
-      color: var(--app-muted);
-      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.08em;
+    }
+    .studyTimerHud .studyTimerMinutes {
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
     }
     .studyTimerHud .studyTimerTime {
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--app-brand-dim);
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.85);
       font-variant-numeric: tabular-nums;
       line-height: 1;
     }
+    .camFsBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 6;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(15, 23, 42, 0.75);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      display: none;
+    }
+    .camWrap.is-live .camFsBtn { display: block; }
+    .camStage.is-maximized {
+      position: fixed;
+      inset: 0;
+      z-index: 85;
+      margin: 0 !important;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      background: #000;
+    }
+    .camStage.is-maximized .camWrap {
+      height: 100%;
+      max-height: 100%;
+      aspect-ratio: unset;
+      border-radius: 0;
+      border: none;
+    }
+    .zoomDock {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 6;
+      padding: 10px 12px 14px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .camWrap.is-live .zoomDock { display: flex; }
+    .camOverlayRow {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 92px;
+      z-index: 6;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      pointer-events: none;
+    }
+    .camWrap.is-live .camOverlayRow {
+      display: flex;
+      pointer-events: auto;
+    }
+    .camOverlayBtn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+    }
+    .camOverlayBtn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .camOverlayBtn:active { transform: scale(0.94); }
+    .facingBadge {
+      position: absolute;
+      bottom: 148px;
+      left: 12px;
+      z-index: 6;
+      display: none;
+      font-size: 10px;
+      font-weight: 800;
+      color: #fff;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      padding: 4px 10px;
+      pointer-events: none;
+    }
+    .camWrap.is-live .facingBadge { display: block; }
+    .zoomSliderTrack {
+      position: relative;
+      height: 28px;
+      touch-action: none;
+      cursor: pointer;
+    }
+    .zoomSliderRail {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      top: 50%;
+      height: 4px;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+    }
+    .zoomSliderThumb {
+      position: absolute;
+      top: 50%;
+      width: 22px;
+      height: 22px;
+      margin-top: -11px;
+      margin-left: -11px;
+      border-radius: 999px;
+      background: #fff;
+      border: 2px solid var(--app-brand);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+      transition: left 0.05s ease;
+    }
+    .zoomBtnRow {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .zoomLevelBtn {
+      min-width: 40px;
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .zoomLevelBtn.on {
+      background: #fff;
+      color: var(--app-brand-dim);
+      border-color: #fff;
+      transform: scale(1.08);
+    }
+    .camWrap.orientation-landscape { aspect-ratio: 16 / 9; }
+    .camWrap.orientation-portrait { aspect-ratio: 9 / 16; }
+    .sessionTypeRow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .sessionTypeBtn {
+      border: 1px solid var(--app-border-strong);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--app-bg);
+      color: var(--app-muted);
+      cursor: pointer;
+    }
+    .sessionTypeBtn.on {
+      background: var(--app-brand-soft);
+      border-color: var(--app-brand);
+      color: var(--app-brand-dim);
+    }
+    .sessionTypeBtn[data-session-type="forced"].on {
+      background: rgba(220, 38, 38, 0.12);
+      border-color: #dc2626;
+      color: #b91c1c;
+    }
+    .forcedBanner {
+      display: none;
+      margin-bottom: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #fca5a5;
+      background: rgba(254, 226, 226, 0.9);
+      font-size: 11px;
+      font-weight: 700;
+      color: #b91c1c;
+      line-height: 1.45;
+    }
+    body.forcedSessionActive .forcedBanner { display: block; }
     .mustudyWatermark {
       position: absolute;
       bottom: 12px;
@@ -549,19 +756,18 @@
     }
     .zoomHud {
       position: absolute;
-      top: 10px;
+      top: 52px;
       right: 10px;
-      z-index: 3;
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--app-text);
+      z-index: 5;
+      background: rgba(15, 23, 42, 0.8);
+      color: #fff;
       font-size: 11px;
       font-weight: 800;
       padding: 4px 8px;
       border-radius: 999px;
-      border: 1px solid var(--app-border);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease;
     }
     .camWrap.is-live .zoomHud { opacity: 1; }
     .camWrap .mustudyWatermark { display: none; }
@@ -1259,6 +1465,7 @@
                 <video id="vlogPreview" class="vlogPreview" playsinline muted></video>
                 <div id="vlogTimerHud" class="studyTimerHud" aria-live="polite">
                   <span class="studyTimerLabel">勉強時間</span>
+                  <span class="studyTimerMinutes" id="vlogTimerMinutes">0分</span>
                   <span class="studyTimerTime" id="vlogTimerHudTime">00:00</span>
                 </div>
                 <div class="mustudyWatermark" aria-hidden="true">
@@ -1284,6 +1491,9 @@
 
             <div id="studyLockBanner" class="studyLockBanner" hidden>
               勉強ロック中 — 他のアプリは開けません。Mustudyで勉強を続けてください。
+            </div>
+            <div id="forcedBanner" class="forcedBanner">
+              強制モード — 設定時間までカメラをオフにできません。あと <b id="forcedRemain">25:00</b>
             </div>
 
             <div class="demoPanel wakePanel">
@@ -1329,6 +1539,12 @@
               </div>
               <input id="subjectInput" class="mini" placeholder="今日の科目（例: 英語・世界史）" />
               <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
+              <p class="optLabel" style="margin-top:8px;">記録モード</p>
+              <div class="sessionTypeRow">
+                <button type="button" class="sessionTypeBtn on" data-session-type="free">自分で</button>
+                <button type="button" class="sessionTypeBtn" data-session-type="forced">強制</button>
+              </div>
+              <p id="forcedModeNote" class="contentLockNote" hidden>※ 強制：設定した勉強時間が終わるまでカメラを閉じられません</p>
               <div class="demoRow" style="margin-top:8px;">
                 <button class="modeBtn on" data-mode="study">カメラ</button>
                 <button class="modeBtn" data-mode="vlog">Vlog</button>
@@ -1340,8 +1556,8 @@
               <button id="markContentDone" class="ctl sub" type="button" style="width:100%;margin-top:6px;display:none;">内容達成で終了</button>
             </div>
 
-            <div class="camStage">
-              <div id="camWrap" class="camWrap layout-stand">
+            <div class="camStage" id="camStage">
+              <div id="camWrap" class="camWrap layout-stand orientation-portrait">
                 <button type="button" id="camLaunch" class="camLaunchBtn" aria-label="カメラを起動">
                   <span class="camLaunchIcon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 8h2l1.5-2h9L18 8h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
@@ -1349,8 +1565,10 @@
                   <span class="camLaunchText">タップしてカメラを起動</span>
                 </button>
                 <video id="cam" class="demoVideo is-hidden" playsinline muted></video>
+                <button type="button" id="camFullscreenBtn" class="camFsBtn" aria-label="画面最大化">⛶</button>
                 <div id="camTimerHud" class="studyTimerHud" aria-live="polite">
                   <span class="studyTimerLabel">勉強時間</span>
+                  <span class="studyTimerMinutes" id="camTimerMinutes">0分</span>
                   <span class="studyTimerTime" id="camTimerHudTime">00:00</span>
                 </div>
                 <div class="mustudyWatermark" aria-hidden="true">
@@ -1358,13 +1576,42 @@
                   <span>Mustudy</span>
                 </div>
                 <div class="layoutGuide" aria-hidden="true"></div>
-                <span class="zoomHud" id="zoomLabel">1.0x</span>
+                <span class="facingBadge" id="facingBadge">外カメ</span>
+                <span class="zoomHud" id="zoomLabel">1×</span>
                 <span class="standHint" id="standHint">壁立てのまま手元を映す</span>
+                <div class="camOverlayRow" id="camOverlayRow" aria-hidden="true">
+                  <button type="button" id="camOrientOverlayBtn" class="camOverlayBtn" aria-label="縦横を切り替え" title="縦横切替">
+                    <svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M12 8v4M10 10h4"/></svg>
+                  </button>
+                  <button type="button" id="camFsOverlayBtn" class="camOverlayBtn" aria-label="画面最大化" title="全画面">
+                    <svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M16 21h5v-5M8 21H3v-5"/></svg>
+                  </button>
+                  <button type="button" id="camFlipOverlayBtn" class="camOverlayBtn" aria-label="カメラ切替" title="内カメ・外カメ">
+                    <svg viewBox="0 0 24 24"><path d="M7 8h10l-2-2M17 16H7l2 2"/><rect x="5" y="2" width="14" height="20" rx="3"/></svg>
+                  </button>
+                </div>
+                <div class="zoomDock" id="zoomDock">
+                  <div class="zoomSliderTrack" id="zoomSliderTrack">
+                    <div class="zoomSliderRail"></div>
+                    <div class="zoomSliderThumb" id="zoomSliderThumb"></div>
+                  </div>
+                  <div class="zoomBtnRow" id="zoomBtnRow">
+                    <button type="button" class="zoomLevelBtn" data-zoom="0.5">.5×</button>
+                    <button type="button" class="zoomLevelBtn on" data-zoom="1">1×</button>
+                    <button type="button" class="zoomLevelBtn" data-zoom="2">2×</button>
+                    <button type="button" class="zoomLevelBtn" data-zoom="3">3×</button>
+                  </div>
+                </div>
               </div>
-              <p class="status" id="camStatus">カメラをタップして起動</p>
+              <p class="status" id="camStatus">カメラをタップして起動 · スワイプでズーム</p>
             </div>
 
             <div class="demoPanel camOpts">
+              <p class="optLabel">画面の向き</p>
+              <div class="chipRow" id="orientationPicker">
+                <button type="button" class="facingChip on" data-orientation="portrait">縦向き</button>
+                <button type="button" class="facingChip" data-orientation="landscape">横向き</button>
+              </div>
               <p class="optLabel">カメラ向き</p>
               <div class="chipRow" id="facingPicker">
                 <button type="button" class="facingChip" data-facing="user">内カメ</button>
@@ -1380,7 +1627,7 @@
                 <button type="button" class="layoutChip" data-layout="full">全体</button>
               </div>
               <button type="button" id="switchCamBtn" class="ctl sub" style="width:100%;margin-top:6px;">カメラ切替</button>
-              <p style="font-size:10px;color:var(--app-muted);margin-top:6px;line-height:1.5;">スマホを壁に立てかけるだけで手元が映るよう調整済み。映像上で指を伸ばしてズームできます。</p>
+              <p style="font-size:10px;color:var(--app-muted);margin-top:6px;line-height:1.5;">内カメ・外カメどちらでも、ズーム（0.5×〜3×）・全画面・縦横・レイアウトが使えます。プレビュー上の丸ボタンでも操作できます。</p>
             </div>
 
             <div class="demoPanel">
@@ -1715,6 +1962,13 @@
       facingMode: "environment",
       camLayout: "stand",
       camZoom: 1,
+      camOrientation: "portrait",
+      facingPrefs: {
+        user: { zoom: 1, layout: "face", orientation: "portrait" },
+        environment: { zoom: 1, layout: "stand", orientation: "portrait" }
+      },
+      sessionType: "free",
+      camFullscreen: false,
       cameraLive: false,
       studyLock: false,
       pendingLockWarn: false,
@@ -1770,6 +2024,10 @@
     const camLaunch = document.getElementById("camLaunch");
     const zoomLabel = document.getElementById("zoomLabel");
     const standHint = document.getElementById("standHint");
+    const facingBadge = document.getElementById("facingBadge");
+    const camOrientOverlayBtn = document.getElementById("camOrientOverlayBtn");
+    const camFsOverlayBtn = document.getElementById("camFsOverlayBtn");
+    const camFlipOverlayBtn = document.getElementById("camFlipOverlayBtn");
     const studyLockBanner = document.getElementById("studyLockBanner");
     const contentLockNote = document.getElementById("contentLockNote");
     const focusLockOverlay = document.getElementById("focusLockOverlay");
@@ -1781,15 +2039,103 @@
     const vlogTimerHud = document.getElementById("vlogTimerHud");
     const vlogTimerHudTime = document.getElementById("vlogTimerHudTime");
     const saveVlogVideoBtn = document.getElementById("saveVlogVideo");
+    const camStage = document.getElementById("camStage");
+    const camFullscreenBtn = document.getElementById("camFullscreenBtn");
+    const camTimerMinutes = document.getElementById("camTimerMinutes");
+    const vlogTimerMinutes = document.getElementById("vlogTimerMinutes");
+    const zoomSliderTrack = document.getElementById("zoomSliderTrack");
+    const zoomSliderThumb = document.getElementById("zoomSliderThumb");
+    const forcedBanner = document.getElementById("forcedBanner");
+    const forcedRemain = document.getElementById("forcedRemain");
+    const stopSessionBtn = document.getElementById("stopSession");
+    const forcedModeNote = document.getElementById("forcedModeNote");
+
+    const ZOOM_MIN = 0.5;
+    const ZOOM_MAX = 3;
+    const ZOOM_LEVELS = [0.5, 1, 2, 3];
 
     const LAYOUT_PRESETS = {
-      stand: { scale: 2.15, posX: 50, posY: 84 },
-      hands: { scale: 2.45, posX: 50, posY: 88 },
-      desk: { scale: 1.65, posX: 50, posY: 72 },
-      book: { scale: 1.75, posX: 50, posY: 58 },
-      face: { scale: 1.3, posX: 50, posY: 22 },
-      full: { scale: 1, posX: 50, posY: 50 }
+      stand: {
+        environment: { layoutScale: 1.4, posX: 50, posY: 84 },
+        user: { layoutScale: 1.25, posX: 50, posY: 58 }
+      },
+      hands: {
+        environment: { layoutScale: 1.55, posX: 50, posY: 88 },
+        user: { layoutScale: 1.35, posX: 50, posY: 72 }
+      },
+      desk: {
+        environment: { layoutScale: 1.2, posX: 50, posY: 72 },
+        user: { layoutScale: 1.15, posX: 50, posY: 55 }
+      },
+      book: {
+        environment: { layoutScale: 1.3, posX: 50, posY: 58 },
+        user: { layoutScale: 1.2, posX: 50, posY: 48 }
+      },
+      face: {
+        environment: { layoutScale: 1.15, posX: 50, posY: 22 },
+        user: { layoutScale: 1.1, posX: 50, posY: 38 }
+      },
+      full: {
+        environment: { layoutScale: 1, posX: 50, posY: 50 },
+        user: { layoutScale: 1, posX: 50, posY: 50 }
+      }
     };
+
+    const CAM_HINTS = {
+      stand: { environment: "壁立てのまま手元を映す", user: "机に立てて顔・手元を映す" },
+      hands: { environment: "手元にズーム", user: "ノートと手を映す" },
+      desk: { environment: "机・ノート全体", user: "机の上を映す" },
+      book: { environment: "教科書にフォーカス", user: "資料・画面を映す" },
+      face: { environment: "顔アップ", user: "顔・上半身" },
+      full: { environment: "全体", user: "全体" }
+    };
+
+    function getLayoutPreset(layout, facing) {
+      const block = LAYOUT_PRESETS[layout] || LAYOUT_PRESETS.stand;
+      return block[facing] || block.environment;
+    }
+
+    function saveFacingPrefs() {
+      if (!state.facingPrefs) return;
+      state.facingPrefs[state.facingMode] = {
+        zoom: state.camZoom,
+        layout: state.camLayout,
+        orientation: state.camOrientation
+      };
+    }
+
+    function loadFacingPrefs(mode) {
+      const p = state.facingPrefs && state.facingPrefs[mode];
+      if (!p) return;
+      state.camZoom = p.zoom;
+      state.camLayout = p.layout;
+      state.camOrientation = p.orientation;
+    }
+
+    function syncCamSettingChips() {
+      document.querySelectorAll("#facingPicker [data-facing]").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.facing === state.facingMode);
+      });
+      document.querySelectorAll("#orientationPicker [data-orientation]").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.orientation === state.camOrientation);
+      });
+      document.querySelectorAll(".layoutChip").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.layout === state.camLayout);
+      });
+    }
+
+    function updateFacingBadge() {
+      if (!facingBadge) return;
+      facingBadge.textContent = state.facingMode === "user" ? "内カメ" : "外カメ";
+    }
+
+    function updateCamHint() {
+      if (!standHint) return;
+      const hints = CAM_HINTS[state.camLayout] || CAM_HINTS.stand;
+      const text = hints[state.facingMode] || hints.environment;
+      standHint.textContent = text;
+      standHint.style.display = text ? "" : "none";
+    }
 
     function fmt(sec) {
       const m = String(Math.floor(sec / 60)).padStart(2, "0");
@@ -1802,14 +2148,122 @@
     }
 
     function updateStudyTimerHud(currentSec) {
-      const t = fmt(currentSec || 0);
+      const sec = currentSec || 0;
+      const t = fmt(sec);
+      const m = Math.floor(sec / 60);
+      const minLabel = m + "分";
       if (camTimerHudTime) camTimerHudTime.textContent = t;
       if (vlogTimerHudTime) vlogTimerHudTime.textContent = t;
+      if (camTimerMinutes) camTimerMinutes.textContent = minLabel;
+      if (vlogTimerMinutes) vlogTimerMinutes.textContent = minLabel;
       if (kTimer) kTimer.textContent = t;
     }
 
     function setStudyTimerHudVisible(visible) {
       if (camTimerHud) camTimerHud.classList.toggle("show", visible);
+      if (camWrap) camWrap.classList.toggle("is-recording", visible);
+    }
+
+    function getForcedTargetSec() {
+      return Math.max(1, parseInt((studyMinutes && studyMinutes.value) || "25", 10)) * 60;
+    }
+
+    function isForcedSessionActive() {
+      return state.sessionType === "forced" && !!state.timerId;
+    }
+
+    function canCloseCamera() {
+      if (!isForcedSessionActive()) return true;
+      return state.elapsed >= getForcedTargetSec();
+    }
+
+    function canStopSessionNow() {
+      if (!isForcedSessionActive()) return true;
+      if (endMode && endMode.value === "content") return true;
+      return state.elapsed >= getForcedTargetSec();
+    }
+
+    function updateForcedSessionUI() {
+      const forced = isForcedSessionActive();
+      document.body.classList.toggle("forcedSessionActive", forced);
+      if (forcedModeNote) forcedModeNote.hidden = state.sessionType !== "forced";
+      if (stopSessionBtn) {
+        stopSessionBtn.disabled = forced && !canStopSessionNow();
+        stopSessionBtn.style.opacity = stopSessionBtn.disabled ? "0.45" : "1";
+      }
+      if (forced && forcedRemain) {
+        const remain = Math.max(0, getForcedTargetSec() - state.elapsed);
+        forcedRemain.textContent = fmt(remain);
+      }
+    }
+
+    function setSessionType(type) {
+      state.sessionType = type;
+      document.querySelectorAll(".sessionTypeBtn").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.sessionType === type);
+      });
+      if (forcedModeNote) forcedModeNote.hidden = type !== "forced";
+    }
+
+    function zoomToRatio(r) {
+      state.camZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, r));
+      applyCamTransform();
+      updateZoomUI();
+    }
+
+    function updateZoomUI() {
+      const z = state.camZoom;
+      if (zoomLabel) zoomLabel.textContent = z.toFixed(1).replace(".0", "") + "×";
+      document.querySelectorAll(".zoomLevelBtn").forEach((btn) => {
+        const bz = parseFloat(btn.dataset.zoom);
+        btn.classList.toggle("on", Math.abs(bz - z) < 0.15);
+      });
+      if (zoomSliderThumb && zoomSliderTrack) {
+        const pct = (z - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN);
+        const rail = zoomSliderTrack.getBoundingClientRect();
+        const left = 8 + (rail.width - 16) * pct;
+        zoomSliderThumb.style.left = left + "px";
+      }
+    }
+
+    function setCamOrientation(orient) {
+      state.camOrientation = orient;
+      saveFacingPrefs();
+      if (!camWrap) return;
+      camWrap.classList.remove("orientation-portrait", "orientation-landscape");
+      camWrap.classList.add("orientation-" + orient);
+      syncCamSettingChips();
+      if (state.cameraLive) startCam();
+      else applyCamTransform();
+    }
+
+    function toggleCamOrientation() {
+      const next = state.camOrientation === "portrait" ? "landscape" : "portrait";
+      setCamOrientation(next);
+      if (camStatus) {
+        camStatus.textContent = next === "portrait" ? "縦向きに変更しました" : "横向きに変更しました";
+      }
+    }
+
+    function toggleCamFullscreen() {
+      state.camFullscreen = !state.camFullscreen;
+      if (camStage) camStage.classList.toggle("is-maximized", state.camFullscreen);
+      if (camFullscreenBtn) camFullscreenBtn.textContent = state.camFullscreen ? "✕" : "⛶";
+    }
+
+    async function applyTrackZoomIfSupported(displayZoom) {
+      if (!state.stream) return;
+      const track = state.stream.getVideoTracks()[0];
+      if (!track || !track.getCapabilities) return;
+      try {
+        const caps = track.getCapabilities();
+        if (!caps.zoom) return;
+        const min = caps.zoom.min != null ? caps.zoom.min : 1;
+        const max = caps.zoom.max != null ? caps.zoom.max : 1;
+        const t = (displayZoom - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN);
+        const value = min + t * (max - min);
+        await track.applyConstraints({ advanced: [{ zoom: value }] });
+      } catch (_) {}
     }
 
     function setVlogTimerHudVisible(visible) {
@@ -2028,7 +2482,11 @@
       refreshVlogToolsVisibility();
     }
 
-    function stopCamStream() {
+    function stopCamStream(force) {
+      if (!force && !canCloseCamera()) {
+        if (camStatus) camStatus.textContent = "強制モード：設定時間までカメラを閉じられません";
+        return false;
+      }
       if (state.stream) {
         state.stream.getTracks().forEach((t) => t.stop());
         state.stream = null;
@@ -2037,21 +2495,26 @@
         cam.srcObject = null;
         cam.classList.add("is-hidden");
       }
-      if (camWrap) camWrap.classList.remove("is-live");
+      if (camWrap) camWrap.classList.remove("is-live", "is-recording");
       state.cameraLive = false;
+      if (state.camFullscreen) toggleCamFullscreen();
+      return true;
     }
 
     function applyCamTransform() {
       if (!cam) return;
-      const preset = LAYOUT_PRESETS[state.camLayout] || LAYOUT_PRESETS.stand;
-      const scale = preset.scale * state.camZoom;
-      cam.style.transform = "scale(" + scale + ")";
+      const preset = getLayoutPreset(state.camLayout, state.facingMode);
+      const totalScale = preset.layoutScale * state.camZoom;
+      cam.style.transform = "scale(" + totalScale + ")";
       cam.style.objectPosition = preset.posX + "% " + preset.posY + "%";
-      if (zoomLabel) zoomLabel.textContent = state.camZoom.toFixed(1) + "x";
-      if (standHint) {
-        standHint.style.display =
-          state.camLayout === "stand" || state.camLayout === "hands" ? "" : "none";
+      if (camWrap) {
+        camWrap.classList.toggle("facing-user", state.facingMode === "user");
+        camWrap.classList.toggle("facing-environment", state.facingMode === "environment");
       }
+      updateZoomUI();
+      updateFacingBadge();
+      updateCamHint();
+      applyTrackZoomIfSupported(state.camZoom);
     }
 
     function showCamLive() {
@@ -2059,20 +2522,21 @@
       cam.classList.remove("is-hidden");
       camWrap.classList.add("is-live");
       state.cameraLive = true;
+      updateStudyTimerHud(state.timerId ? state.elapsed : 0);
       applyCamTransform();
     }
 
     function setCamLayout(layout) {
       state.camLayout = layout;
-      state.camZoom = 1;
+      saveFacingPrefs();
       if (!camWrap) return;
-      camWrap.className = "camWrap layout-" + layout + (state.cameraLive ? " is-live" : "");
-      document.querySelectorAll(".layoutChip").forEach((btn) => {
-        btn.classList.toggle("on", btn.dataset.layout === layout);
-      });
-      if ((layout === "stand" || layout === "hands") && state.facingMode !== "environment") {
-        setFacing("environment", state.cameraLive);
-      }
+      const extra = (state.cameraLive ? " is-live" : "") + (state.timerId ? " is-recording" : "");
+      camWrap.className =
+        "camWrap layout-" + layout +
+        " orientation-" + state.camOrientation +
+        (state.facingMode === "user" ? " facing-user" : " facing-environment") +
+        extra;
+      syncCamSettingChips();
       applyCamTransform();
     }
 
@@ -2097,11 +2561,47 @@
             e.touches[0].clientY - e.touches[1].clientY
           );
           if (startDist > 0) {
-            state.camZoom = Math.min(3, Math.max(0.5, startZoom * (dist / startDist)));
-            applyCamTransform();
+            zoomToRatio(startZoom * (dist / startDist));
           }
         }
       }, { passive: false });
+    }
+
+    function initZoomControls() {
+      document.querySelectorAll(".zoomLevelBtn").forEach((btn) => {
+        btn.addEventListener("click", () => zoomToRatio(parseFloat(btn.dataset.zoom)));
+      });
+      if (!zoomSliderTrack) return;
+      let dragging = false;
+      const setZoomFromClientX = (clientX) => {
+        const rect = zoomSliderTrack.getBoundingClientRect();
+        const pct = Math.max(0, Math.min(1, (clientX - rect.left - 8) / (rect.width - 16)));
+        zoomToRatio(ZOOM_MIN + pct * (ZOOM_MAX - ZOOM_MIN));
+      };
+      zoomSliderTrack.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        zoomSliderTrack.setPointerCapture(e.pointerId);
+        setZoomFromClientX(e.clientX);
+      });
+      zoomSliderTrack.addEventListener("pointermove", (e) => {
+        if (dragging) setZoomFromClientX(e.clientX);
+      });
+      zoomSliderTrack.addEventListener("pointerup", () => { dragging = false; });
+      zoomSliderTrack.addEventListener("pointercancel", () => { dragging = false; });
+      let swipeStartX = 0;
+      let swipeStartZoom = 1;
+      zoomSliderTrack.addEventListener("touchstart", (e) => {
+        if (e.touches.length === 1) {
+          swipeStartX = e.touches[0].clientX;
+          swipeStartZoom = state.camZoom;
+        }
+      }, { passive: true });
+      zoomSliderTrack.addEventListener("touchmove", (e) => {
+        if (e.touches.length === 1 && state.cameraLive) {
+          const dx = e.touches[0].clientX - swipeStartX;
+          zoomToRatio(swipeStartZoom + dx * 0.008);
+        }
+      }, { passive: true });
     }
 
     function setEndMode(mode) {
@@ -2250,13 +2750,25 @@
     }
 
     function setFacing(mode, restart) {
+      if (mode !== "user" && mode !== "environment") return;
+      if (mode !== state.facingMode) saveFacingPrefs();
       state.facingMode = mode;
-      document.querySelectorAll(".facingChip").forEach((btn) => {
-        btn.classList.toggle("on", btn.dataset.facing === mode);
-      });
+      loadFacingPrefs(mode);
+      syncCamSettingChips();
+      if (camWrap) {
+        const extra = (state.cameraLive ? " is-live" : "") + (state.timerId ? " is-recording" : "");
+        camWrap.className =
+          "camWrap layout-" + state.camLayout +
+          " orientation-" + state.camOrientation +
+          (mode === "user" ? " facing-user" : " facing-environment") +
+          extra;
+      }
+      updateFacingBadge();
+      updateCamHint();
       if (restart && state.cameraLive) {
-        stopCamStream();
         startCam();
+      } else {
+        applyCamTransform();
       }
     }
 
@@ -2272,12 +2784,16 @@
 
     async function startCam() {
       try {
-        stopCamStream();
+        if (state.stream) {
+          state.stream.getTracks().forEach((t) => t.stop());
+          state.stream = null;
+        }
+        const portrait = state.camOrientation !== "landscape";
         state.stream = await navigator.mediaDevices.getUserMedia({
           video: {
             facingMode: { ideal: state.facingMode },
-            width: { ideal: 720 },
-            height: { ideal: 1280 }
+            width: { ideal: portrait ? 720 : 1280 },
+            height: { ideal: portrait ? 1280 : 720 }
           },
           audio: false
         });
@@ -2285,7 +2801,9 @@
         await cam.play();
         showCamLive();
         const label = state.facingMode === "user" ? "内カメ" : "外カメ";
-        camStatus.textContent = "カメラ起動中（" + label + "）· ピンチでズーム";
+        camStatus.textContent = label + " · 0.5×〜3× · 全画面・縦横OK";
+        updateStudyTimerHud(state.timerId ? state.elapsed : 0);
+        applyCamTransform();
       } catch (e) {
         camStatus.textContent = "カメラ接続に失敗しました（権限を許可してください）";
       }
@@ -2726,28 +3244,38 @@
       snapshot("start");
       setStudyTimerHudVisible(true);
       updateStudyTimerHud(0);
+      updateForcedSessionUI();
       state.timerId = setInterval(() => {
         state.elapsed += 1;
         updateStudyTimerHud(state.elapsed);
+        updateForcedSessionUI();
         if (endMode && endMode.value === "time") {
-          const total = Math.max(1, parseInt(studyMinutes.value || "25", 10)) * 60;
+          const total = getForcedTargetSec();
           if (state.elapsed >= total) {
-            stopSession();
+            stopSession(true);
             camStatus.textContent = "設定時間に到達して終了しました";
           }
         }
         if (state.elapsed % 5 === 0) snapshot("timelapse");
       }, 1000);
-      enableStudyLock();
-      if (endMode && endMode.value === "content") {
+      if (state.sessionType === "forced") {
+        camStatus.textContent = "強制モード — 設定時間までカメラを閉じられません";
+      } else if (endMode && endMode.value === "content") {
+        enableStudyLock();
         camStatus.textContent = "勉強ロック中 · 他のアプリは開けません";
       } else {
-        camStatus.textContent = "勉強セッション中（カメラ監視）";
+        camStatus.textContent = "勉強記録中 · " + (studyMinutes && studyMinutes.value) + "分";
       }
       updateCreateVlogBtn();
     }
 
-    function stopSession() {
+    function stopSession(forceEnd) {
+      if (!forceEnd && !canStopSessionNow()) {
+        if (camStatus) {
+          camStatus.textContent = "強制モード：残り " + fmt(getForcedTargetSec() - state.elapsed) + " はカメラを閉じられません";
+        }
+        return;
+      }
       if (state.timerId) {
         clearInterval(state.timerId);
         state.timerId = null;
@@ -2756,6 +3284,7 @@
       stopRecorder();
       snapshot("end");
       disableStudyLock();
+      updateForcedSessionUI();
       setStudyTimerHudVisible(false);
       setVlogTimerHudVisible(false);
       persistSession();
@@ -2859,14 +3388,32 @@
     if (camLaunch) camLaunch.addEventListener("click", startCam);
     if (switchCamBtn) switchCamBtn.addEventListener("click", toggleFacing);
     initPinchZoom();
+    initZoomControls();
     setEndMode("time");
-    setCamLayout("stand");
+    setSessionType("free");
+    loadFacingPrefs(state.facingMode);
+    setCamLayout(state.camLayout);
+    setCamOrientation(state.camOrientation);
+    syncCamSettingChips();
+    updateFacingBadge();
+    updateCamHint();
+    updateZoomUI();
+    if (camFullscreenBtn) camFullscreenBtn.addEventListener("click", toggleCamFullscreen);
+    if (camFsOverlayBtn) camFsOverlayBtn.addEventListener("click", toggleCamFullscreen);
+    if (camFlipOverlayBtn) camFlipOverlayBtn.addEventListener("click", toggleFacing);
+    if (camOrientOverlayBtn) camOrientOverlayBtn.addEventListener("click", toggleCamOrientation);
+    document.querySelectorAll(".sessionTypeBtn").forEach((btn) => {
+      btn.addEventListener("click", () => setSessionType(btn.dataset.sessionType));
+    });
+    document.querySelectorAll("[data-orientation]").forEach((btn) => {
+      btn.addEventListener("click", () => setCamOrientation(btn.dataset.orientation));
+    });
     if (!localStorage.getItem("mustudyWake")) setWakeMode("app");
     updateCreateVlogBtn();
     document.querySelectorAll(".endModeBtn").forEach((btn) => {
       btn.addEventListener("click", () => setEndMode(btn.dataset.end));
     });
-    document.querySelectorAll(".facingChip").forEach((btn) => {
+    document.querySelectorAll("#facingPicker [data-facing]").forEach((btn) => {
       btn.addEventListener("click", () => setFacing(btn.dataset.facing, true));
     });
     document.querySelectorAll(".layoutChip").forEach((btn) => {
@@ -3032,7 +3579,13 @@
       }
     });
     window.addEventListener("beforeunload", (e) => {
-      if (!state.timerId || !endMode) return;
+      if (!state.timerId) return;
+      if (isForcedSessionActive() && !canStopSessionNow()) {
+        e.preventDefault();
+        e.returnValue = "強制モード：設定時間までカメラを閉じられません。";
+        return;
+      }
+      if (!endMode) return;
       if (endMode.value === "time") {
         e.preventDefault();
         e.returnValue = "勉強時間が終わるまで移動しないでください。";
