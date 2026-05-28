@@ -411,10 +411,60 @@
       width: 100%;
       border-radius: var(--radius-md);
       border: 1px solid var(--app-border-strong);
-      background: #e8ecf1;
+      background: #000;
       aspect-ratio: 9 / 16;
       overflow: hidden;
       touch-action: none;
+    }
+    .camWrap.viewport-landscape { aspect-ratio: 16 / 9; }
+    .camWrap.viewport-portrait { aspect-ratio: 9 / 16; }
+    .camLetterbox {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      z-index: 1;
+    }
+    .camViewport {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: none;
+    }
+    .camWrap.viewport-portrait.frame-16x9 .camViewport {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      aspect-ratio: 16 / 9;
+    }
+    .camWrap.viewport-portrait.frame-4x3 .camViewport {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      aspect-ratio: 3 / 4;
+    }
+    .camWrap.viewport-landscape.frame-16x9 .camViewport,
+    .camWrap.viewport-landscape.frame-4x3 .camViewport {
+      width: 100%;
+      height: 100%;
+    }
+    .camWrap.viewport-landscape.frame-4x3 .camViewport {
+      width: auto;
+      max-width: 100%;
+      height: 100%;
+      aspect-ratio: 3 / 4;
+    }
+    .camVideoLayer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform-origin: center center;
+      will-change: transform;
     }
     .camWrap .demoVideo {
       width: 100%;
@@ -423,11 +473,32 @@
       border-radius: 0;
       aspect-ratio: unset;
       object-fit: cover;
-      object-position: center center;
-      transform-origin: center center;
-      will-change: transform;
+      object-position: 50% 50%;
+      display: block;
+      pointer-events: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .camWrap.facing-user .demoVideo {
+      transform: scaleX(-1);
     }
     .camWrap .demoVideo.is-hidden { display: none; }
+    .camPanHint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.55);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      white-space: nowrap;
+    }
+    .camWrap.is-live .camPanHint { opacity: 1; }
+    .camWrap.is-panning .camPanHint { opacity: 0; }
     .camLaunchBtn {
       position: absolute;
       inset: 0;
@@ -651,8 +722,45 @@
       border-color: #fff;
       transform: scale(1.08);
     }
-    .camWrap.orientation-landscape { aspect-ratio: 16 / 9; }
-    .camWrap.orientation-portrait { aspect-ratio: 9 / 16; }
+    .camTopBar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 7;
+      display: none;
+      justify-content: center;
+      padding: 10px 12px 0;
+      pointer-events: none;
+    }
+    .camWrap.is-live .camTopBar { display: flex; }
+    .camTopPill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 6px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      pointer-events: auto;
+    }
+    .camTopBtn {
+      width: 32px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 0;
+    }
+    .camTopBtn.on {
+      color: #fbbf24;
+      background: rgba(255, 255, 255, 0.12);
+    }
     .sessionTypeRow {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -957,6 +1065,217 @@
       text-align: left;
     }
     .moreBtn small { display: block; font-size: 10px; color: #9fb0c5; font-weight: 600; margin-top: 4px; }
+    .studyStatsHero {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 14px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--app-border-strong);
+      background: linear-gradient(135deg, var(--app-brand-soft) 0%, #fff 55%);
+    }
+    .studyStatToday {
+      text-align: center;
+    }
+    .studyStatToday .label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--app-muted);
+      margin-bottom: 4px;
+    }
+    .studyStatToday strong {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--app-brand-dim);
+      line-height: 1.1;
+    }
+    .studyStatRow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .studyStatBox {
+      text-align: center;
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--app-border);
+    }
+    .studyStatBox span {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--app-muted);
+      margin-bottom: 2px;
+    }
+    .studyStatBox strong {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--app-text);
+    }
+    .statsPeriodTabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .statsPeriodTab {
+      flex: 1;
+      border: 1px solid var(--app-border-strong);
+      border-radius: 999px;
+      padding: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      background: var(--app-bg);
+      color: var(--app-muted);
+      cursor: pointer;
+    }
+    .statsPeriodTab.on {
+      background: var(--app-brand);
+      border-color: var(--app-brand);
+      color: #061018;
+    }
+    .studyBarChart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 4px;
+      height: 88px;
+      margin-bottom: 12px;
+      padding: 8px 6px 4px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--app-border);
+      background: var(--app-card);
+    }
+    .studyBarCol {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 0;
+    }
+    .studyBar {
+      width: 100%;
+      max-width: 28px;
+      min-height: 4px;
+      border-radius: 6px 6px 2px 2px;
+      background: linear-gradient(180deg, var(--app-brand) 0%, var(--app-brand-dim) 100%);
+      transition: height 0.2s ease;
+    }
+    .studyBarCol span {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--app-muted);
+    }
+    .studyBarCol b {
+      font-size: 8px;
+      font-weight: 800;
+      color: var(--app-brand-dim);
+    }
+    .studyCalendarHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .studyCalendarHead h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--app-text);
+    }
+    .studyCalNav {
+      border: 1px solid var(--app-border-strong);
+      background: var(--app-bg);
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--app-muted);
+    }
+    .studyCalendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 14px;
+      padding: 10px 8px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--app-border);
+      background: var(--app-card);
+    }
+    .studyCalDow {
+      text-align: center;
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--app-muted);
+      padding: 2px 0 6px;
+    }
+    .studyCalDay {
+      aspect-ratio: 1;
+      border: none;
+      border-radius: 8px;
+      background: var(--app-bg);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--app-muted);
+      cursor: pointer;
+      padding: 0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .studyCalDay.empty { visibility: hidden; pointer-events: none; }
+    .studyCalDay.has-study {
+      background: var(--app-brand-soft);
+      color: var(--app-brand-dim);
+    }
+    .studyCalDay.today {
+      box-shadow: inset 0 0 0 2px var(--app-brand);
+      font-weight: 900;
+    }
+    .studyCalDay.selected {
+      background: var(--app-brand);
+      color: #fff;
+    }
+    .studyCalDay .calMin {
+      font-size: 7px;
+      font-weight: 800;
+      line-height: 1;
+      opacity: 0.85;
+    }
+    .recordDayGroup {
+      margin-bottom: 12px;
+      border: 1px solid var(--app-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--app-card);
+    }
+    .recordDayHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--app-bg);
+      border-bottom: 1px solid var(--app-border);
+    }
+    .recordDayHead b {
+      font-size: 12px;
+      color: var(--app-text);
+    }
+    .recordDayHead span {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--app-brand-dim);
+    }
+    .recordDaySessions {
+      display: flex;
+      flex-direction: column;
+    }
     .recordList { display: flex; flex-direction: column; gap: 8px; }
     .recordItem {
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -1424,6 +1743,7 @@
             <div class="tlCard" id="todayGoalCard">
               <h4>今日の目標</h4>
               <p id="todayGoalText">まだ設定されていません。カメラ画面で科目・目標を入力してください。</p>
+              <p id="timelineTodayStudy" style="margin-top:8px;font-size:13px;font-weight:800;color:var(--app-brand-dim);">今日の勉強: 0分</p>
             </div>
             <div class="tlCard">
               <h4>友達の勉強記録</h4>
@@ -1448,8 +1768,35 @@
               </button>
               <h3 class="pageTitle">勉強記録</h3>
             </header>
-            <p class="optLabel">過去のセッション（タップで選択）</p>
-            <div id="recordList" class="recordList"></div>
+            <div class="studyStatsHero" id="studyStatsHero">
+              <div class="studyStatToday">
+                <span class="label">今日の合計勉強時間</span>
+                <strong id="todayTotalMin">0分</strong>
+              </div>
+              <div class="studyStatRow">
+                <div class="studyStatBox">
+                  <span>今週（月〜日）</span>
+                  <strong id="weekTotalMin">0分</strong>
+                </div>
+                <div class="studyStatBox">
+                  <span>今月</span>
+                  <strong id="monthTotalMin">0分</strong>
+                </div>
+              </div>
+            </div>
+            <div class="statsPeriodTabs" id="statsPeriodTabs">
+              <button type="button" class="statsPeriodTab on" data-period="week">1週間</button>
+              <button type="button" class="statsPeriodTab" data-period="month">1ヶ月</button>
+            </div>
+            <div id="studyBarChart" class="studyBarChart" aria-label="勉強時間グラフ"></div>
+            <div class="studyCalendarHead">
+              <button type="button" class="studyCalNav" id="calPrev" aria-label="前の月">‹</button>
+              <h4 id="calMonthLabel">2026年5月</h4>
+              <button type="button" class="studyCalNav" id="calNext" aria-label="次の月">›</button>
+            </div>
+            <div id="studyCalendar" class="studyCalendar" aria-label="勉強カレンダー"></div>
+            <p class="optLabel">日別のセッション（タップで選択）</p>
+            <div id="recordDayGroups" class="recordDayGroups"></div>
             <div id="vlogTools" class="demoPanel vlogTools" style="margin-top:12px;">
               <p style="font-size:12px;font-weight:700;margin-bottom:8px;">Vlog（倍速再生）</p>
               <select id="vlogLength" class="mini">
@@ -1557,14 +1904,27 @@
             </div>
 
             <div class="camStage" id="camStage">
-              <div id="camWrap" class="camWrap layout-stand orientation-portrait">
+              <div id="camWrap" class="camWrap layout-stand viewport-portrait frame-4x3 facing-environment">
                 <button type="button" id="camLaunch" class="camLaunchBtn" aria-label="カメラを起動">
                   <span class="camLaunchIcon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 8h2l1.5-2h9L18 8h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
                   </span>
                   <span class="camLaunchText">タップしてカメラを起動</span>
                 </button>
-                <video id="cam" class="demoVideo is-hidden" playsinline muted></video>
+                <div class="camLetterbox" id="camLetterbox">
+                  <div class="camViewport" id="camViewport">
+                    <div class="camVideoLayer" id="camVideoLayer">
+                      <video id="cam" class="demoVideo is-hidden" playsinline muted></video>
+                    </div>
+                    <span class="camPanHint" id="camPanHint">1本指で胸元・手元を動かせます</span>
+                  </div>
+                </div>
+                <div class="camTopBar" id="camTopBar">
+                  <div class="camTopPill">
+                    <button type="button" class="camTopBtn on" data-frame-aspect="4:3">4:3</button>
+                    <button type="button" class="camTopBtn" data-frame-aspect="16:9">16:9</button>
+                  </div>
+                </div>
                 <button type="button" id="camFullscreenBtn" class="camFsBtn" aria-label="画面最大化">⛶</button>
                 <div id="camTimerHud" class="studyTimerHud" aria-live="polite">
                   <span class="studyTimerLabel">勉強時間</span>
@@ -1607,10 +1967,15 @@
             </div>
 
             <div class="demoPanel camOpts">
-              <p class="optLabel">画面の向き</p>
-              <div class="chipRow" id="orientationPicker">
-                <button type="button" class="facingChip on" data-orientation="portrait">縦向き</button>
-                <button type="button" class="facingChip" data-orientation="landscape">横向き</button>
+              <p class="optLabel">画面（端末の持ち方）</p>
+              <div class="chipRow" id="viewportPicker">
+                <button type="button" class="facingChip on" data-viewport="portrait">縦持ち</button>
+                <button type="button" class="facingChip" data-viewport="landscape">横持ち</button>
+              </div>
+              <p class="optLabel">撮影比率（iPhoneと同じ・縦持ちのまま横長OK）</p>
+              <div class="chipRow" id="frameAspectPicker">
+                <button type="button" class="facingChip on" data-frame-aspect="4:3">4:3</button>
+                <button type="button" class="facingChip" data-frame-aspect="16:9">16:9 横長</button>
               </div>
               <p class="optLabel">カメラ向き</p>
               <div class="chipRow" id="facingPicker">
@@ -1627,7 +1992,7 @@
                 <button type="button" class="layoutChip" data-layout="full">全体</button>
               </div>
               <button type="button" id="switchCamBtn" class="ctl sub" style="width:100%;margin-top:6px;">カメラ切替</button>
-              <p style="font-size:10px;color:var(--app-muted);margin-top:6px;line-height:1.5;">内カメ・外カメどちらでも、ズーム（0.5×〜3×）・全画面・縦横・レイアウトが使えます。プレビュー上の丸ボタンでも操作できます。</p>
+              <p style="font-size:10px;color:var(--app-muted);margin-top:6px;line-height:1.5;">縦持ちのまま16:9横長フレーム（iPhoneと同じ）が使えます。1本指で胸元・手元を動かし、ピンチ／下のバーで0.5×〜3×。</p>
             </div>
 
             <div class="demoPanel">
@@ -1962,10 +2327,13 @@
       facingMode: "environment",
       camLayout: "stand",
       camZoom: 1,
-      camOrientation: "portrait",
+      camPanX: 0,
+      camPanY: 0,
+      viewportMode: "portrait",
+      frameAspect: "4:3",
       facingPrefs: {
-        user: { zoom: 1, layout: "face", orientation: "portrait" },
-        environment: { zoom: 1, layout: "stand", orientation: "portrait" }
+        user: { zoom: 1, layout: "face", viewportMode: "portrait", frameAspect: "4:3", panX: 0, panY: 0 },
+        environment: { zoom: 1, layout: "stand", viewportMode: "portrait", frameAspect: "4:3", panX: 0, panY: 0 }
       },
       sessionType: "free",
       camFullscreen: false,
@@ -1976,6 +2344,9 @@
       wakeMode: "app",
       currentScreen: "camera",
       selectedRecordId: null,
+      statsPeriod: "week",
+      calendarMonth: null,
+      selectedCalendarDay: null,
       friends: [
         { name: "あおい", initial: "A", subject: "数学II", mins: 47, ago: "12分前" },
         { name: "けんた", initial: "K", subject: "英語長文", mins: 32, ago: "28分前" },
@@ -1992,6 +2363,9 @@
     };
 
     const cam = document.getElementById("cam");
+    const camViewport = document.getElementById("camViewport");
+    const camVideoLayer = document.getElementById("camVideoLayer");
+    const camPanHint = document.getElementById("camPanHint");
     const camStatus = document.getElementById("camStatus");
     const kMode = document.getElementById("kMode");
     const kTimer = document.getElementById("kTimer");
@@ -2016,7 +2390,16 @@
     const vlogStudyClock = document.getElementById("vlogStudyClock");
     const vlogSpeedInfo = document.getElementById("vlogSpeedInfo");
     const camWrap = document.getElementById("camWrap");
-    const recordList = document.getElementById("recordList");
+    const recordDayGroups = document.getElementById("recordDayGroups");
+    const todayTotalMin = document.getElementById("todayTotalMin");
+    const weekTotalMin = document.getElementById("weekTotalMin");
+    const monthTotalMin = document.getElementById("monthTotalMin");
+    const studyBarChart = document.getElementById("studyBarChart");
+    const studyCalendar = document.getElementById("studyCalendar");
+    const calMonthLabel = document.getElementById("calMonthLabel");
+    const calPrev = document.getElementById("calPrev");
+    const calNext = document.getElementById("calNext");
+    const timelineTodayStudy = document.getElementById("timelineTodayStudy");
     const friendFeed = document.getElementById("friendFeed");
     const todayGoalText = document.getElementById("todayGoalText");
     const screenMyPage = document.getElementById("screenMyPage");
@@ -2056,28 +2439,28 @@
 
     const LAYOUT_PRESETS = {
       stand: {
-        environment: { layoutScale: 1.4, posX: 50, posY: 84 },
-        user: { layoutScale: 1.25, posX: 50, posY: 58 }
+        environment: { posX: 50, posY: 84 },
+        user: { posX: 50, posY: 58 }
       },
       hands: {
-        environment: { layoutScale: 1.55, posX: 50, posY: 88 },
-        user: { layoutScale: 1.35, posX: 50, posY: 72 }
+        environment: { posX: 50, posY: 88 },
+        user: { posX: 50, posY: 72 }
       },
       desk: {
-        environment: { layoutScale: 1.2, posX: 50, posY: 72 },
-        user: { layoutScale: 1.15, posX: 50, posY: 55 }
+        environment: { posX: 50, posY: 72 },
+        user: { posX: 50, posY: 55 }
       },
       book: {
-        environment: { layoutScale: 1.3, posX: 50, posY: 58 },
-        user: { layoutScale: 1.2, posX: 50, posY: 48 }
+        environment: { posX: 50, posY: 58 },
+        user: { posX: 50, posY: 48 }
       },
       face: {
-        environment: { layoutScale: 1.15, posX: 50, posY: 22 },
-        user: { layoutScale: 1.1, posX: 50, posY: 38 }
+        environment: { posX: 50, posY: 28 },
+        user: { posX: 50, posY: 38 }
       },
       full: {
-        environment: { layoutScale: 1, posX: 50, posY: 50 },
-        user: { layoutScale: 1, posX: 50, posY: 50 }
+        environment: { posX: 50, posY: 50 },
+        user: { posX: 50, posY: 50 }
       }
     };
 
@@ -2095,29 +2478,64 @@
       return block[facing] || block.environment;
     }
 
+    function frameAspectClass(aspect) {
+      return aspect === "16:9" ? "frame-16x9" : "frame-4x3";
+    }
+
     function saveFacingPrefs() {
       if (!state.facingPrefs) return;
       state.facingPrefs[state.facingMode] = {
         zoom: state.camZoom,
         layout: state.camLayout,
-        orientation: state.camOrientation
+        viewportMode: state.viewportMode,
+        frameAspect: state.frameAspect,
+        panX: state.camPanX,
+        panY: state.camPanY
       };
     }
 
     function loadFacingPrefs(mode) {
       const p = state.facingPrefs && state.facingPrefs[mode];
       if (!p) return;
-      state.camZoom = p.zoom;
-      state.camLayout = p.layout;
-      state.camOrientation = p.orientation;
+      state.camZoom = p.zoom != null ? p.zoom : 1;
+      state.camLayout = p.layout || "stand";
+      if (p.viewportMode) {
+        state.viewportMode = p.viewportMode;
+      } else if (p.orientation === "landscape") {
+        state.viewportMode = "portrait";
+        state.frameAspect = "16:9";
+      } else {
+        state.viewportMode = p.orientation || "portrait";
+      }
+      if (p.frameAspect) state.frameAspect = p.frameAspect;
+      else if (!p.viewportMode && p.orientation !== "landscape") state.frameAspect = "4:3";
+      state.camPanX = p.panX || 0;
+      state.camPanY = p.panY || 0;
+    }
+
+    function syncCamWrapClasses() {
+      if (!camWrap) return;
+      const parts = [
+        "camWrap",
+        "layout-" + state.camLayout,
+        "viewport-" + state.viewportMode,
+        frameAspectClass(state.frameAspect),
+        state.facingMode === "user" ? "facing-user" : "facing-environment"
+      ];
+      if (state.cameraLive) parts.push("is-live");
+      if (state.timerId) parts.push("is-recording");
+      camWrap.className = parts.join(" ");
     }
 
     function syncCamSettingChips() {
       document.querySelectorAll("#facingPicker [data-facing]").forEach((btn) => {
         btn.classList.toggle("on", btn.dataset.facing === state.facingMode);
       });
-      document.querySelectorAll("#orientationPicker [data-orientation]").forEach((btn) => {
-        btn.classList.toggle("on", btn.dataset.orientation === state.camOrientation);
+      document.querySelectorAll("#viewportPicker [data-viewport]").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.viewport === state.viewportMode);
+      });
+      document.querySelectorAll("#frameAspectPicker [data-frame-aspect], .camTopBtn[data-frame-aspect]").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.frameAspect === state.frameAspect);
       });
       document.querySelectorAll(".layoutChip").forEach((btn) => {
         btn.classList.toggle("on", btn.dataset.layout === state.camLayout);
@@ -2226,29 +2644,80 @@
       }
     }
 
-    function setCamOrientation(orient) {
-      state.camOrientation = orient;
+    function getCamVideoConstraints() {
+      const landscapeSensor = state.frameAspect === "16:9";
+      return {
+        facingMode: { ideal: state.facingMode },
+        width: { ideal: landscapeSensor ? 1280 : 960 },
+        height: { ideal: landscapeSensor ? 720 : 1280 }
+      };
+    }
+
+    function setViewportMode(mode) {
+      state.viewportMode = mode;
       saveFacingPrefs();
-      if (!camWrap) return;
-      camWrap.classList.remove("orientation-portrait", "orientation-landscape");
-      camWrap.classList.add("orientation-" + orient);
+      syncCamWrapClasses();
       syncCamSettingChips();
-      if (state.cameraLive) startCam();
+      applyCamTransform();
+      if (camStatus) {
+        camStatus.textContent = mode === "portrait" ? "縦持ちプレビュー" : "横持ちプレビュー";
+      }
+    }
+
+    function setFrameAspect(aspect) {
+      const prev = state.frameAspect;
+      state.frameAspect = aspect;
+      saveFacingPrefs();
+      syncCamWrapClasses();
+      syncCamSettingChips();
+      if (state.cameraLive && prev !== aspect) startCam();
       else applyCamTransform();
+      if (camStatus) {
+        camStatus.textContent =
+          state.viewportMode === "portrait" && aspect === "16:9"
+            ? "縦持ちのまま16:9横長フレーム（iPhone風）"
+            : aspect === "16:9"
+              ? "16:9 横長"
+              : "4:3";
+      }
     }
 
     function toggleCamOrientation() {
-      const next = state.camOrientation === "portrait" ? "landscape" : "portrait";
-      setCamOrientation(next);
-      if (camStatus) {
-        camStatus.textContent = next === "portrait" ? "縦向きに変更しました" : "横向きに変更しました";
+      if (state.viewportMode === "portrait") {
+        setFrameAspect(state.frameAspect === "4:3" ? "16:9" : "4:3");
+      } else {
+        setViewportMode("portrait");
+        if (camStatus) camStatus.textContent = "縦持ちに戻しました";
       }
+    }
+
+    function resetCamPan() {
+      state.camPanX = 0;
+      state.camPanY = 0;
+      applyCamTransform();
+    }
+
+    function clampCamPan(px, py, scale) {
+      if (!camViewport) return { x: px, y: py };
+      const w = camViewport.clientWidth;
+      const h = camViewport.clientHeight;
+      const maxX = Math.max(0, (w * (scale - 1)) / 2);
+      const maxY = Math.max(0, (h * (scale - 1)) / 2);
+      return {
+        x: Math.max(-maxX, Math.min(maxX, px)),
+        y: Math.max(-maxY, Math.min(maxY, py))
+      };
     }
 
     function toggleCamFullscreen() {
       state.camFullscreen = !state.camFullscreen;
       if (camStage) camStage.classList.toggle("is-maximized", state.camFullscreen);
       if (camFullscreenBtn) camFullscreenBtn.textContent = state.camFullscreen ? "✕" : "⛶";
+    }
+
+    function getVisualZoomScale(camZoom) {
+      const z = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, camZoom));
+      return z;
     }
 
     async function applyTrackZoomIfSupported(displayZoom) {
@@ -2260,8 +2729,15 @@
         if (!caps.zoom) return;
         const min = caps.zoom.min != null ? caps.zoom.min : 1;
         const max = caps.zoom.max != null ? caps.zoom.max : 1;
-        const t = (displayZoom - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN);
-        const value = min + t * (max - min);
+        let value;
+        if (displayZoom <= 0.55) {
+          value = min;
+        } else if (displayZoom >= 2.5) {
+          value = max;
+        } else {
+          const t = (displayZoom - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN);
+          value = min + t * (max - min);
+        }
         await track.applyConstraints({ advanced: [{ zoom: value }] });
       } catch (_) {}
     }
@@ -2502,15 +2978,32 @@
     }
 
     function applyCamTransform() {
-      if (!cam) return;
+      if (!cam || !camVideoLayer) return;
       const preset = getLayoutPreset(state.camLayout, state.facingMode);
-      const totalScale = preset.layoutScale * state.camZoom;
-      cam.style.transform = "scale(" + totalScale + ")";
+      const z = getVisualZoomScale(state.camZoom);
+      const clamped = clampCamPan(state.camPanX, state.camPanY, z);
+      state.camPanX = clamped.x;
+      state.camPanY = clamped.y;
       cam.style.objectPosition = preset.posX + "% " + preset.posY + "%";
-      if (camWrap) {
-        camWrap.classList.toggle("facing-user", state.facingMode === "user");
-        camWrap.classList.toggle("facing-environment", state.facingMode === "environment");
+      if (z < 1) {
+        const inv = 1 / z;
+        camVideoLayer.style.left = "50%";
+        camVideoLayer.style.top = "50%";
+        camVideoLayer.style.width = (inv * 100) + "%";
+        camVideoLayer.style.height = (inv * 100) + "%";
+        camVideoLayer.style.marginLeft = (-inv * 50) + "%";
+        camVideoLayer.style.marginTop = (-inv * 50) + "%";
+      } else {
+        camVideoLayer.style.left = "0";
+        camVideoLayer.style.top = "0";
+        camVideoLayer.style.width = "100%";
+        camVideoLayer.style.height = "100%";
+        camVideoLayer.style.marginLeft = "0";
+        camVideoLayer.style.marginTop = "0";
       }
+      camVideoLayer.style.transform =
+        "translate(" + state.camPanX + "px," + state.camPanY + "px) scale(" + z + ")";
+      syncCamWrapClasses();
       updateZoomUI();
       updateFacingBadge();
       updateCamHint();
@@ -2526,25 +3019,68 @@
       applyCamTransform();
     }
 
-    function setCamLayout(layout) {
+    function setCamLayout(layout, resetPan) {
+      if (resetPan) {
+        state.camPanX = 0;
+        state.camPanY = 0;
+      }
       state.camLayout = layout;
       saveFacingPrefs();
-      if (!camWrap) return;
-      const extra = (state.cameraLive ? " is-live" : "") + (state.timerId ? " is-recording" : "");
-      camWrap.className =
-        "camWrap layout-" + layout +
-        " orientation-" + state.camOrientation +
-        (state.facingMode === "user" ? " facing-user" : " facing-environment") +
-        extra;
+      syncCamWrapClasses();
       syncCamSettingChips();
       applyCamTransform();
     }
 
+    function initCamPan() {
+      if (!camViewport) return;
+      let panning = false;
+      let startX = 0;
+      let startY = 0;
+      let startPanX = 0;
+      let startPanY = 0;
+      const onStart = (clientX, clientY) => {
+        if (!state.cameraLive) return;
+        panning = true;
+        if (camWrap) camWrap.classList.add("is-panning");
+        startX = clientX;
+        startY = clientY;
+        startPanX = state.camPanX;
+        startPanY = state.camPanY;
+      };
+      const onMove = (clientX, clientY) => {
+        if (!panning) return;
+        let dx = clientX - startX;
+        const dy = clientY - startY;
+        if (state.facingMode === "user") dx = -dx;
+        state.camPanX = startPanX + dx;
+        state.camPanY = startPanY + dy;
+        applyCamTransform();
+      };
+      const onEnd = () => {
+        panning = false;
+        if (camWrap) camWrap.classList.remove("is-panning");
+        saveFacingPrefs();
+      };
+      camViewport.addEventListener("pointerdown", (e) => {
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        if (e.target.closest(".camOverlayBtn, .camFsBtn, .zoomDock")) return;
+        camViewport.setPointerCapture(e.pointerId);
+        onStart(e.clientX, e.clientY);
+      });
+      camViewport.addEventListener("pointermove", (e) => {
+        if (!panning) return;
+        e.preventDefault();
+        onMove(e.clientX, e.clientY);
+      });
+      camViewport.addEventListener("pointerup", onEnd);
+      camViewport.addEventListener("pointercancel", onEnd);
+    }
+
     function initPinchZoom() {
-      if (!camWrap) return;
+      if (!camViewport) return;
       let startDist = 0;
       let startZoom = 1;
-      camWrap.addEventListener("touchstart", (e) => {
+      camViewport.addEventListener("touchstart", (e) => {
         if (e.touches.length === 2) {
           startDist = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
@@ -2553,7 +3089,7 @@
           startZoom = state.camZoom;
         }
       }, { passive: true });
-      camWrap.addEventListener("touchmove", (e) => {
+      camViewport.addEventListener("touchmove", (e) => {
         if (e.touches.length === 2 && state.cameraLive) {
           e.preventDefault();
           const dist = Math.hypot(
@@ -2755,14 +3291,7 @@
       state.facingMode = mode;
       loadFacingPrefs(mode);
       syncCamSettingChips();
-      if (camWrap) {
-        const extra = (state.cameraLive ? " is-live" : "") + (state.timerId ? " is-recording" : "");
-        camWrap.className =
-          "camWrap layout-" + state.camLayout +
-          " orientation-" + state.camOrientation +
-          (mode === "user" ? " facing-user" : " facing-environment") +
-          extra;
-      }
+      syncCamWrapClasses();
       updateFacingBadge();
       updateCamHint();
       if (restart && state.cameraLive) {
@@ -2788,20 +3317,15 @@
           state.stream.getTracks().forEach((t) => t.stop());
           state.stream = null;
         }
-        const portrait = state.camOrientation !== "landscape";
         state.stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: { ideal: state.facingMode },
-            width: { ideal: portrait ? 720 : 1280 },
-            height: { ideal: portrait ? 1280 : 720 }
-          },
+          video: getCamVideoConstraints(),
           audio: false
         });
         cam.srcObject = state.stream;
         await cam.play();
         showCamLive();
         const label = state.facingMode === "user" ? "内カメ" : "外カメ";
-        camStatus.textContent = label + " · 0.5×〜3× · 全画面・縦横OK";
+        camStatus.textContent = label + " · ドラッグで位置 · 0.5×〜3×";
         updateStudyTimerHud(state.timerId ? state.elapsed : 0);
         applyCamTransform();
       } catch (e) {
@@ -2866,7 +3390,7 @@
       list.unshift(entry);
       saveSessions(list);
       state.selectedRecordId = entry.id;
-      renderRecordList();
+      renderStudyDashboard();
       updateProfileStats();
       syncTodayGoal();
     }
@@ -2881,21 +3405,238 @@
       return (d.getMonth() + 1) + "/" + d.getDate() + " " + d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0");
     }
 
-    function renderRecordList() {
-      if (!recordList) return;
+    function dateKeyFromIso(iso) {
+      const d = new Date(iso);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+
+    function dateKeyFromDate(d) {
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+
+    function formatStudyMinutes(totalSec) {
+      const m = Math.max(0, Math.round(totalSec / 60));
+      if (m < 60) return m + "分";
+      const h = Math.floor(m / 60);
+      const r = m % 60;
+      return r ? h + "時間" + r + "分" : h + "時間";
+    }
+
+    function formatDayLabel(key) {
+      const d = new Date(key + "T12:00:00");
+      const now = new Date();
+      const todayKey = dateKeyFromDate(now);
+      const y = new Date(now);
+      y.setDate(y.getDate() - 1);
+      const yesterdayKey = dateKeyFromDate(y);
+      const dow = ["日", "月", "火", "水", "木", "金", "土"][d.getDay()];
+      const base = (d.getMonth() + 1) + "月" + d.getDate() + "日（" + dow + "）";
+      if (key === todayKey) return "今日 · " + base;
+      if (key === yesterdayKey) return "昨日 · " + base;
+      return base;
+    }
+
+    function buildDayTotals(sessions) {
+      const map = {};
+      sessions.forEach((s) => {
+        const key = dateKeyFromIso(s.createdAt);
+        map[key] = (map[key] || 0) + (s.durationSec || 0);
+      });
+      return map;
+    }
+
+    function sumSecondsInRange(sessions, startDate, endDate) {
+      const start = startDate.getTime();
+      const end = endDate.getTime();
+      return sessions.reduce((sum, s) => {
+        const t = new Date(s.createdAt).getTime();
+        if (t >= start && t <= end) return sum + (s.durationSec || 0);
+        return sum;
+      }, 0);
+    }
+
+    function getWeekRange() {
+      const now = new Date();
+      const day = now.getDay();
+      const diffToMon = day === 0 ? -6 : 1 - day;
+      const mon = new Date(now);
+      mon.setHours(0, 0, 0, 0);
+      mon.setDate(mon.getDate() + diffToMon);
+      const sun = new Date(mon);
+      sun.setDate(sun.getDate() + 6);
+      sun.setHours(23, 59, 59, 999);
+      return { mon, sun };
+    }
+
+    function getMonthRange(year, month) {
+      const start = new Date(year, month, 1, 0, 0, 0, 0);
+      const end = new Date(year, month + 1, 0, 23, 59, 59, 999);
+      return { start, end };
+    }
+
+    function updateStudySummaryCards() {
+      const sessions = loadSessions();
+      const now = new Date();
+      const todayStart = new Date(now);
+      todayStart.setHours(0, 0, 0, 0);
+      const todayEnd = new Date(now);
+      todayEnd.setHours(23, 59, 59, 999);
+      const todaySec = sumSecondsInRange(sessions, todayStart, todayEnd);
+      const week = getWeekRange();
+      const weekSec = sumSecondsInRange(sessions, week.mon, week.sun);
+      const month = getMonthRange(now.getFullYear(), now.getMonth());
+      const monthSec = sumSecondsInRange(sessions, month.start, month.end);
+      const todayLabel = formatStudyMinutes(todaySec);
+      if (todayTotalMin) todayTotalMin.textContent = todayLabel;
+      if (weekTotalMin) weekTotalMin.textContent = formatStudyMinutes(weekSec);
+      if (monthTotalMin) monthTotalMin.textContent = formatStudyMinutes(monthSec);
+      if (timelineTodayStudy) timelineTodayStudy.textContent = "今日の勉強: " + todayLabel;
+      if (state.timerId) {
+        const combined = todaySec + (state.elapsed || 0);
+        const liveLabel = formatStudyMinutes(combined) + "（記録中）";
+        if (timelineTodayStudy) timelineTodayStudy.textContent = "今日の勉強: " + liveLabel;
+        if (todayTotalMin && state.currentScreen === "record") {
+          todayTotalMin.textContent = liveLabel;
+        }
+      }
+    }
+
+    function renderStudyBarChart() {
+      if (!studyBarChart) return;
+      const sessions = loadSessions();
+      const now = new Date();
+      let cols = [];
+      if (state.statsPeriod === "month") {
+        const { start, end } = getMonthRange(now.getFullYear(), now.getMonth());
+        const daysInMonth = end.getDate();
+        const step = daysInMonth > 20 ? 5 : 1;
+        for (let d = 1; d <= daysInMonth; d += step) {
+          const dayStart = new Date(now.getFullYear(), now.getMonth(), d, 0, 0, 0, 0);
+          const dayEnd = new Date(now.getFullYear(), now.getMonth(), d, 23, 59, 59, 999);
+          const sec = sumSecondsInRange(sessions, dayStart, dayEnd);
+          cols.push({ label: d + "日", sec: sec });
+        }
+      } else {
+        const week = getWeekRange();
+        const labels = ["月", "火", "水", "木", "金", "土", "日"];
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(week.mon);
+          d.setDate(d.getDate() + i);
+          const dayStart = new Date(d);
+          dayStart.setHours(0, 0, 0, 0);
+          const dayEnd = new Date(d);
+          dayEnd.setHours(23, 59, 59, 999);
+          cols.push({ label: labels[i], sec: sumSecondsInRange(sessions, dayStart, dayEnd) });
+        }
+      }
+      const maxSec = Math.max(60, ...cols.map((c) => c.sec));
+      studyBarChart.innerHTML = cols.map((c) => {
+        const h = Math.max(4, Math.round((c.sec / maxSec) * 72));
+        const minLabel = c.sec > 0 ? Math.round(c.sec / 60) + "分" : "";
+        return (
+          '<div class="studyBarCol">' +
+          '<div class="studyBar" style="height:' + h + 'px"></div>' +
+          (minLabel ? "<b>" + minLabel + "</b>" : "") +
+          "<span>" + c.label + "</span></div>"
+        );
+      }).join("");
+    }
+
+    function ensureCalendarMonth() {
+      if (!state.calendarMonth) {
+        const n = new Date();
+        state.calendarMonth = { year: n.getFullYear(), month: n.getMonth() };
+      }
+    }
+
+    function renderStudyCalendar() {
+      if (!studyCalendar) return;
+      ensureCalendarMonth();
+      const { year, month } = state.calendarMonth;
+      if (calMonthLabel) calMonthLabel.textContent = year + "年" + (month + 1) + "月";
+      const sessions = loadSessions();
+      const dayTotals = buildDayTotals(sessions);
+      const first = new Date(year, month, 1);
+      const startDow = first.getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayKey = dateKeyFromDate(new Date());
+      const dows = ["日", "月", "火", "水", "木", "金", "土"];
+      let html = dows.map((d) => '<div class="studyCalDow">' + d + "</div>").join("");
+      for (let i = 0; i < startDow; i++) {
+        html += '<button type="button" class="studyCalDay empty" disabled></button>';
+      }
+      for (let day = 1; day <= daysInMonth; day++) {
+        const key = year + "-" + String(month + 1).padStart(2, "0") + "-" + String(day).padStart(2, "0");
+        const sec = dayTotals[key] || 0;
+        const cls = [
+          "studyCalDay",
+          sec > 0 ? "has-study" : "",
+          key === todayKey ? "today" : "",
+          key === state.selectedCalendarDay ? "selected" : ""
+        ].filter(Boolean).join(" ");
+        const minTxt = sec > 0 ? Math.round(sec / 60) + "分" : "";
+        html +=
+          '<button type="button" class="' + cls + '" data-day="' + key + '">' +
+          day + (minTxt ? '<span class="calMin">' + minTxt + "</span>" : "") +
+          "</button>";
+      }
+      studyCalendar.innerHTML = html;
+      studyCalendar.querySelectorAll(".studyCalDay:not(.empty)").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.selectedCalendarDay = btn.dataset.day;
+          renderStudyCalendar();
+          renderRecordDayGroups();
+        });
+      });
+    }
+
+    function groupSessionsByDay(sessions) {
+      const groups = {};
+      sessions.forEach((s) => {
+        const key = dateKeyFromIso(s.createdAt);
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(s);
+      });
+      return Object.keys(groups)
+        .sort((a, b) => b.localeCompare(a))
+        .map((key) => ({
+          key: key,
+          totalSec: groups[key].reduce((sum, x) => sum + (x.durationSec || 0), 0),
+          sessions: groups[key].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        }));
+    }
+
+    function renderRecordDayGroups() {
+      if (!recordDayGroups) return;
       const list = loadSessions();
       if (!list.length) {
-        recordList.innerHTML = '<p class="recordEmpty">まだ記録がありません。<br>カメラで勉強を終えるとここに残ります。</p>';
+        recordDayGroups.innerHTML = '<p class="recordEmpty">まだ記録がありません。<br>カメラで勉強を終えるとここに残ります。</p>';
         return;
       }
       if (!state.selectedRecordId) state.selectedRecordId = list[0].id;
-      recordList.innerHTML = list.map((s) => (
-        '<div class="recordItem' + (s.id === state.selectedRecordId ? " on" : "") + '" data-id="' + s.id + '">' +
-        "<b>" + s.subject + " · " + fmt(s.durationSec) + "</b>" +
-        "<span>" + formatRecordDate(s.createdAt) + " · " + (s.mode === "vlog" ? "Vlog" : "カメラ") +
-        " · 離脱" + s.awayCount + "回</span></div>"
+      let groups = groupSessionsByDay(list);
+      if (state.selectedCalendarDay) {
+        groups = groups.filter((g) => g.key === state.selectedCalendarDay);
+        if (!groups.length) {
+          recordDayGroups.innerHTML =
+            '<p class="recordEmpty">' + formatDayLabel(state.selectedCalendarDay) + "の記録はありません。</p>";
+          return;
+        }
+      }
+      recordDayGroups.innerHTML = groups.map((g) => (
+        '<div class="recordDayGroup">' +
+        '<div class="recordDayHead"><b>' + formatDayLabel(g.key) + '</b>' +
+        '<span>合計 ' + formatStudyMinutes(g.totalSec) + "</span></div>" +
+        '<div class="recordDaySessions">' +
+        g.sessions.map((s) => (
+          '<div class="recordItem' + (s.id === state.selectedRecordId ? " on" : "") + '" data-id="' + s.id + '">' +
+          "<b>" + s.subject + " · " + fmt(s.durationSec) + "</b>" +
+          "<span>" + formatRecordDate(s.createdAt) + " · " + (s.mode === "vlog" ? "Vlog" : "カメラ") +
+          " · 離脱" + s.awayCount + "回</span></div>"
+        )).join("") +
+        "</div></div>"
       )).join("");
-      recordList.querySelectorAll(".recordItem").forEach((el) => {
+      recordDayGroups.querySelectorAll(".recordItem").forEach((el) => {
         el.addEventListener("click", () => {
           state.selectedRecordId = el.dataset.id;
           const rec = loadSessions().find((r) => r.id === state.selectedRecordId);
@@ -2903,9 +3644,22 @@
             state.lastSessionSec = rec.durationSec;
             updateVlogClock(0, rec.durationSec);
           }
-          renderRecordList();
+          renderRecordDayGroups();
+          refreshVlogToolsVisibility();
         });
       });
+    }
+
+    function renderStudyDashboard() {
+      updateStudySummaryCards();
+      renderStudyBarChart();
+      renderStudyCalendar();
+      renderRecordDayGroups();
+      refreshVlogToolsVisibility();
+    }
+
+    function renderRecordList() {
+      renderStudyDashboard();
     }
 
     function switchAppScreen(name) {
@@ -2921,10 +3675,10 @@
       if (name === "timeline") {
         syncTodayGoal();
         renderFriendFeed();
+        updateStudySummaryCards();
       }
       if (name === "record") {
-        renderRecordList();
-        refreshVlogToolsVisibility();
+        renderStudyDashboard();
       }
       refreshVlogToolsVisibility();
     }
@@ -3248,6 +4002,7 @@
       state.timerId = setInterval(() => {
         state.elapsed += 1;
         updateStudyTimerHud(state.elapsed);
+        updateStudySummaryCards();
         updateForcedSessionUI();
         if (endMode && endMode.value === "time") {
           const total = getForcedTargetSec();
@@ -3387,13 +4142,15 @@
     });
     if (camLaunch) camLaunch.addEventListener("click", startCam);
     if (switchCamBtn) switchCamBtn.addEventListener("click", toggleFacing);
+    initCamPan();
     initPinchZoom();
     initZoomControls();
     setEndMode("time");
     setSessionType("free");
     loadFacingPrefs(state.facingMode);
-    setCamLayout(state.camLayout);
-    setCamOrientation(state.camOrientation);
+    setCamLayout(state.camLayout, false);
+    setViewportMode(state.viewportMode);
+    setFrameAspect(state.frameAspect);
     syncCamSettingChips();
     updateFacingBadge();
     updateCamHint();
@@ -3405,8 +4162,11 @@
     document.querySelectorAll(".sessionTypeBtn").forEach((btn) => {
       btn.addEventListener("click", () => setSessionType(btn.dataset.sessionType));
     });
-    document.querySelectorAll("[data-orientation]").forEach((btn) => {
-      btn.addEventListener("click", () => setCamOrientation(btn.dataset.orientation));
+    document.querySelectorAll("#viewportPicker [data-viewport]").forEach((btn) => {
+      btn.addEventListener("click", () => setViewportMode(btn.dataset.viewport));
+    });
+    document.querySelectorAll("#frameAspectPicker [data-frame-aspect], .camTopBtn[data-frame-aspect]").forEach((btn) => {
+      btn.addEventListener("click", () => setFrameAspect(btn.dataset.frameAspect));
     });
     if (!localStorage.getItem("mustudyWake")) setWakeMode("app");
     updateCreateVlogBtn();
@@ -3417,8 +4177,39 @@
       btn.addEventListener("click", () => setFacing(btn.dataset.facing, true));
     });
     document.querySelectorAll(".layoutChip").forEach((btn) => {
-      btn.addEventListener("click", () => setCamLayout(btn.dataset.layout));
+      btn.addEventListener("click", () => setCamLayout(btn.dataset.layout, true));
     });
+    document.querySelectorAll(".statsPeriodTab").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.statsPeriod = btn.dataset.period;
+        document.querySelectorAll(".statsPeriodTab").forEach((b) => {
+          b.classList.toggle("on", b.dataset.period === state.statsPeriod);
+        });
+        renderStudyBarChart();
+      });
+    });
+    if (calPrev) {
+      calPrev.addEventListener("click", () => {
+        ensureCalendarMonth();
+        state.calendarMonth.month -= 1;
+        if (state.calendarMonth.month < 0) {
+          state.calendarMonth.month = 11;
+          state.calendarMonth.year -= 1;
+        }
+        renderStudyCalendar();
+      });
+    }
+    if (calNext) {
+      calNext.addEventListener("click", () => {
+        ensureCalendarMonth();
+        state.calendarMonth.month += 1;
+        if (state.calendarMonth.month > 11) {
+          state.calendarMonth.month = 0;
+          state.calendarMonth.year += 1;
+        }
+        renderStudyCalendar();
+      });
+    }
     if (subjectInput) subjectInput.addEventListener("input", syncTodayGoal);
     if (goalInput) goalInput.addEventListener("input", syncTodayGoal);
     document.querySelectorAll("[data-action='mypage']").forEach((btn) => {
@@ -3481,7 +4272,7 @@
       document.body.classList.add("appOpen");
       switchAppScreen("camera");
       renderFriendFeed();
-      renderRecordList();
+      renderStudyDashboard();
       restoreProfile();
       syncTodayGoal();
       const demo = document.querySelector("#demo");
@@ -3531,7 +4322,7 @@
     restoreProfile();
     updateMyPageOrbs();
     renderFriendFeed();
-    renderRecordList();
+    renderStudyDashboard();
     try {
       const g = JSON.parse(localStorage.getItem("mustudyTodayGoal") || "null");
       if (g && subjectInput && goalInput) {
