@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mustudy | 意志力を外部化する受験OS</title>
+  <meta name="description" content="Mustudyは、強制力×StudyWithMe×勉強Vlog×AIコーチングを統合した勉強継続アプリ。受験生活を作品化する受験OS。">
+  <style>
+    :root {
+      --bg: #f7fbff;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --line: #dbe7f3;
+      --brand: #0ea5b8;
+      --brand-dark: #0b7285;
+      --accent: #e8f9fc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #050608;
+      color: #eef2f7;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(7, 9, 12, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .navInner {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .logo { font-weight: 900; font-size: 24px; letter-spacing: -0.02em; color: #27d7ef; }
+    .navLinks { display: flex; gap: 16px; color: #cbd5e1; font-size: 14px; font-weight: 700; }
+    .loginBtn {
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .hero {
+      padding: 88px 0 54px;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(14, 165, 184, 0.23), transparent 42%),
+        radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.16), transparent 32%);
+    }
+    .heroTag {
+      display: inline-block;
+      background: #0ea5b8;
+      color: #fff;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(36px, 7vw, 72px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .lead {
+      max-width: 760px;
+      font-size: clamp(16px, 2.2vw, 24px);
+      color: #334155;
+      margin-bottom: 24px;
+    }
+    .ctaRow { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-size: 14px;
+      font-weight: 800;
+      border: 1px solid transparent;
+      transition: transform .18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btnPrimary {
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(11, 114, 133, 0.24);
+    }
+    .btnGhost {
+      background: #fff;
+      border-color: #b8d8e8;
+      color: #0a4f5c;
+    }
+    .miniNote { margin-top: 12px; color: #64748b; font-size: 13px; }
+
+    .stats {
+      margin: 20px 0 8px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .stat {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .stat strong { font-size: 22px; color: #0b7285; display: block; line-height: 1.15; }
+    .stat span { font-size: 12px; color: #64748b; font-weight: 700; }
+
+    .section { padding: 58px 0; }
+    .secEyebrow {
+      color: #0b7285;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: clamp(28px, 4.2vw, 42px);
+      line-height: 1.15;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+    .secLead {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 720px;
+      margin-bottom: 24px;
+    }
+    .chipList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .chip {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0b7285;
+      background: #edf9fc;
+      border: 1px solid #cdeff6;
+      border-radius: 999px;
+      padding: 5px 10px;
+    }
+    .mvpGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .mvpCard {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .mvpCard h3 { font-size: 18px; margin-bottom: 8px; }
+    .mvpCard ul {
+      margin-left: 18px;
+      color: #475569;
+      font-size: 14px;
+    }
+    .mvpCard li { margin-bottom: 4px; }
+    .sectionCard {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+    .sectionCard h3 { font-size: 18px; margin-bottom: 8px; }
+    .sectionCard h4 { font-size: 15px; margin: 10px 0 6px; color: #0b7285; }
+    .sectionCard ul { margin-left: 18px; color: #475569; font-size: 14px; }
+    .sectionCard li { margin-bottom: 4px; }
+    .conceptGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .conceptItem {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .conceptItem b { display: block; margin-bottom: 4px; color: #0b7285; }
+    .stackGrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .stackCard {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .goalBox {
+      border: 1px solid #bde8f0;
+      background: linear-gradient(180deg, #f2fbfd 0%, #ffffff 100%);
+      border-radius: 20px;
+      padding: 22px;
+    }
+    .demoWrap {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .appChrome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 4px 2px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    .appTitle {
+      font-size: 14px;
+      font-weight: 800;
+      color: #67e8f9;
+      letter-spacing: 0.02em;
+    }
+    .appDot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
+    }
+    .appHint { font-size: 11px; color: #9fb0c5; font-weight: 700; }
+    .appLaunch { margin-top: 10px; }
+    .appClose {
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .demoGrid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
+    }
+    .demoVideo {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #0f172a;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+    }
+    .demoPanel {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .demoRow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .modeBtn {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+    }
+    .modeBtn.on { background: #22d3ee; color: #041018; border-color: #22d3ee; }
+    .ctl {
+      border: none;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .ctl.main { background: #22d3ee; color: #041018; }
+    .ctl.sub { background: rgba(255, 255, 255, 0.14); color: #e2e8f0; }
+    .mini {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .status { font-size: 13px; color: #67e8f9; font-weight: 700; margin-top: 4px; }
+    .kpi { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .kpi div { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 10px; padding: 8px; font-size: 12px; }
+    .feed {
+      background: #0f172a;
+      color: #dbeafe;
+      border-radius: 10px;
+      padding: 10px;
+      min-height: 112px;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    .storyGrid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .storyCard {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .storyTag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      color: #0b7285;
+      background: #ebfbff;
+      border: 1px solid #cdeff6;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 10px;
+    }
+    .storyCard h3 { font-size: 17px; margin-bottom: 8px; }
+    .storyCard p { color: #475569; font-size: 14px; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 16px;
+    }
+    .stepNum {
+      display: inline-flex;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--accent);
+      color: var(--brand-dark);
+      margin-bottom: 10px;
+    }
+    .step h3 { font-size: 17px; margin-bottom: 6px; }
+    .step p { color: #475569; font-size: 14px; }
+
+    .ctaBox {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .ctaBox p { font-weight: 700; color: #334155; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 20px 0 28px;
+      color: #64748b;
+      font-size: 13px;
+    }
+    .footInner {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .mobileTabbar {
+      position: fixed;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      width: min(560px, calc(100% - 20px));
+      background: rgba(12, 12, 14, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 22px;
+      padding: 8px 8px 10px;
+      display: none;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+      z-index: 40;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+    .tabBtn {
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 6px 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-height: 48px;
+    }
+    .tabIcon {
+      font-size: 16px;
+      line-height: 1;
+    }
+    .tabLabel {
+      line-height: 1;
+    }
+    .tabBtn.on {
+      color: #ffffff;
+    }
+    .tabBtn.cameraTab {
+      background: #ffffff;
+      color: #0b0b0d;
+      border-radius: 999px;
+      width: 58px;
+      height: 58px;
+      min-height: 58px;
+      margin: -24px auto 0;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+    .tabBtn.cameraTab.on {
+      background: #ffffff;
+      color: #0b0b0d;
+    }
+    .tabBtn.cameraTab .tabIcon {
+      font-size: 20px;
+    }
+    .tabBtn.cameraTab .tabLabel {
+      display: none;
+    }
+    .appOpen .hero,
+    .appOpen #concept,
+    .appOpen #mvp,
+    .appOpen #growth,
+    .appOpen #retention,
+    .appOpen #stories,
+    .appOpen #tech,
+    .appOpen #goal,
+    .appOpen footer {
+      display: none;
+    }
+    .appOpen #demo {
+      padding-top: 8px;
+    }
+    .appOpen .loginBtn {
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      .storyGrid, .steps, .stats, .mvpGrid, .conceptGrid, .stackGrid, .demoGrid { grid-template-columns: 1fr; }
+      .navLinks { display: none; }
+      .navInner { height: 56px; }
+      .logo { font-size: 20px; }
+      .loginBtn { padding: 7px 10px; font-size: 12px; }
+      .hero { display: none; }
+      h1 { font-size: clamp(30px, 10vw, 44px); }
+      .section { padding: 18px 0; }
+      .secEyebrow { margin-bottom: 2px; font-size: 10px; opacity: .9; }
+      .secLead { display: none; }
+      .mobileTabbar { display: grid; }
+      body { padding-bottom: 92px; }
+      .demoPanel { padding: 10px; }
+      .ctl { width: 100%; }
+      .demoRow { gap: 6px; }
+      .mvpCard ul,
+      .sectionCard ul,
+      .stackCard ul,
+      .goalBox ul,
+      .storyCard p,
+      .step p { display: none; }
+      .mvpCard,
+      .sectionCard,
+      .stackCard,
+      .storyCard,
+      .step,
+      .conceptItem { padding: 12px; }
+      .mvpCard h3,
+      .sectionCard h3,
+      .stackCard h3,
+      .storyCard h3,
+      .step h3 { font-size: 15px; margin-bottom: 0; }
+      .appOpen .nav { display: none; }
+      .appOpen #demo { padding-top: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap navInner">
+      <a class="logo" href="#">Mustudy</a>
+      <nav class="navLinks">
+        <a href="#concept">コンセプト</a>
+        <a href="#demo">体験デモ</a>
+        <a href="#mvp">MVP</a>
+        <a href="#growth">今後機能</a>
+        <a href="#retention">継続設計</a>
+        <a href="#stories">体験記</a>
+        <a href="#tech">技術</a>
+      </nav>
+      <a class="loginBtn" href="#">生徒ログイン</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="heroTag">受験生・学生向け 勉強継続アプリ</div>
+        <h1>意志力を外部化する<br>受験OS。</h1>
+        <p class="lead">Mustudyは「強制力 × StudyWithMe × 勉強Vlog × AIコーチング」を組み合わせ、勉強するしかない環境を作るサービス。受験生活そのものを作品化します。</p>
+        <div class="ctaRow">
+          <a class="btn btnPrimary" href="#mvp">MVPを見る</a>
+          <a class="btn btnGhost" href="#goal">最終ゴールを見る</a>
+        </div>
+        <div class="appLaunch">
+          <button id="openAppBtn" class="btn btnPrimary" type="button">アプリ画面を開く</button>
+        </div>
+        <p class="miniNote">単なる勉強記録アプリではなく、環境設計・可視化・伴走で継続率を上げる。</p>
+        <div class="stats">
+          <div class="stat"><strong>強制力</strong><span>サボれない環境を作る</span></div>
+          <div class="stat"><strong>コンテンツ化</strong><span>努力をVlogとして残す</span></div>
+          <div class="stat"><strong>AI伴走</strong><span>毎日感情のあるフィードバック</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="wrap">
+        <p class="secEyebrow">CAMERA SESSION</p>
+        <h2>強制勉強スタート</h2>
+        <p class="secLead">カメラONで開始。必要な操作だけに絞ったスマホ向けセッション画面です。</p>
+        <div class="demoWrap">
+          <div class="appChrome">
+            <div>
+              <p class="appTitle">mustudy</p>
+              <p class="appHint">camera / log</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="appDot" aria-hidden="true"></span>
+              <button id="closeAppBtn" class="appClose" type="button">サイトへ戻る</button>
+            </div>
+          </div>
+          <div class="demoGrid">
+            <div>
+              <video id="cam" class="demoVideo" autoplay playsinline muted></video>
+              <p class="status" id="camStatus">カメラ未接続</p>
+            </div>
+            <div>
+              <div class="demoPanel">
+                <div class="demoRow">
+                  <button class="modeBtn on" data-mode="study">カメラ</button>
+                  <button class="modeBtn" data-mode="vlog">ログ</button>
+                </div>
+                <input id="subjectInput" class="mini" placeholder="今日の科目（例: 英語・世界史）" />
+                <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
+                <div class="demoRow">
+                  <button id="startCam" class="ctl sub">1. カメラON</button>
+                  <button id="startSession" class="ctl main">2. 強制勉強スタート</button>
+                  <button id="stopSession" class="ctl sub">終了</button>
+                </div>
+              </div>
+              <div class="demoPanel">
+                <div class="kpi">
+                  <div>モード: <b id="kMode">カメラ</b></div>
+                  <div>セッション: <b id="kTimer">00:00</b></div>
+                  <div>離脱検知: <b id="kFocus">0回</b></div>
+                  <div>素材保存: <b id="kShots">0件</b></div>
+                </div>
+              </div>
+              <div class="demoPanel">
+                <div class="demoRow">
+                  <button id="makeAI" class="ctl main">AIフィードバック生成</button>
+                  <button id="saveVlog" class="ctl sub">Vlog素材JSON保存</button>
+                </div>
+                <div id="aiFeed" class="feed">ここにAIコーチング結果が出ます。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="concept">
+      <div class="wrap">
+        <p class="secEyebrow">APP OVERVIEW</p>
+        <h2>アプリ概要</h2>
+        <p class="secLead">受験生・学生向けの「強制力 × StudyWithMe × 勉強Vlog × AIコーチング」を組み合わせた勉強継続アプリ。目的は「勉強するしかない環境を作る」「努力をコンテンツ化する」「受験生活を作品化する」こと。</p>
+        <div class="chipList">
+          <span class="chip">高校生</span>
+          <span class="chip">浪人生</span>
+          <span class="chip">資格勉強の大学生</span>
+          <span class="chip">StudyWithMe好き</span>
+          <span class="chip">setlog・勉強Vlog好き</span>
+          <span class="chip">勉強が続かない人</span>
+        </div>
+        <div class="conceptGrid">
+          <article class="conceptItem"><b>① 強制力</b><span>サボれない環境を作る</span></article>
+          <article class="conceptItem"><b>② コンテンツ化</b><span>努力をVlog・記録として残す</span></article>
+          <article class="conceptItem"><b>③ AI伴走</b><span>毎日AIが分析・フィードバック</span></article>
+          <article class="conceptItem"><b>④ 仲間</b><span>全国の受験生と一緒に勉強</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mvp">
+      <div class="wrap">
+        <p class="secEyebrow">MVP</p>
+        <h2>最初に作る機能（詳細）</h2>
+        <p class="secLead">最優先は「本当に勉強継続率が上がるか」の検証。まずは起床強制・カメラON勉強・AIフィードバックを中心に実装します。</p>
+        <div class="mvpGrid">
+          <article class="mvpCard">
+            <h3>起床強制</h3>
+            <ul>
+              <li>起床時間設定、アラーム、AI音声、電話通知</li>
+              <li>顔認証で解除</li>
+              <li>起床後、机に向かうまで追跡</li>
+              <li>ゴールは「起きる」ではなく「勉強開始」</li>
+            </ul>
+          </article>
+          <article class="mvpCard">
+            <h3>勉強開始強制</h3>
+            <ul>
+              <li>勉強開始時間を設定し、開始時にカメラON必須</li>
+              <li>手元撮影 + 顔 or 手元認識</li>
+              <li>カメラOFFで失敗扱い</li>
+              <li>アプリ離脱でタイマー停止 / 他アプリ移動検知</li>
+              <li>UIは監視感より Lo-fi・cafe風・StudyWithMe風の落ち着く設計</li>
+            </ul>
+          </article>
+          <article class="mvpCard">
+            <h3>StudyWithMeモード</h3>
+            <ul>
+              <li>タイマー / ポモドーロ / 集中時間計測</li>
+              <li>勉強中録画 / タイムラプス保存</li>
+              <li>Vlogモード と StudyWithMeモードを選択可能</li>
+            </ul>
+          </article>
+          <article class="mvpCard">
+            <h3>AI勉強分析（毎晩）</h3>
+            <ul>
+              <li>今日の集中分析 / 科目割合 / 朝勉成功率 / 集中切れ時間 / 改善点</li>
+              <li>AI人格選択: 鬼コーチ / 優しい先輩 / 東大生風 / 体育会系</li>
+              <li>数字だけではなく感情のあるフィードバック</li>
+            </ul>
+          </article>
+          <article class="mvpCard">
+            <h3>自動勉強Vlog生成</h3>
+            <ul>
+              <li>1日の記録を自動編集（朝起床・通学・カフェ・勉強・夜勉・タイムラプス）</li>
+              <li>勉強時間 / 今日の科目 / AIコメント / 日付を自動挿入</li>
+              <li>TikTok/Reelsサイズで30秒〜1分を出力</li>
+              <li>setlog風 / 浪人生Vlog風 / aesthetic study vlog</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="growth">
+      <div class="wrap">
+        <p class="secEyebrow">ROADMAP</p>
+        <h2>今後追加する機能</h2>
+        <div class="mvpGrid">
+          <article class="sectionCard">
+            <h3>全国自習室</h3>
+            <ul>
+              <li>全国の受験生が同時接続</li>
+              <li>カメラON / マイクOFF / 深夜自習室</li>
+              <li>目的: 「退出しづらい空気」を作る</li>
+            </ul>
+          </article>
+          <article class="sectionCard">
+            <h3>勉強ゲーム化</h3>
+            <ul>
+              <li>勉強時間でEXP</li>
+              <li>ランク: Bronze / Silver / Gold / 医学部帯 / 東大帯</li>
+              <li>連続記録: streak機能</li>
+            </ul>
+          </article>
+          <article class="sectionCard">
+            <h3>アバター / 部屋育成</h3>
+            <ul>
+              <li>勉強に応じて部屋が綺麗になる</li>
+              <li>デスク進化</li>
+              <li>アイテム獲得</li>
+            </ul>
+          </article>
+          <article class="sectionCard">
+            <h3>SNS共有</h3>
+            <ul>
+              <li>今日の勉強Vlog投稿</li>
+              <li>streak共有</li>
+              <li>勉強時間共有</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="retention">
+      <div class="wrap">
+        <p class="secEyebrow">RETENTION DESIGN</p>
+        <h2>継続設計（超重要）</h2>
+        <p class="secLead">人が続かない理由は「始められない」「孤独」「努力が見えない」「サボっても損がない」。これを設計で解決します。</p>
+        <div class="mvpGrid">
+          <article class="sectionCard">
+            <h3>継続のために必要な4要素</h3>
+            <h4>① 積み上げ可視化</h4>
+            <ul><li>GitHub草風</li><li>勉強履歴</li></ul>
+            <h4>② 仲間</h4>
+            <ul><li>全国受験生</li><li>自習室</li></ul>
+            <h4>③ 軽い罰</h4>
+            <ul><li>streak消滅</li><li>仲間通知</li><li>AIコメント</li></ul>
+            <h4>④ ご褒美</h4>
+            <ul><li>YouTube解放</li><li>TikTok解放</li><li>娯楽時間付与</li></ul>
+          </article>
+          <article class="sectionCard">
+            <h3>罰システム設計</h3>
+            <h4>軽め</h4>
+            <ul><li>streak消滅</li><li>AI失望コメント</li></ul>
+            <h4>中</h4>
+            <ul><li>仲間通知</li></ul>
+            <h4>強</h4>
+            <ul><li>デポジット制</li><li>親通知</li></ul>
+            <p style="color:#64748b;font-size:13px;margin-top:8px;">※ 強すぎる罰は離脱率が上がるため注意</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stories">
+      <div class="wrap">
+        <p class="secEyebrow">CORE THOUGHT</p>
+        <h2>一番重要な思想</h2>
+        <div class="goalBox">
+          <p style="font-size:20px;font-weight:800;margin-bottom:12px;">このアプリは「勉強記録アプリ」ではない。</p>
+          <ul style="margin-left:18px;color:#334155;">
+            <li>勉強するしかない環境</li>
+            <li>努力の可視化</li>
+            <li>受験生活の映画化</li>
+            <li>意志力の外部化</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tech">
+      <div class="wrap">
+        <p class="secEyebrow">DESIGN & TECH</p>
+        <h2>デザインイメージと技術面</h2>
+        <div class="stackGrid">
+          <article class="stackCard">
+            <h3>世界観</h3>
+            <ul>
+              <li>aesthetic</li>
+              <li>minimal</li>
+              <li>Lo-fi / night study / cafe / calm / cinematic</li>
+            </ul>
+          </article>
+          <article class="stackCard">
+            <h3>参考スタイル</h3>
+            <ul>
+              <li>setlog</li>
+              <li>study vlog</li>
+              <li>StudyWithMe</li>
+              <li>TikTok勉強系</li>
+              <li>notion aesthetic</li>
+            </ul>
+          </article>
+          <article class="stackCard">
+            <h3>技術スタック</h3>
+            <ul>
+              <li>フロント: Next.js / React / Tailwind</li>
+              <li>バック: Firebase or Supabase</li>
+              <li>AI: OpenAI API</li>
+              <li>動画編集: FFmpeg / Remotion</li>
+              <li>リアルタイム: WebRTC</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="goal">
+      <div class="wrap">
+        <p class="secEyebrow">FINAL GOAL</p>
+        <h2>受験生活そのものを作品化する</h2>
+        <div class="goalBox">
+          <p style="margin-bottom:10px;color:#334155;">勉強を「苦行」ではなく「コンテンツ・成長記録・青春」に変える。</p>
+          <p style="font-size:20px;font-weight:800;">受験版 BeReal × Duolingo × TikTok × StudyWithMe を目指す。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footInner">
+      <span>Mustudy - 強制自習サービス</span>
+      <span>© 2026 Mustudy</span>
+    </div>
+  </footer>
+  <nav class="mobileTabbar" aria-label="モバイルタブ">
+    <button class="tabBtn" data-target="#concept" data-app-action="timeline"><span class="tabIcon">🏠</span><span class="tabLabel">タイムライン</span></button>
+    <button class="tabBtn" data-target="#growth" data-app-action="record"><span class="tabIcon">📝</span><span class="tabLabel">記録する</span></button>
+    <button class="tabBtn cameraTab on" data-target="#demo" data-app-action="camera"><span class="tabIcon">📷</span><span class="tabLabel">カメラ</span></button>
+    <button class="tabBtn" data-target="#stories" data-app-action="feedback"><span class="tabIcon">🔎</span><span class="tabLabel">さがす</span></button>
+    <button class="tabBtn" data-target="#retention" data-app-action="save"><span class="tabIcon">👤</span><span class="tabLabel">マイページ</span></button>
+  </nav>
+  <script>
+    const state = {
+      mode: "study",
+      stream: null,
+      recorder: null,
+      chunks: [],
+      timerId: null,
+      elapsed: 0,
+      awayCount: 0,
+      shots: []
+    };
+
+    const cam = document.getElementById("cam");
+    const camStatus = document.getElementById("camStatus");
+    const kMode = document.getElementById("kMode");
+    const kTimer = document.getElementById("kTimer");
+    const kFocus = document.getElementById("kFocus");
+    const kShots = document.getElementById("kShots");
+    const aiFeed = document.getElementById("aiFeed");
+    const subjectInput = document.getElementById("subjectInput");
+    const goalInput = document.getElementById("goalInput");
+
+    function fmt(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, "0");
+      const s = String(sec % 60).padStart(2, "0");
+      return m + ":" + s;
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      kMode.textContent = mode === "vlog" ? "ログ" : "カメラ";
+      document.querySelectorAll(".modeBtn").forEach(btn => {
+        btn.classList.toggle("on", btn.dataset.mode === mode);
+      });
+    }
+
+    async function startCam() {
+      if (state.stream) return;
+      try {
+        state.stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        cam.srcObject = state.stream;
+        camStatus.textContent = "カメラ接続中";
+      } catch (e) {
+        camStatus.textContent = "カメラ接続に失敗しました（権限を許可してください）";
+      }
+    }
+
+    function snapshot(label) {
+      if (!state.stream) return;
+      const cvs = document.createElement("canvas");
+      cvs.width = cam.videoWidth || 640;
+      cvs.height = cam.videoHeight || 360;
+      const ctx = cvs.getContext("2d");
+      ctx.drawImage(cam, 0, 0, cvs.width, cvs.height);
+      state.shots.push({
+        atSec: state.elapsed,
+        label,
+        image: cvs.toDataURL("image/jpeg", 0.72)
+      });
+      kShots.textContent = String(state.shots.length) + "件";
+    }
+
+    function startRecorder() {
+      if (!state.stream || !window.MediaRecorder) return;
+      state.chunks = [];
+      state.recorder = new MediaRecorder(state.stream, { mimeType: "video/webm" });
+      state.recorder.ondataavailable = (e) => { if (e.data.size) state.chunks.push(e.data); };
+      state.recorder.start(1000);
+    }
+
+    function stopRecorder() {
+      if (state.recorder && state.recorder.state !== "inactive") {
+        state.recorder.stop();
+      }
+    }
+
+    function startSession() {
+      if (!state.stream) {
+        camStatus.textContent = "先にカメラONしてください";
+        return;
+      }
+      if (state.timerId) return;
+      state.elapsed = 0;
+      state.awayCount = 0;
+      state.shots = [];
+      kFocus.textContent = "0回";
+      kShots.textContent = "0件";
+      startRecorder();
+      snapshot("start");
+      state.timerId = setInterval(() => {
+        state.elapsed += 1;
+        kTimer.textContent = fmt(state.elapsed);
+        if (state.mode === "vlog" && state.elapsed % 20 === 0) snapshot("timelapse");
+      }, 1000);
+      camStatus.textContent = "勉強セッション中（カメラ監視）";
+    }
+
+    function stopSession() {
+      if (state.timerId) {
+        clearInterval(state.timerId);
+        state.timerId = null;
+      }
+      stopRecorder();
+      snapshot("end");
+      camStatus.textContent = "セッション終了";
+    }
+
+    function buildAiComment() {
+      const personaList = ["鬼コーチ", "優しい先輩", "東大生風", "体育会系"];
+      const persona = personaList[state.elapsed % personaList.length];
+      const subject = subjectInput.value || "未入力";
+      const goal = goalInput.value || "未入力";
+      const focusScore = Math.max(40, 95 - state.awayCount * 12);
+      const morningRate = state.elapsed >= 1500 ? 90 : state.elapsed >= 900 ? 70 : 55;
+      const lines = [
+        "【" + persona + "AI フィードバック】",
+        "科目: " + subject,
+        "目標: " + goal,
+        "集中分析: " + focusScore + "/100",
+        "朝勉成功率(推定): " + morningRate + "%",
+        "離脱検知: " + state.awayCount + "回",
+        "改善点: " + (state.awayCount > 0 ? "開始後15分の離脱を減らすため、最初のタスクを5分単位に分割。" : "離脱ゼロを維持。次回は開始前に具体目標を数値化。"),
+        "感情コメント: 今日の継続は才能じゃなく設計の勝ち。明日もこの再現性でいこう。"
+      ];
+      aiFeed.textContent = lines.join("\n");
+    }
+
+    function saveVlogJson() {
+      const data = {
+        mode: state.mode,
+        subject: subjectInput.value || "",
+        goal: goalInput.value || "",
+        durationSec: state.elapsed,
+        awayCount: state.awayCount,
+        shots: state.shots.map(({ atSec, label }) => ({ atSec, label })),
+        createdAt: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "mustudy-vlog-material.json";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    document.querySelectorAll(".modeBtn").forEach(btn => {
+      btn.addEventListener("click", () => setMode(btn.dataset.mode));
+    });
+    document.getElementById("startCam").addEventListener("click", startCam);
+    document.getElementById("startSession").addEventListener("click", startSession);
+    document.getElementById("stopSession").addEventListener("click", stopSession);
+    document.getElementById("makeAI").addEventListener("click", buildAiComment);
+    document.getElementById("saveVlog").addEventListener("click", saveVlogJson);
+    const openAppBtn = document.getElementById("openAppBtn");
+    const closeAppBtn = document.getElementById("closeAppBtn");
+
+    function openAppView() {
+      document.body.classList.add("appOpen");
+      const demo = document.querySelector("#demo");
+      if (demo) demo.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closeAppView() {
+      document.body.classList.remove("appOpen");
+      const hero = document.querySelector(".hero");
+      if (hero) hero.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    if (openAppBtn) openAppBtn.addEventListener("click", openAppView);
+    if (closeAppBtn) closeAppBtn.addEventListener("click", closeAppView);
+
+    document.querySelectorAll(".tabBtn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tabBtn").forEach(b => b.classList.remove("on"));
+        btn.classList.add("on");
+        const isApp = document.body.classList.contains("appOpen");
+        if (isApp) {
+          const action = btn.dataset.appAction;
+          if (action === "timeline") {
+            const demo = document.querySelector("#demo");
+            if (demo) demo.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else if (action === "record") {
+            setMode("vlog");
+            const goal = document.getElementById("goalInput");
+            if (goal) goal.focus();
+          } else if (action === "camera") {
+            setMode("study");
+            startCam();
+          } else if (action === "feedback") {
+            buildAiComment();
+          } else if (action === "save") {
+            saveVlogJson();
+          }
+          return;
+        }
+        const el = document.querySelector(btn.dataset.target);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && state.timerId) {
+        state.awayCount += 1;
+        kFocus.textContent = state.awayCount + "回";
+      }
+    });
+  </script>
+</body>
+</html>
