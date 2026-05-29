@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="mustudy-build" content="2026-05-29-camfix5">
+  <meta name="mustudy-build" content="2026-05-29-camfix7">
   <title>Mustudy | 今日の努力が、一生の思い出になる。</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -949,6 +949,10 @@
       bottom: 0;
       z-index: 88;
       padding-bottom: env(safe-area-inset-bottom, 0px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     .camStage.is-maximized .camWrap {
       width: 100%;
@@ -958,6 +962,24 @@
       aspect-ratio: unset;
       border-radius: 0;
       border: none;
+    }
+    body.studySessionActive.forcedAppLock .camStage.is-maximized .camWrap {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      min-height: 0;
+      aspect-ratio: 16 / 9;
+      flex-shrink: 0;
+    }
+    body.studySessionActive.forcedAppLock .camStage.is-maximized .camLetterbox {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     body.studySessionActive .camStage.is-maximized .zoomDock { display: flex; }
     .zoomDock {
@@ -1349,6 +1371,42 @@
       font-weight: 900;
       color: #fff;
       text-shadow: 0 0 50px rgba(59, 130, 246, 0.55);
+    }
+    .camConfirmOverlay .camConfirmCard {
+      width: min(340px, 92vw);
+      background: var(--app-bg-elevated);
+      border: 1px solid var(--app-border-strong);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      pointer-events: auto;
+    }
+    .camConfirmOverlay .camConfirmCard h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+      color: var(--app-text);
+    }
+    .camConfirmOverlay .camConfirmCard p {
+      font-size: 13px;
+      color: var(--app-muted);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+    .camConfirmOverlay .camConfirmActions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .camConfirmOverlay .camConfirmFlip {
+      border: none;
+      background: transparent;
+      color: #2563eb;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 8px;
+      cursor: pointer;
     }
     .pomodoroCelebrate {
       position: fixed;
@@ -2080,6 +2138,30 @@
       border-color: var(--app-brand);
       color: #061018;
     }
+    .vlogSummaryRow {
+      margin: 12px 0 10px;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--app-border-strong);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+    .vlogPeriodBtns {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .vlogPeriodBtn {
+      flex: 1;
+      border: 1px solid var(--app-border-strong);
+      border-radius: 999px;
+      padding: 10px 6px;
+      font-size: 11px;
+      font-weight: 800;
+      background: var(--app-bg);
+      color: var(--app-text);
+      cursor: pointer;
+    }
+    .vlogPeriodBtn:active { transform: scale(0.98); }
     .studyBarChart {
       display: flex;
       align-items: flex-end;
@@ -2795,6 +2877,14 @@
               <button type="button" class="studyCalNav" id="calNext" aria-label="次の月">›</button>
             </div>
             <div id="studyCalendar" class="studyCalendar" aria-label="勉強カレンダー"></div>
+            <div class="vlogSummaryRow">
+              <p class="optLabel" style="margin:0;">まとめVlog（勉強時間は記録と一致）</p>
+              <div class="vlogPeriodBtns">
+                <button type="button" class="vlogPeriodBtn" data-vlog-period="today">今日</button>
+                <button type="button" class="vlogPeriodBtn" data-vlog-period="week">今週</button>
+                <button type="button" class="vlogPeriodBtn" data-vlog-period="month">今月</button>
+              </div>
+            </div>
             <p class="optLabel">日をタップ → 勉強時間とVlog</p>
             <div id="recordDayGroups" class="recordDayGroups"></div>
             <div id="dayDetailSheet" class="dayDetailSheet" aria-hidden="true">
@@ -2849,7 +2939,8 @@
               </div>
               <p id="vlogStudyClock" class="vlogClock">勉強時間: 00:00 / 00:00</p>
               <p id="vlogSpeedInfo" style="font-size:11px;color:var(--app-muted);margin-top:4px;">記録を選んでから倍速Vlogを再生できます。</p>
-              <button id="saveVlogVideo" class="ctl main" style="margin-top:8px;width:100%;">Vlog動画を保存（Mustudyロゴ入り）</button>
+              <button id="saveVlogVideo" class="ctl main" style="margin-top:8px;width:100%;">Vlog動画を保存（写真アプリへ共有）</button>
+              <button id="saveStudyPhotos" class="ctl main" style="margin-top:8px;width:100%;">スナップショットを写真に保存</button>
               <button id="saveVlog" class="ctl sub" style="margin-top:8px;width:100%;">Vlog素材JSON保存</button>
             </div>
           </div>
@@ -3043,6 +3134,18 @@
             </div>
 
             <div id="countdownOverlay" class="countdownOverlay" aria-hidden="true"><span id="countdownNum">3</span></div>
+            <div id="camConfirmOverlay" class="countdownOverlay camConfirmOverlay" aria-hidden="true">
+              <div class="camConfirmCard">
+                <h3>カメラの確認</h3>
+                <p id="camConfirmFacing">外カメ（手元・机）</p>
+                <p id="camConfirmHint">映像が正しいか確認してからスタートしてください。違う場合は切り替えできます。</p>
+                <div class="camConfirmActions">
+                  <button type="button" id="camConfirmFlip" class="camConfirmFlip">↻ 内カメ / 外カメを切り替え</button>
+                  <button type="button" id="camConfirmStart" class="ctl main">このカメラでスタート</button>
+                  <button type="button" id="camConfirmCancel" class="ctl sub">キャンセル</button>
+                </div>
+              </div>
+            </div>
             <div id="departureToast" class="departureToast"></div>
             <div id="pomodoroCelebrate" class="pomodoroCelebrate" aria-hidden="true">
               <div class="pomodoroCelebrateInner">
@@ -3415,6 +3518,11 @@
       lastSessionSec: 0,
       vlogPlayTimer: null,
       vlogSlideshowTimer: null,
+      vlogRafId: null,
+      vlogEndTimer: null,
+      vlogPlayContext: null,
+      vlogPlaybackStudySec: 0,
+      vlogPlaybackLabel: "",
       facingMode: "environment",
       camLayout: "stand",
       camZoom: 1,
@@ -3526,6 +3634,12 @@
     const recoveryMessage = document.getElementById("recoveryMessage");
     const recoveryStartBtn = document.getElementById("recoveryStartBtn");
     const countdownOverlay = document.getElementById("countdownOverlay");
+    const camConfirmOverlay = document.getElementById("camConfirmOverlay");
+    const camConfirmFacing = document.getElementById("camConfirmFacing");
+    const camConfirmHint = document.getElementById("camConfirmHint");
+    const camConfirmFlip = document.getElementById("camConfirmFlip");
+    const camConfirmStart = document.getElementById("camConfirmStart");
+    const camConfirmCancel = document.getElementById("camConfirmCancel");
     const countdownNum = document.getElementById("countdownNum");
     const departureToast = document.getElementById("departureToast");
     const pomodoroCelebrate = document.getElementById("pomodoroCelebrate");
@@ -3560,6 +3674,7 @@
     const vlogTimerHud = document.getElementById("vlogTimerHud");
     const vlogTimerHudTime = document.getElementById("vlogTimerHudTime");
     const saveVlogVideoBtn = document.getElementById("saveVlogVideo");
+    const saveStudyPhotosBtn = document.getElementById("saveStudyPhotos");
     const camStage = document.getElementById("camStage");
     const camFullscreenBtn = document.getElementById("camFullscreenBtn");
     const camTimerMinutes = document.getElementById("camTimerMinutes");
@@ -4467,6 +4582,7 @@
     }
 
     function dismissBlockingOverlays() {
+      hideCamConfirmOverlay();
       if (countdownOverlay) {
         countdownOverlay.classList.remove("show");
         countdownOverlay.setAttribute("aria-hidden", "true");
@@ -4548,8 +4664,8 @@
       } else {
         showCamLive();
       }
-      setCamStatus("カウントダウン…");
-      runCountdownThen(() => startSession());
+      setCamStatus("カメラを確認してください");
+      showCamConfirmThenStart();
     }
 
     function updateQuickStartBtn() {
@@ -4725,15 +4841,306 @@
 
     function downloadBlob(blob, filename) {
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
+      a.href = url;
       a.download = filename;
+      document.body.appendChild(a);
       a.click();
-      URL.revokeObjectURL(a.href);
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    }
+
+    function getStudyDurationSec() {
+      if (state.vlogPlaybackStudySec > 0) return state.vlogPlaybackStudySec;
+      if (state.timerId && state.elapsed > 0) return state.elapsed;
+      if (state.lastSessionSec > 0) return state.lastSessionSec;
+      return state.elapsed || 0;
+    }
+
+    function getVlogTargetSec() {
+      return Math.max(15, parseInt((vlogLength && vlogLength.value) || "30", 10));
+    }
+
+    function getVlogTimelineStudySec(ctx) {
+      if (!ctx) return 0;
+      const elapsed = performance.now() - ctx.startedAt;
+      const progress = Math.min(1, elapsed / (ctx.targetSec * 1000));
+      return Math.min(ctx.studySec, Math.round(progress * ctx.studySec));
+    }
+
+    function getSessionsInRange(startDate, endDate) {
+      const start = startDate.getTime();
+      const end = endDate.getTime();
+      return loadSessions()
+        .filter((s) => {
+          const t = new Date(s.createdAt).getTime();
+          return t >= start && t <= end;
+        })
+        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    }
+
+    function buildVlogBundleFromSessions(sessions, label) {
+      const totalSec = sessions.reduce((sum, s) => sum + (s.durationSec || 0), 0);
+      let frames = [];
+      let offsetSec = 0;
+      sessions.forEach((s) => {
+        const dur = s.durationSec || 0;
+        if (s.shotsPreview && s.shotsPreview.length) {
+          s.shotsPreview.forEach((shot) => {
+            const localAt = shot.atSec != null ? shot.atSec : 0;
+            frames.push({
+              image: shot.image,
+              label: shot.label || s.subject,
+              atSec: localAt,
+              globalAtSec: offsetSec + Math.min(dur, Math.max(0, localAt))
+            });
+          });
+        }
+        offsetSec += dur;
+      });
+      frames.sort((a, b) => (a.globalAtSec || 0) - (b.globalAtSec || 0));
+      if (!frames.length && totalSec > 0) {
+        frames = [{
+          image: generatePlaceholderFrame(label, totalSec),
+          globalAtSec: 0,
+          atSec: 0,
+          label: "summary"
+        }];
+      }
+      return {
+        totalSec,
+        frames,
+        label,
+        sessionCount: sessions.length
+      };
+    }
+
+    function prepareVlogBundle(bundle) {
+      state.shots = bundle.frames;
+      state.lastSessionSec = bundle.totalSec;
+      state.vlogPlaybackStudySec = bundle.totalSec;
+      state.vlogPlaybackLabel = bundle.label || "";
+      state.recordedBlob = null;
+      updateVlogClock(0, bundle.totalSec);
+    }
+
+    function frameIndexForStudySec(frames, studySec, progress) {
+      if (!frames.length) return 0;
+      if (frames.length === 1) return 0;
+      const targetSec = progress * studySec;
+      let idx = 0;
+      for (let i = 0; i < frames.length; i++) {
+        const at = frames[i].globalAtSec != null
+          ? frames[i].globalAtSec
+          : (i / (frames.length - 1)) * studySec;
+        if (at <= targetSec + 0.01) idx = i;
+      }
+      return idx;
+    }
+
+    function finishVlogPlayback(studySec) {
+      if (state.vlogRafId) {
+        cancelAnimationFrame(state.vlogRafId);
+        state.vlogRafId = null;
+      }
+      if (state.vlogEndTimer) {
+        clearTimeout(state.vlogEndTimer);
+        state.vlogEndTimer = null;
+      }
+      if (state.vlogPlayTimer) {
+        clearInterval(state.vlogPlayTimer);
+        state.vlogPlayTimer = null;
+      }
+      if (state.vlogSlideshowTimer) {
+        clearInterval(state.vlogSlideshowTimer);
+        state.vlogSlideshowTimer = null;
+      }
+      state.vlogPlayContext = null;
+      if (vlogPreview) {
+        vlogPreview.pause();
+        vlogPreview.removeAttribute("src");
+        vlogPreview.load();
+      }
+      stopVlogBgm();
+      updateVlogClock(studySec, studySec);
+      updateStudyTimerHud(studySec);
+      setVlogTimerHudVisible(false);
+      if (camStatus) camStatus.textContent = "Vlog再生が完了しました";
+    }
+
+    function runVlogTimelinePlayback(studySec, targetSec, frames, label) {
+      const list = (frames || []).filter((f) => f && f.image);
+      if (!list.length) {
+        if (camStatus) camStatus.textContent = "Vlog素材がありません";
+        return false;
+      }
+      if (studySec < 3) {
+        if (camStatus) camStatus.textContent = "勉強時間が短すぎます（3秒以上）";
+        return false;
+      }
+
+      stopVlogPlayback();
+      const speed = studySec / targetSec;
+      const bgmTrack = getSelectedVlogBgmTrack();
+      const bgmNote = bgmTrack ? " · BGM: " + bgmTrack.label : " · BGMオフ";
+      const labelNote = label ? " · " + label : "";
+      if (vlogSpeedInfo) {
+        vlogSpeedInfo.textContent =
+          "倍速 " + speed.toFixed(1) + "x（勉強 " + fmt(studySec) + " → Vlog " + targetSec + "秒）" + bgmNote + labelNote;
+      }
+
+      state.vlogPlayContext = {
+        studySec,
+        targetSec,
+        startedAt: performance.now(),
+        label: label || "",
+        frames: list
+      };
+
+      vlogPreview.style.display = "block";
+      vlogPreview.removeAttribute("src");
+      vlogPreview.pause();
+      vlogPreview.poster = list[0].image;
+      setVlogTimerHudVisible(true);
+      updateVlogClock(0, studySec);
+      updateStudyTimerHud(0);
+      startVlogBgm(targetSec);
+      if (camStatus) camStatus.textContent = (label || "Vlog") + "を倍速再生中…";
+
+      const tick = (now) => {
+        const ctx = state.vlogPlayContext;
+        if (!ctx) return;
+        const elapsed = now - ctx.startedAt;
+        const progress = Math.min(1, elapsed / (ctx.targetSec * 1000));
+        const currentStudySec = Math.min(ctx.studySec, Math.round(progress * ctx.studySec));
+        const frameIdx = frameIndexForStudySec(ctx.frames, ctx.studySec, progress);
+        const img = ctx.frames[frameIdx].image;
+        if (vlogPreview.poster !== img) vlogPreview.poster = img;
+        updateVlogClock(currentStudySec, ctx.studySec);
+        updateStudyTimerHud(currentStudySec);
+        if (progress >= 1) {
+          finishVlogPlayback(ctx.studySec);
+          return;
+        }
+        state.vlogRafId = requestAnimationFrame(tick);
+      };
+
+      state.vlogEndTimer = setTimeout(() => {
+        if (state.vlogPlayContext) finishVlogPlayback(state.vlogPlayContext.studySec);
+      }, targetSec * 1000 + 80);
+      state.vlogRafId = requestAnimationFrame(tick);
+      return true;
+    }
+
+    function getExportMimeType() {
+      const types = ["video/mp4", "video/webm;codecs=vp8", "video/webm"];
+      if (!window.MediaRecorder) return "";
+      for (let i = 0; i < types.length; i++) {
+        if (MediaRecorder.isTypeSupported(types[i])) return types[i];
+      }
+      return "";
+    }
+
+    function exportFileExt(mime) {
+      return mime && mime.indexOf("mp4") >= 0 ? "mp4" : "webm";
+    }
+
+    async function saveBlobToDevice(blob, filename) {
+      const type = blob.type || "application/octet-stream";
+      const file = new File([blob], filename, { type });
+      if (navigator.share) {
+        try {
+          if (!navigator.canShare || navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file], title: "Mustudy" });
+            return "share";
+          }
+        } catch (e) {
+          if (e && e.name === "AbortError") return "cancel";
+        }
+      }
+      downloadBlob(blob, filename);
+      return "download";
+    }
+
+    function dataUrlToBlob(dataUrl) {
+      const parts = dataUrl.split(",");
+      const mime = (parts[0].match(/data:([^;]+)/) || [])[1] || "image/jpeg";
+      const bin = atob(parts[1]);
+      const arr = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      return new Blob([arr], { type: mime });
+    }
+
+    async function saveStudyShotsToPhotos() {
+      const shots = state.shots.filter((s) => s.image);
+      if (!shots.length) {
+        if (camStatus) camStatus.textContent = "保存するスナップショットがありません。先に勉強セッションを完了してください。";
+        return;
+      }
+      if (camStatus) camStatus.textContent = "写真アプリに保存（共有）を開いています…";
+      if (saveStudyPhotosBtn) saveStudyPhotosBtn.disabled = true;
+      try {
+        const date = new Date().toISOString().slice(0, 10);
+        const files = shots.map((s, i) => {
+          const blob = dataUrlToBlob(s.image);
+          return new File([blob], "mustudy-shot-" + date + "-" + (i + 1) + ".jpg", { type: blob.type });
+        });
+        if (navigator.share && (!navigator.canShare || navigator.canShare({ files }))) {
+          await navigator.share({ files, title: "Mustudy スナップショット" });
+          if (camStatus) camStatus.textContent = "共有シートから「写真に保存」を選んでください";
+          return;
+        }
+        for (let i = 0; i < files.length; i++) {
+          await saveBlobToDevice(files[i], files[i].name);
+        }
+        if (camStatus) camStatus.textContent = "スナップショットを保存しました";
+      } catch (e) {
+        if (camStatus) camStatus.textContent = "写真への保存に失敗しました";
+      } finally {
+        if (saveStudyPhotosBtn) saveStudyPhotosBtn.disabled = false;
+      }
+    }
+
+    function updateCamConfirmUI() {
+      if (!camConfirmFacing) return;
+      const isUser = state.facingMode === "user";
+      camConfirmFacing.textContent = isUser ? "内カメ（顔・上半身）" : "外カメ（手元・机）";
+      if (camConfirmHint) {
+        camConfirmHint.textContent = isUser
+          ? "内カメで勉強を記録します。手元を映す場合は切り替えてください。"
+          : "外カメで手元・机を映します。顔出しの場合は内カメに切り替えてください。";
+      }
+    }
+
+    function hideCamConfirmOverlay() {
+      if (!camConfirmOverlay) return;
+      camConfirmOverlay.classList.remove("show");
+      camConfirmOverlay.setAttribute("aria-hidden", "true");
+    }
+
+    function showCamConfirmThenStart() {
+      if (!camConfirmOverlay) {
+        runCountdownThen(() => startSession());
+        return;
+      }
+      updateCamConfirmUI();
+      showCamLive();
+      applyCamTransform();
+      camConfirmOverlay.classList.add("show");
+      camConfirmOverlay.setAttribute("aria-hidden", "false");
+    }
+
+    function stabilizeSessionCameraLayout() {
+      applyCamTransform();
+      requestAnimationFrame(() => {
+        applyCamTransform();
+        if (cam && camWrap) void cam.offsetHeight;
+      });
     }
 
     async function exportWatermarkedVlog() {
-      const targetSec = Math.max(15, parseInt((vlogLength && vlogLength.value) || "30", 10));
-      const studySec = state.lastSessionSec || state.elapsed;
+      const targetSec = getVlogTargetSec();
+      const studySec = getStudyDurationSec();
       const frames = state.shots.length ? state.shots : [];
       if (!frames.length && !state.recordedBlob) {
         if (camStatus) camStatus.textContent = "保存するVlog素材がありません";
@@ -4745,19 +5152,30 @@
       canvas.width = w;
       canvas.height = h;
       const ctx = canvas.getContext("2d");
-      const mime = MediaRecorder.isTypeSupported("video/webm;codecs=vp8")
-        ? "video/webm;codecs=vp8"
-        : "video/webm";
+      const mime = getExportMimeType();
+      if (!mime) {
+        if (camStatus) camStatus.textContent = "この端末では動画エクスポートに対応していません";
+        return null;
+      }
       const videoStream = canvas.captureStream(24);
       const exportMs = targetSec * 1000;
-      const { stream, cleanup } = await attachBgmToCanvasStream(videoStream, exportMs);
+      let stream = videoStream;
+      let cleanup = () => {};
+      try {
+        const bgmAttach = await attachBgmToCanvasStream(videoStream, exportMs);
+        stream = bgmAttach.stream;
+        cleanup = bgmAttach.cleanup;
+      } catch (_) {}
       const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 2500000 });
       const chunks = [];
       rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
-      const done = new Promise((resolve) => { rec.onstop = () => resolve(new Blob(chunks, { type: mime })); });
-      rec.start();
+      const done = new Promise((resolve) => {
+        rec.onstop = () => resolve(new Blob(chunks, { type: mime }));
+      });
+      rec.start(200);
       const list = frames.length ? frames : [{ image: null }];
-      const steps = Math.max(list.length, Math.ceil(targetSec * 24 / 6));
+      const steps = Math.max(list.length * 2, Math.ceil(targetSec * 24 / 4));
+      const frameMs = Math.max(50, Math.floor((targetSec * 1000) / steps));
       for (let i = 0; i < steps; i++) {
         const frame = list[i % list.length];
         ctx.fillStyle = "#e8ecf1";
@@ -4768,19 +5186,30 @@
             drawCoverImage(ctx, img, w, h);
           } catch (_) {}
         }
-        const currentSec = Math.min(studySec, Math.floor((i / steps) * studySec));
+        const progress = steps <= 1 ? 1 : i / (steps - 1);
+        const currentSec = Math.min(studySec, Math.round(progress * studySec));
         drawStudyTimeCanvas(ctx, w, currentSec);
         drawMustudyWatermarkCanvas(ctx, w, h);
-        await sleep(Math.max(40, Math.floor((targetSec * 1000) / steps)));
+        await sleep(frameMs);
       }
-      rec.stop();
-      const blob = await done;
+      await sleep(400);
+      try {
+        rec.stop();
+      } catch (_) {}
+      const blob = await Promise.race([
+        done,
+        sleep(exportMs + 3000).then(() => null)
+      ]);
       cleanup();
+      if (!blob || !blob.size) {
+        if (camStatus) camStatus.textContent = "動画の生成に失敗しました。スナップショット保存をお試しください";
+        return null;
+      }
       return blob;
     }
 
     async function saveVlogVideo() {
-      const studySec = state.lastSessionSec || state.elapsed;
+      const studySec = getStudyDurationSec();
       if (!studySec || studySec < 3) {
         if (camStatus) camStatus.textContent = "先に勉強記録を完了してください";
         return;
@@ -4792,9 +5221,17 @@
         const blob = await exportWatermarkedVlog();
         if (!blob) return;
         const date = new Date().toISOString().slice(0, 10);
-        downloadBlob(blob, "mustudy-vlog-" + date + ".webm");
-        if (camStatus) camStatus.textContent = "Vlog動画を保存しました";
+        const ext = exportFileExt(blob.type);
+        const how = await saveBlobToDevice(blob, "mustudy-vlog-" + date + "." + ext);
+        if (camStatus) {
+          camStatus.textContent = how === "share"
+            ? "共有シートが開きました — 「写真に保存」を選んでください"
+            : how === "cancel"
+              ? "保存をキャンセルしました"
+              : "Vlog動画を保存しました";
+        }
       } catch (e) {
+        console.error("Mustudy saveVlogVideo:", e);
         if (camStatus) camStatus.textContent = "Vlog動画の保存に失敗しました";
       } finally {
         if (saveVlogVideoBtn) saveVlogVideoBtn.disabled = false;
@@ -5053,7 +5490,7 @@
 
     function updateCreateVlogBtn() {
       if (!createVlogBtn) return;
-      const sec = state.lastSessionSec || state.elapsed;
+      const sec = getStudyDurationSec();
       const ready = sec >= 3 && (state.shots.length > 0 || state.recordedBlob);
       createVlogBtn.disabled = !ready;
     }
@@ -5119,7 +5556,7 @@
     }
 
     async function autoCreateVlog() {
-      const studySec = state.lastSessionSec || state.elapsed;
+      const studySec = getStudyDurationSec();
       if (!studySec || studySec < 3) {
         if (camStatus) camStatus.textContent = "先に勉強セッションを開始・記録してください";
         return;
@@ -5530,7 +5967,7 @@
     }
 
     function persistSession() {
-      const sec = state.lastSessionSec || state.elapsed;
+      const sec = getStudyDurationSec();
       if (!sec || sec < 3) return;
       const entry = {
         id: String(Date.now()),
@@ -5818,21 +6255,11 @@
     async function playVlogForDay(dayKey) {
       const sessions = getSessionsForDay(dayKey);
       if (!sessions.length) return;
-      const totalSec = sessions.reduce((sum, s) => sum + (s.durationSec || 0), 0);
-      let frames = [];
-      sessions.forEach((s) => {
-        if (s.shotsPreview && s.shotsPreview.length) {
-          frames = frames.concat(s.shotsPreview);
-        }
-      });
-      if (!frames.length) {
-        frames = [{ image: generatePlaceholderFrame(formatDayLabel(dayKey), totalSec), atSec: 0, label: "day" }];
-      }
-      state.shots = frames;
-      state.lastSessionSec = totalSec;
+      const label = formatDayLabel(dayKey) + "のまとめ";
+      const bundle = buildVlogBundleFromSessions(sessions, label);
+      prepareVlogBundle(bundle);
       closeDayDetail();
       if (vlogTools) vlogTools.classList.add("show");
-      updateVlogClock(0, totalSec);
       await playVlog();
     }
 
@@ -5897,8 +6324,7 @@
           state.selectedRecordId = el.dataset.id;
           const rec = loadSessions().find((r) => r.id === state.selectedRecordId);
           if (rec) {
-            state.lastSessionSec = rec.durationSec;
-            updateVlogClock(0, rec.durationSec);
+            loadSessionIntoVlogState(rec);
             openDayDetail(dateKeyFromIso(rec.createdAt));
           }
           renderRecordDayGroups();
@@ -6108,10 +6534,10 @@
     function getRecorderMimeType() {
       if (!window.MediaRecorder) return "";
       const types = [
+        "video/mp4",
         "video/webm;codecs=vp9",
         "video/webm;codecs=vp8",
-        "video/webm",
-        "video/mp4"
+        "video/webm"
       ];
       for (let i = 0; i < types.length; i++) {
         if (MediaRecorder.isTypeSupported(types[i])) return types[i];
@@ -6139,12 +6565,34 @@
     }
 
     function stopRecorder() {
-      if (state.recorder && state.recorder.state !== "inactive") {
-        state.recorder.stop();
-      }
+      return new Promise((resolve) => {
+        if (!state.recorder || state.recorder.state === "inactive") {
+          resolve();
+          return;
+        }
+        const prevOnStop = state.recorder.onstop;
+        state.recorder.onstop = (e) => {
+          if (prevOnStop) prevOnStop(e);
+          resolve();
+        };
+        try {
+          state.recorder.stop();
+        } catch (_) {
+          resolve();
+        }
+        setTimeout(resolve, 2500);
+      });
     }
 
     function stopVlogPlayback() {
+      if (state.vlogRafId) {
+        cancelAnimationFrame(state.vlogRafId);
+        state.vlogRafId = null;
+      }
+      if (state.vlogEndTimer) {
+        clearTimeout(state.vlogEndTimer);
+        state.vlogEndTimer = null;
+      }
       if (state.vlogPlayTimer) {
         clearInterval(state.vlogPlayTimer);
         state.vlogPlayTimer = null;
@@ -6153,6 +6601,7 @@
         clearInterval(state.vlogSlideshowTimer);
         state.vlogSlideshowTimer = null;
       }
+      state.vlogPlayContext = null;
       if (vlogPreview) {
         vlogPreview.pause();
         vlogPreview.removeAttribute("src");
@@ -6169,115 +6618,97 @@
 
     function playVlogSlideshow(targetSec, studySec) {
       const frames = state.shots.length ? state.shots : [];
-      if (frames.length < 2) {
-        camStatus.textContent = "Vlog素材が不足しています。Vlogモードで再度セッションしてください。";
-        return;
-      }
-      const interval = Math.max(80, Math.floor((targetSec * 1000) / frames.length));
-      let idx = 0;
-      stopVlogPlayback();
-      vlogPreview.style.display = "block";
-      vlogPreview.poster = frames[0].image;
-      setVlogTimerHudVisible(true);
-      updateStudyTimerHud(0);
-      updateVlogClock(0, studySec);
-      const speed = (studySec / targetSec).toFixed(1);
-      const slideBgm = getSelectedVlogBgmTrack();
-      const bgmNote = slideBgm ? " · BGM: " + slideBgm.label : " · BGMオフ";
-      if (vlogSpeedInfo) vlogSpeedInfo.textContent = "倍速約 " + speed + "x（" + targetSec + "秒Vlog）" + bgmNote;
-      startVlogBgm(targetSec);
-
-      state.vlogSlideshowTimer = setInterval(() => {
-        const frame = frames[idx % frames.length];
-        vlogPreview.poster = frame.image;
-        const currentStudySec = Math.min(studySec, Math.floor((idx / frames.length) * studySec));
-        updateVlogClock(currentStudySec, studySec);
-        updateStudyTimerHud(currentStudySec);
-        idx += 1;
-        if (idx >= frames.length) {
-          clearInterval(state.vlogSlideshowTimer);
-          state.vlogSlideshowTimer = null;
-          stopVlogBgm();
-          updateVlogClock(studySec, studySec);
-          updateStudyTimerHud(studySec);
-          setVlogTimerHudVisible(false);
-          camStatus.textContent = "Vlog再生が完了しました";
-        }
-      }, interval);
-      camStatus.textContent = "Vlogを倍速再生中（スライドショー）";
+      const label = state.vlogPlaybackLabel || "";
+      runVlogTimelinePlayback(studySec, targetSec, frames, label);
     }
 
     async function playVlog() {
-      const targetSec = Math.max(15, parseInt((vlogLength && vlogLength.value) || "30", 10));
-      const studySec = state.lastSessionSec || state.elapsed;
-      if (!studySec || studySec < 5) {
-        camStatus.textContent = "先に勉強セッションを終了してください";
+      const targetSec = getVlogTargetSec();
+      const studySec = getStudyDurationSec();
+      if (!studySec || studySec < 3) {
+        if (camStatus) camStatus.textContent = "先に勉強セッションを終了するか、記録を選んでください";
         return;
       }
-
-      stopVlogPlayback();
-      const speed = studySec / targetSec;
-      const bgmTrack = getSelectedVlogBgmTrack();
-      const bgmNote = bgmTrack ? " · BGM: " + bgmTrack.label : " · BGMオフ";
-      if (vlogSpeedInfo) {
-        vlogSpeedInfo.textContent =
-          "倍速約 " + speed.toFixed(1) + "x（勉強" + fmt(studySec) + " → Vlog" + targetSec + "秒）" + bgmNote;
-      }
-
-      if (state.recordedBlob) {
-        const url = URL.createObjectURL(state.recordedBlob);
-        vlogPreview.src = url;
-        vlogPreview.currentTime = 0;
-        const maxRate = 16;
-        const rate = Math.min(maxRate, speed);
-        vlogPreview.playbackRate = rate;
-
-        setVlogTimerHudVisible(true);
-        updateStudyTimerHud(0);
-
-        vlogPreview.onended = () => {
-          stopVlogPlayback();
-          URL.revokeObjectURL(url);
-          updateVlogClock(studySec, studySec);
-          setVlogTimerHudVisible(false);
-          camStatus.textContent = "Vlog再生が完了しました";
-        };
-
-        try {
-          await vlogPreview.play();
-        } catch (_) {
-          playVlogSlideshow(targetSec, studySec);
-          return;
-        }
-
-        const playSec = speed > maxRate ? studySec / maxRate : targetSec;
-        startVlogBgm(playSec);
-
-        if (speed > maxRate) {
-          const realPlaySec = studySec / maxRate;
-          vlogPreview.onended = null;
-          setTimeout(() => {
-            vlogPreview.pause();
-            URL.revokeObjectURL(url);
-            if (state.shots.length >= 2) playVlogSlideshow(targetSec, studySec);
-            else {
-              stopVlogBgm();
-              updateVlogClock(studySec, studySec);
-              camStatus.textContent = "Vlog再生が完了しました";
-            }
-          }, realPlaySec * 1000);
-        }
-
-        state.vlogPlayTimer = setInterval(() => {
-          const currentStudySec = Math.min(studySec, Math.floor(vlogPreview.currentTime * rate));
-          updateVlogClock(currentStudySec, studySec);
-          updateStudyTimerHud(currentStudySec);
-        }, 200);
-        camStatus.textContent = "勉強時間を倍速再生中";
+      const frames = state.shots.filter((f) => f && f.image);
+      if (!frames.length) {
+        if (camStatus) camStatus.textContent = "Vlog素材がありません。記録タブでまとめVlogを試してください";
         return;
       }
+      runVlogTimelinePlayback(studySec, targetSec, frames, state.vlogPlaybackLabel || "");
+    }
 
-      playVlogSlideshow(targetSec, studySec);
+    async function playVlogForPeriod(period) {
+      const now = new Date();
+      let sessions = [];
+      let label = "";
+      let emptyMsg = "記録がありません";
+      if (period === "today") {
+        const start = new Date(now);
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(now);
+        end.setHours(23, 59, 59, 999);
+        sessions = getSessionsInRange(start, end);
+        label = "今日のまとめ";
+        emptyMsg = "今日の記録がありません";
+      } else if (period === "week") {
+        const w = getWeekRange();
+        sessions = getSessionsInRange(w.mon, w.sun);
+        label = "今週のまとめ";
+        emptyMsg = "今週の記録がありません";
+      } else if (period === "month") {
+        const m = getMonthRange(now.getFullYear(), now.getMonth());
+        sessions = getSessionsInRange(m.start, m.end);
+        label = "今月のまとめ";
+        emptyMsg = "今月の記録がありません";
+      }
+      if (!sessions.length) {
+        if (camStatus) camStatus.textContent = emptyMsg;
+        return;
+      }
+      const totalLabel = formatStudyMinutes(sessions.reduce((s, x) => s + (x.durationSec || 0), 0));
+      if (period === "week" || period === "month") {
+        label += "（" + totalLabel + "）";
+      }
+      const bundle = buildVlogBundleFromSessions(sessions, label);
+      if (bundle.totalSec < 3) {
+        if (camStatus) camStatus.textContent = "合計勉強時間が短すぎます";
+        return;
+      }
+      prepareVlogBundle(bundle);
+      closeDayDetail();
+      if (vlogTools) vlogTools.classList.add("show");
+      if (!document.body.classList.contains("appOpen")) {
+        document.body.classList.add("appOpen");
+      }
+      document.querySelectorAll(".tabBtn").forEach((b) => {
+        b.classList.toggle("on", b.dataset.appAction === "record");
+      });
+      switchAppScreen("record");
+      await playVlog();
+    }
+
+    function loadSessionIntoVlogState(rec) {
+      if (!rec) return;
+      state.selectedRecordId = rec.id;
+      state.vlogPlaybackStudySec = rec.durationSec || 0;
+      state.lastSessionSec = rec.durationSec || 0;
+      state.vlogPlaybackLabel = rec.subject || "";
+      state.recordedBlob = null;
+      state.shots = (rec.shotsPreview || []).map((s) => ({
+        image: s.image,
+        atSec: s.atSec || 0,
+        label: s.label || rec.subject,
+        globalAtSec: s.atSec || 0
+      }));
+      if (!state.shots.length && rec.durationSec >= 3) {
+        state.shots = [{
+          image: generatePlaceholderFrame(rec.subject, rec.durationSec),
+          atSec: 0,
+          globalAtSec: 0,
+          label: "session"
+        }];
+      }
+      updateVlogClock(0, state.vlogPlaybackStudySec);
     }
 
     async function startSession() {
@@ -6306,6 +6737,7 @@
       setStudyTimerHudVisible(true);
       updateStudyTimerHud(0);
       enableForcedLock();
+      stabilizeSessionCameraLayout();
       state.timerId = setInterval(() => {
         state.elapsed += 1;
         updateStudyTimerHud(state.elapsed);
@@ -6332,7 +6764,7 @@
       updateQuickStartBtn();
     }
 
-    function stopSession(forceEnd) {
+    async function stopSession(forceEnd) {
       if (!forceEnd && !canStopSessionNow()) {
         if (camStatus) {
           camStatus.textContent = "強制モード：残り " + fmt(getForcedTargetSec() - state.elapsed) + " はカメラを閉じられません";
@@ -6344,7 +6776,9 @@
         state.timerId = null;
       }
       state.lastSessionSec = state.elapsed;
-      stopRecorder();
+      state.vlogPlaybackStudySec = state.elapsed;
+      state.vlogPlaybackLabel = (subjectInput && subjectInput.value) || "直近セッション";
+      await stopRecorder();
       snapshot("end");
       disableStudyLock();
       disableForcedLock();
@@ -6404,9 +6838,9 @@
         mode: state.mode,
         subject: subjectInput.value || "",
         goal: goalInput.value || "",
-        durationSec: state.lastSessionSec || state.elapsed,
+        durationSec: getStudyDurationSec(),
         vlogLengthSec: parseInt((vlogLength && vlogLength.value) || "30", 10),
-        speedMultiplier: (state.lastSessionSec || state.elapsed) / parseInt((vlogLength && vlogLength.value) || "30", 10),
+        speedMultiplier: getStudyDurationSec() / parseInt((vlogLength && vlogLength.value) || "30", 10),
         vlogBgmOn: isVlogBgmEnabled(),
         vlogBgmTrack: getSelectedVlogBgmTrack() ? getSelectedVlogBgmTrack().id : null,
         vlogBgmVolume: getVlogBgmVolume(),
@@ -6813,11 +7247,51 @@
     const playVlogEl = document.getElementById("playVlog");
     const stopVlogPlayEl = document.getElementById("stopVlogPlay");
     const saveVlogEl = document.getElementById("saveVlog");
-    if (startSessionEl) startSessionEl.addEventListener("click", () => startSession());
+    if (startSessionEl) {
+      startSessionEl.addEventListener("click", async () => {
+        if (state.timerId) return;
+        syncCamStateFromElement();
+        if (!isCameraReady()) {
+          setCamStatus("カメラを起動しています…");
+          await startCam();
+          await waitForCameraReady(4000);
+          if (!isCameraReady()) {
+            setCamStatus("先にカメラを起動して映像を表示してください");
+            return;
+          }
+        }
+        showCamConfirmThenStart();
+      });
+    }
     if (stopSessionEl) stopSessionEl.addEventListener("click", stopSession);
     if (makeAIEl) makeAIEl.addEventListener("click", buildAiComment);
     if (saveVlogEl) saveVlogEl.addEventListener("click", saveVlogJson);
     if (saveVlogVideoBtn) saveVlogVideoBtn.addEventListener("click", saveVlogVideo);
+    if (saveStudyPhotosBtn) saveStudyPhotosBtn.addEventListener("click", saveStudyShotsToPhotos);
+    if (camConfirmStart) {
+      camConfirmStart.addEventListener("click", () => {
+        hideCamConfirmOverlay();
+        setCamStatus("カウントダウン…");
+        runCountdownThen(() => startSession());
+      });
+    }
+    if (camConfirmCancel) {
+      camConfirmCancel.addEventListener("click", () => {
+        hideCamConfirmOverlay();
+        setCamStatus("スタートをキャンセルしました");
+      });
+    }
+    if (camConfirmFlip) {
+      camConfirmFlip.addEventListener("click", async () => {
+        setCamStatus("カメラを切り替えています…");
+        toggleFacing();
+        await waitForCameraReady(5000);
+        updateCamConfirmUI();
+        showCamLive();
+        applyCamTransform();
+        setCamStatus("切り替えました — 映像を確認してスタート");
+      });
+    }
     document.querySelectorAll(".wakeModeBtn").forEach((btn) => {
       btn.addEventListener("click", () => setWakeMode(btn.dataset.wake));
     });
@@ -6847,6 +7321,9 @@
     }
     if (vlogBgmPreviewBtn) vlogBgmPreviewBtn.addEventListener("click", previewVlogBgm);
     if (playVlogEl) playVlogEl.addEventListener("click", playVlog);
+    document.querySelectorAll(".vlogPeriodBtn").forEach((btn) => {
+      btn.addEventListener("click", () => playVlogForPeriod(btn.dataset.vlogPeriod));
+    });
     if (stopVlogPlayEl) stopVlogPlayEl.addEventListener("click", stopVlogPlayback);
     if (savePlanBtn) savePlanBtn.addEventListener("click", savePlan);
     const openAppBtn = document.getElementById("openAppBtn");
