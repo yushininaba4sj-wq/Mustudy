@@ -3772,16 +3772,18 @@
       const next = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, r));
       const prev = state.camZoom;
       state.camZoom = next;
-      const wantUltra = next < 0.75;
+      const wantUltra = next < 0.75 && state.facingMode !== "user";
       const hadUltra = prev < 0.75;
+      state.wantUltraWide = wantUltra;
       if (state.cameraLive && wantUltra !== hadUltra) {
-        state.wantUltraWide = wantUltra;
         startCam();
         return;
       }
-      state.wantUltraWide = wantUltra;
       applyCamTransform();
       updateZoomUI();
+      if (camStatus && wantUltra && !state.zoomCaps.hasZoom) {
+        camStatus.textContent = "0.5× — 超広角レンズに切り替え中";
+      }
     }
 
     function updateZoomUI() {
@@ -4306,7 +4308,7 @@
 
     function setMode(mode) {
       state.mode = mode;
-      kMode.textContent = mode === "vlog" ? "Vlog" : "カメラ";
+      if (kMode) kMode.textContent = mode === "vlog" ? "Vlog" : "カメラ";
       document.querySelectorAll(".modeBtn").forEach(btn => {
         btn.classList.toggle("on", btn.dataset.mode === mode);
       });
@@ -4332,16 +4334,8 @@
       return true;
     }
 
-    function applyCamTransform() {
+    function resetCamVideoStyles() {
       if (!cam || !camVideoLayer) return;
-      const preset = getLayoutPreset(state.camLayout, state.facingMode);
-      const displayZ = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, state.camZoom));
-      const cssScale = getCssZoomScale(displayZ);
-      const panLimit = getPanLimitScale(displayZ, cssScale);
-      const clamped = clampCamPan(state.camPanX, state.camPanY, panLimit);
-      state.camPanX = clamped.x;
-      state.camPanY = clamped.y;
-
       camVideoLayer.style.left = "0";
       camVideoLayer.style.top = "0";
       camVideoLayer.style.width = "100%";
@@ -4357,9 +4351,29 @@
       cam.style.marginLeft = "";
       cam.style.marginTop = "";
       cam.style.transform = "";
+      cam.style.zoom = "";
+    }
+
+    function applyCamTransform() {
+      if (!cam || !camVideoLayer) return;
+      const preset = getLayoutPreset(state.camLayout, state.facingMode);
+      const displayZ = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, state.camZoom));
+      const hwUltra = state.zoomCaps.hasZoom && state.zoomCaps.min < 1;
+      const cssScale = getCssZoomScale(displayZ);
+      const panLimit = getPanLimitScale(displayZ, cssScale);
+      const clamped = clampCamPan(state.camPanX, state.camPanY, panLimit);
+      state.camPanX = clamped.x;
+      state.camPanY = clamped.y;
+      resetCamVideoStyles();
       cam.style.objectPosition = preset.posX + "% " + preset.posY + "%";
-      camVideoLayer.style.transform =
-        "translate(" + clamped.x + "px," + clamped.y + "px) scale(" + cssScale + ")";
+
+      if (displayZ < 0.99 && !hwUltra && !state.wantUltraWide) {
+        cam.style.zoom = String(displayZ);
+        camVideoLayer.style.transform = "translate(" + clamped.x + "px," + clamped.y + "px)";
+      } else {
+        camVideoLayer.style.transform =
+          "translate(" + clamped.x + "px," + clamped.y + "px) scale(" + cssScale + ")";
+      }
 
       syncCamWrapClasses();
       updateZoomUI();
@@ -4425,8 +4439,11 @@
       camViewport.addEventListener("pointerdown", (e) => {
         if (!state.cameraLive) return;
         if (e.pointerType === "mouse" && e.button !== 0) return;
-        if (e.target.closest(".camLaunchBtn, .camOverlayBtn, .camFsBtn, .zoomDock, button")) return;
-        camViewport.setPointerCapture(e.pointerId);
+        if (e.target.closest("button, .camOverlayBtn, .camFsBtn, .zoomDock, .zoomLevelBtn, .zoomSliderTrack")) return;
+        if (e.target !== cam && !e.target.closest(".camVideoLayer")) return;
+        try {
+          camViewport.setPointerCapture(e.pointerId);
+        } catch (_) {}
         onStart(e.clientX, e.clientY);
       });
       camViewport.addEventListener("pointermove", (e) => {
@@ -5513,7 +5530,7 @@
         label,
         image: cvs.toDataURL("image/jpeg", 0.72)
       });
-      kShots.textContent = String(state.shots.length) + "件";
+      if (kShots) kShots.textContent = String(state.shots.length) + "件";
       updateCreateVlogBtn();
     }
 
@@ -5691,8 +5708,8 @@
       state.pomodoroDone = false;
       state.streakAtRisk = false;
       state.shots = [];
-      kFocus.textContent = "0回";
-      kShots.textContent = "0件";
+      if (kFocus) kFocus.textContent = "0回";
+      if (kShots) kShots.textContent = "0件";
       startRecorder();
       snapshot("start");
       setStudyTimerHudVisible(true);
@@ -5860,6 +5877,77 @@
       }
     }
 
+    function bindAppUi() {
+      resetAppUiState();
+
+      const tabbar = document.querySelector(".mobileTabbar");
+      if (tabbar && !tabbar.dataset.bound) {
+        tabbar.dataset.bound = "1";
+        tabbar.addEventListener("click", (e) => {
+          const btn = e.target.closest(".tabBtn");
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          handleTabAction(btn);
+        });
+      }
+
+      if (camWrap && !camWrap.dataset.uiBound) {
+        camWrap.dataset.uiBound = "1";
+        camWrap.addEventListener("click", (e) => {
+          const zbtn = e.target.closest(".zoomLevelBtn");
+          if (zbtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            zoomToRatio(parseFloat(zbtn.dataset.zoom));
+            return;
+          }
+          if (e.target.closest("#camFsOverlayBtn")) {
+            e.stopPropagation();
+            toggleCamFullscreen();
+            return;
+          }
+          if (e.target.closest("#camFlipOverlayBtn")) {
+            e.stopPropagation();
+            toggleFacing();
+            return;
+          }
+          if (e.target.closest("#camOrientOverlayBtn")) {
+            e.stopPropagation();
+            toggleCamOrientation();
+            return;
+          }
+          if (!state.cameraLive && !e.target.closest(".camLaunchBtn")) {
+            startCam();
+          }
+        });
+      }
+    }
+
+    function handleTabAction(btn) {
+      document.querySelectorAll(".tabBtn").forEach((b) => b.classList.remove("on"));
+      btn.classList.add("on");
+      const action = btn.dataset.appAction;
+      if (!document.body.classList.contains("appOpen")) {
+        openAppView();
+      }
+      if (!action) return;
+      if (isAppNavigationLocked() && action !== "camera") {
+        showAppLockOverlay();
+        return;
+      }
+      switchAppScreen(action);
+      if (action === "camera") {
+        setMode("study");
+      } else if (action === "record") {
+        if (loadSessions().length && vlogTools) vlogTools.classList.add("show");
+      } else if (action === "feedback") {
+        buildAiComment();
+      } else if (action === "plan" && alarmTimeInput) {
+        alarmTimeInput.focus();
+      }
+    }
+
     document.querySelectorAll(".modeBtn").forEach(btn => {
       btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
@@ -5873,13 +5961,6 @@
     if (camLaunch) {
       camLaunch.addEventListener("click", (e) => {
         e.stopPropagation();
-        startCam();
-      });
-    }
-    if (camWrap) {
-      camWrap.addEventListener("click", (e) => {
-        if (state.cameraLive) return;
-        if (e.target.closest(".camLaunchBtn")) return;
         startCam();
       });
     }
@@ -6122,8 +6203,9 @@
       return isMobile;
     }
 
+    bindAppUi();
+
     if (shouldAutoOpenApp()) {
-      // Wait one frame so layout is ready before smooth scrolling.
       requestAnimationFrame(() => openAppView());
     }
     restorePlan();
@@ -6144,37 +6226,6 @@
       }
     } catch (_) {}
 
-    document.querySelectorAll(".tabBtn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        document.querySelectorAll(".tabBtn").forEach(b => b.classList.remove("on"));
-        btn.classList.add("on");
-        const isApp = document.body.classList.contains("appOpen");
-        const action = btn.dataset.appAction;
-        if (isApp && action) {
-          if (isAppNavigationLocked() && action !== "camera") {
-            showAppLockOverlay();
-            return;
-          }
-          switchAppScreen(action);
-          if (action === "camera") {
-            setMode("study");
-          } else if (action === "record") {
-            if (loadSessions().length && vlogTools) vlogTools.classList.add("show");
-          } else if (action === "feedback") {
-            buildAiComment();
-          } else if (action === "plan" && alarmTimeInput) {
-            alarmTimeInput.focus();
-          }
-          return;
-        }
-        if (!isApp) openAppView();
-        if (action) switchAppScreen(action);
-        const el = document.querySelector(btn.dataset.target);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
 
     document.addEventListener("visibilitychange", () => {
       if (!state.timerId) return;
