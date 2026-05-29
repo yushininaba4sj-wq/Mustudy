@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="mustudy-build" content="2026-05-29-camfix9">
+  <meta name="mustudy-build" content="2026-05-29-camfix10">
   <title>Mustudy | 今日の努力が、一生の思い出になる。</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,8 +31,15 @@
       --app-brand-dim: #2563eb;
       --app-brand-soft: rgba(59, 130, 246, 0.14);
       --app-mint: #0d9488;
-      --app-mint-soft: rgba(13, 148, 136, 0.1);
+      --app-mint-soft: rgba(13, 148, 136, 0.12);
       --app-warm: #d97706;
+      --app-warm-soft: rgba(217, 119, 6, 0.12);
+      --app-violet: #7c3aed;
+      --app-violet-soft: rgba(124, 58, 237, 0.12);
+      --app-rose: #e11d48;
+      --app-rose-soft: rgba(225, 29, 72, 0.1);
+      --app-sky: #0284c7;
+      --app-sky-soft: rgba(2, 132, 199, 0.12);
       --tab-inactive: #94a3b8;
       --tab-active: #3b82f6;
       --radius-sm: 10px;
@@ -48,8 +55,9 @@
     body {
       background: var(--app-bg);
       background-image:
-        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.1), transparent 55%),
-        radial-gradient(ellipse 50% 40% at 100% 20%, rgba(13, 148, 136, 0.06), transparent 50%);
+        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.12), transparent 55%),
+        radial-gradient(ellipse 45% 40% at 100% 15%, rgba(124, 58, 237, 0.07), transparent 50%),
+        radial-gradient(ellipse 40% 35% at 0% 30%, rgba(13, 148, 136, 0.08), transparent 45%);
       color: var(--app-text);
       font-family: "Inter", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
       line-height: 1.7;
@@ -58,8 +66,9 @@
     body.appOpen {
       background: var(--app-bg);
       background-image:
-        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.1), transparent 55%),
-        radial-gradient(ellipse 50% 40% at 100% 20%, rgba(13, 148, 136, 0.06), transparent 50%);
+        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.12), transparent 55%),
+        radial-gradient(ellipse 45% 40% at 100% 15%, rgba(124, 58, 237, 0.07), transparent 50%),
+        radial-gradient(ellipse 40% 35% at 0% 30%, rgba(13, 148, 136, 0.08), transparent 45%);
     }
     a { color: inherit; text-decoration: none; }
     .wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
@@ -2768,6 +2777,172 @@
       .appOpen .nav { display: none; }
       .appOpen #demo { padding-top: 6px; }
     }
+    /* 控えめなアクセントカラー（見やすさ優先） */
+    .streakHero .statBox:nth-child(1) {
+      background: linear-gradient(165deg, rgba(217, 119, 6, 0.18), rgba(255, 255, 255, 0.04));
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+    .streakHero .statBox:nth-child(1) strong { color: #fbbf24; }
+    .streakHero .statBox:nth-child(2) {
+      background: linear-gradient(165deg, rgba(59, 130, 246, 0.16), rgba(255, 255, 255, 0.04));
+      border-color: rgba(96, 165, 250, 0.32);
+    }
+    .streakHero .statBox:nth-child(2) strong { color: #93c5fd; }
+    .streakHero .statBox:nth-child(3) {
+      background: linear-gradient(165deg, rgba(13, 148, 136, 0.16), rgba(255, 255, 255, 0.04));
+      border-color: rgba(45, 212, 191, 0.3);
+    }
+    .streakHero .statBox:nth-child(3) strong { color: #5eead4; }
+
+    .studyStatsHero {
+      background: linear-gradient(145deg, rgba(59, 130, 246, 0.14) 0%, rgba(124, 58, 237, 0.08) 50%, #fff 100%);
+      border-color: rgba(59, 130, 246, 0.22);
+    }
+    .studyStatToday strong {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .studyStatRow .studyStatBox:first-child {
+      background: linear-gradient(180deg, var(--app-teal-soft), #fff);
+      border-color: rgba(13, 148, 136, 0.28);
+    }
+    .studyStatRow .studyStatBox:first-child strong { color: #0f766e; }
+    .studyStatRow .studyStatBox:last-child {
+      background: linear-gradient(180deg, var(--app-violet-soft), #fff);
+      border-color: rgba(124, 58, 237, 0.25);
+    }
+    .studyStatRow .studyStatBox:last-child strong { color: #6d28d9; }
+
+    .statsPeriodTab.on[data-period="week"] {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      border-color: #2563eb;
+    }
+    .statsPeriodTab.on[data-period="month"] {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      border-color: #6d28d9;
+    }
+
+    .studyBarCol:nth-child(7n+1) .studyBar { background: linear-gradient(180deg, #60a5fa, #2563eb); }
+    .studyBarCol:nth-child(7n+2) .studyBar { background: linear-gradient(180deg, #818cf8, #4f46e5); }
+    .studyBarCol:nth-child(7n+3) .studyBar { background: linear-gradient(180deg, #a78bfa, #7c3aed); }
+    .studyBarCol:nth-child(7n+4) .studyBar { background: linear-gradient(180deg, #2dd4bf, #0d9488); }
+    .studyBarCol:nth-child(7n+5) .studyBar { background: linear-gradient(180deg, #34d399, #059669); }
+    .studyBarCol:nth-child(7n+6) .studyBar { background: linear-gradient(180deg, #fbbf24, #d97706); }
+    .studyBarCol:nth-child(7n) .studyBar { background: linear-gradient(180deg, #fb7185, #e11d48); }
+
+    .studyCalDay.has-study {
+      background: linear-gradient(165deg, var(--app-mint-soft), var(--app-brand-soft));
+      color: #0f766e;
+    }
+    .studyCalDay.selected {
+      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+    }
+
+    .vlogSummaryRow {
+      border-color: rgba(124, 58, 237, 0.22);
+      background: linear-gradient(145deg, rgba(124, 58, 237, 0.08) 0%, rgba(13, 148, 136, 0.06) 45%, #fff 100%);
+    }
+    .vlogPeriodBtn:nth-child(1).on,
+    .vlogPeriodBtn:active {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      border-color: #2563eb;
+      color: #fff;
+    }
+    .vlogPeriodBtn:nth-child(2).on {
+      background: linear-gradient(135deg, #0d9488, #0f766e);
+      border-color: #0f766e;
+      color: #fff;
+    }
+    .vlogPeriodBtn:nth-child(3).on {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      border-color: #6d28d9;
+      color: #fff;
+    }
+
+    .recordDayGroup:nth-child(odd) { border-left: 3px solid #3b82f6; }
+    .recordDayGroup:nth-child(even) { border-left: 3px solid #0d9488; }
+    .recordDayHead {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.08), transparent);
+    }
+    .recordDayHead span { color: #2563eb; }
+    .recordItem.on {
+      border-color: #3b82f6;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.14), rgba(124, 58, 237, 0.08));
+    }
+
+    #screenRecord .demoPanel {
+      border-left: 3px solid rgba(13, 148, 136, 0.45);
+      background: linear-gradient(135deg, #ffffff, #f0fdfa);
+    }
+    #screenFeedback .demoPanel {
+      border-left: 3px solid rgba(217, 119, 6, 0.45);
+      background: linear-gradient(135deg, #ffffff, #fffbeb);
+    }
+    #screenPlan .demoPanel {
+      border-left: 3px solid rgba(5, 150, 105, 0.45);
+      background: linear-gradient(135deg, #ffffff, #ecfdf5);
+    }
+    #screenTimeline:not(.timeline-dark) .tlCard {
+      border-left: 3px solid rgba(124, 58, 237, 0.4);
+      background: linear-gradient(135deg, #ffffff, #faf5ff);
+    }
+    #screenTimeline:not(.timeline-dark) .timelinePostList {
+      border-color: rgba(59, 130, 246, 0.12);
+    }
+
+    .swmStreakPill {
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.35), rgba(251, 191, 36, 0.2));
+      border-color: rgba(251, 191, 36, 0.45);
+      color: #fde68a;
+    }
+    .swmTodayPill {
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.35), rgba(0, 0, 0, 0.35));
+      border-color: rgba(45, 212, 191, 0.35);
+    }
+    .swmFocusFill {
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #14b8a6);
+    }
+    .swmQuickSetup {
+      border-color: rgba(59, 130, 246, 0.5);
+      background: linear-gradient(165deg, rgba(37, 99, 235, 0.28) 0%, rgba(124, 58, 237, 0.15) 40%, rgba(15, 23, 42, 0.82) 100%);
+    }
+    .swmQuickSetup h4 { color: #bfdbfe; }
+    .swmAmbient {
+      background:
+        radial-gradient(ellipse 70% 45% at 20% 0%, rgba(251, 191, 36, 0.12), transparent 50%),
+        radial-gradient(ellipse 80% 50% at 80% 10%, rgba(124, 58, 237, 0.14), transparent 55%),
+        radial-gradient(ellipse 90% 50% at 50% 0%, rgba(59, 130, 246, 0.2), transparent 55%),
+        linear-gradient(180deg, #0a0f1a 0%, #070b14 100%);
+    }
+
+    .tabBtn[data-app-action="camera"].on { color: #60a5fa; }
+    .tabBtn[data-app-action="timeline"].on { color: #c4b5fd; }
+    .tabBtn[data-app-action="record"].on { color: #2dd4bf; }
+    .tabBtn[data-app-action="feedback"].on { color: #fbbf24; }
+    .tabBtn[data-app-action="plan"].on { color: #34d399; }
+
+    .layoutChip.on, .facingChip.on {
+      background: linear-gradient(135deg, var(--app-brand-soft), var(--app-violet-soft));
+      border-color: var(--app-brand);
+      color: var(--app-brand-dim);
+    }
+    .layoutChip[data-layout="split"].on {
+      background: linear-gradient(135deg, var(--app-violet-soft), var(--app-mint-soft));
+      border-color: #7c3aed;
+      color: #6d28d9;
+    }
+
+    .quickStartBtn {
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #2563eb 100%);
+      box-shadow: 0 14px 40px rgba(99, 102, 241, 0.45);
+    }
+
+    .tlCard h4 { color: #6d28d9; }
+    .moreBtn:nth-child(odd) { border-left: 3px solid rgba(59, 130, 246, 0.35); }
+    .moreBtn:nth-child(even) { border-left: 3px solid rgba(13, 148, 136, 0.35); }
+
   </style>
 </head>
 <body>
@@ -6955,6 +7130,9 @@
     }
 
     async function playVlogForPeriod(period) {
+      document.querySelectorAll(".vlogPeriodBtn").forEach((b) => {
+        b.classList.toggle("on", b.dataset.vlogPeriod === period);
+      });
       const now = new Date();
       let sessions = [];
       let label = "";
