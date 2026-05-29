@@ -616,6 +616,52 @@
     }
     .planPanel { display: none; }
     .planPanel.show { display: block; }
+    .planSection { margin-bottom: 16px; }
+    .planSection h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--app-text);
+      margin-bottom: 10px;
+    }
+    .planFieldRow {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+    .planFieldRow label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--app-muted);
+    }
+    .bookGoalList { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+    .bookGoalItem {
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--app-border-strong);
+      background: var(--app-bg);
+    }
+    .bookGoalItem .mini { margin-bottom: 6px; }
+    .bookGoalRemove {
+      border: none;
+      background: transparent;
+      color: #dc2626;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+    .planAddBtn {
+      width: 100%;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--app-border-strong);
+      background: transparent;
+      color: var(--app-brand-dim);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
     .vlogTools { display: none; }
     .vlogTools.show { display: block; }
     .vlogPreview {
@@ -1120,7 +1166,9 @@
       background: #060a12;
       color: #e2e8f0;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       padding-top: var(--space-sm);
     }
     #screenCamera.studyWithMeScreen .pageTitle { color: #f8fafc; font-size: 17px; }
@@ -1275,9 +1323,11 @@
       align-items: center;
       justify-content: center;
       pointer-events: none;
+      visibility: hidden;
     }
     .countdownOverlay.show {
       display: flex;
+      visibility: visible;
       pointer-events: auto;
     }
     .countdownOverlay span {
@@ -1344,7 +1394,7 @@
     }
     .focusLockCard.emotional h3 { color: #fecaca; }
     .focusLockCard.emotional p { color: #cbd5e1; }
-    body.forcedAppLock .mobileTabbar .tabBtn:not(.cameraTab) {
+    body.forcedAppLock.studySessionActive .mobileTabbar .tabBtn:not(.cameraTab) {
       opacity: 0.35;
       pointer-events: none;
     }
@@ -1649,9 +1699,11 @@
       justify-content: center;
       padding: 24px;
       pointer-events: none;
+      visibility: hidden;
     }
     .focusLockOverlay.show {
       display: flex;
+      visibility: visible;
       pointer-events: auto;
     }
     .focusLockCard {
@@ -2262,8 +2314,9 @@
       display: none;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 0;
-      z-index: 120;
+      z-index: 250;
       pointer-events: auto;
+      touch-action: manipulation;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 -1px 0 rgba(77, 156, 247, 0.08);
@@ -2357,6 +2410,7 @@
       .secEyebrow { margin-bottom: 2px; font-size: 10px; opacity: .9; }
       .secLead { display: none; }
       .mobileTabbar { display: grid; }
+      body.appOpen .mobileTabbar { display: grid; }
       body { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
       #concept, #mvp, #growth, #retention, #stories, #tech, #goal, footer { display: none; }
       .demoPanel { padding: 10px; }
@@ -2909,17 +2963,39 @@
               </div>
             </div>
             <div id="studyPlanPanel" class="demoPanel planPanel show">
-              <input id="alarmTime" class="mini" type="time" value="06:30" />
-              <input id="studyStartTime" class="mini" type="time" value="07:00" />
-              <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--app-text);margin:4px 0 8px;">
-                <input id="callReminder" type="checkbox" />
-                電話リマインドを使う
-              </label>
-              <input id="callNumber" class="mini" type="tel" placeholder="電話番号（例: 09012345678）" />
-              <div class="demoRow">
-                <button id="savePlanBtn" class="ctl main">計画を保存</button>
+              <div class="planSection">
+                <h4>1日のリズム</h4>
+                <div class="planFieldRow">
+                  <label for="alarmTime">起床時刻</label>
+                  <input id="alarmTime" class="mini" type="time" value="06:30" />
+                </div>
+                <div class="planFieldRow">
+                  <label for="sleepTime">就寝時刻</label>
+                  <input id="sleepTime" class="mini" type="time" value="23:30" />
+                </div>
+                <div class="planFieldRow">
+                  <label for="studyStartTime">勉強開始（目標）</label>
+                  <input id="studyStartTime" class="mini" type="time" value="07:00" />
+                </div>
               </div>
-              <div id="planSummary" class="feed" style="min-height:80px;">計画はまだ保存されていません。</div>
+              <div class="planSection">
+                <h4>参考書・期限ゴール</h4>
+                <p style="font-size:11px;color:var(--app-muted);margin-bottom:8px;line-height:1.5;">「いつまでに何を終わらせるか」を登録。FBやタイムラインの目標表示に使います。</p>
+                <div id="bookGoalsList" class="bookGoalList"></div>
+                <button type="button" id="addBookGoalBtn" class="planAddBtn">+ 参考書を追加</button>
+              </div>
+              <div class="planSection">
+                <h4>リマインド（任意）</h4>
+                <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--app-text);margin:4px 0 8px;">
+                  <input id="callReminder" type="checkbox" />
+                  電話リマインドを使う
+                </label>
+                <input id="callNumber" class="mini" type="tel" placeholder="電話番号（例: 09012345678）" />
+              </div>
+              <div class="demoRow">
+                <button id="savePlanBtn" class="ctl main" type="button">計画を保存</button>
+              </div>
+              <div id="planSummary" class="feed" style="min-height:80px;margin-top:10px;">計画はまだ保存されていません。</div>
             </div>
           </div>
 
@@ -3254,11 +3330,14 @@
     const markContentDoneBtn = document.getElementById("markContentDone");
     const studyPlanPanel = document.getElementById("studyPlanPanel");
     const alarmTimeInput = document.getElementById("alarmTime");
+    const sleepTimeInput = document.getElementById("sleepTime");
     const studyStartTimeInput = document.getElementById("studyStartTime");
     const callReminderInput = document.getElementById("callReminder");
     const callNumberInput = document.getElementById("callNumber");
     const savePlanBtn = document.getElementById("savePlanBtn");
     const planSummary = document.getElementById("planSummary");
+    const bookGoalsList = document.getElementById("bookGoalsList");
+    const addBookGoalBtn = document.getElementById("addBookGoalBtn");
     const vlogTools = document.getElementById("vlogTools");
     const vlogLength = document.getElementById("vlogLength");
     const vlogBgmBlock = document.getElementById("vlogBgmBlock");
@@ -3805,8 +3884,8 @@
       }
     }
 
-    async function ensureCameraDevices() {
-      if (state.cameraDevices) return;
+    async function ensureCameraDevices(force) {
+      if (state.cameraDevices && !force) return;
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         state.cameraDevices = devices.filter((d) => d.kind === "videoinput");
@@ -3818,7 +3897,9 @@
     function pickCameraDeviceId(facing, ultraWide) {
       const devs = state.cameraDevices || [];
       if (!devs.length) return null;
-      const isBack = (label) => /back|rear|環境|背面|wide/i.test(label) && !/front|内|前面/i.test(label);
+      const hasLabels = devs.some((d) => d.label && d.label.length > 0);
+      if (!hasLabels) return null;
+      const isBack = (label) => /back|rear|環境|背面/i.test(label) && !/front|内|前面|selfie/i.test(label);
       const isFront = (label) => /front|user|内|前面|selfie/i.test(label);
       const isUltra = (label) => /ultra|ultrawide|超広|0\.5x|0,5|wide angle/i.test(label);
       const isStandard = (label) => !/ultra|ultrawide|超広|0\.5x|0,5/i.test(label);
@@ -3842,20 +3923,63 @@
       return pool[0] ? pool[0].deviceId : null;
     }
 
-    function getCamVideoConstraints() {
+    function getCamVideoConstraints(opts) {
+      const options = opts || {};
       const landscapeSensor = state.frameAspect === "16:9";
       const ultraWide = !!state.wantUltraWide && state.facingMode !== "user";
-      const deviceId = pickCameraDeviceId(state.facingMode, ultraWide);
-      const video = {
-        width: { ideal: landscapeSensor ? 1920 : 1080 },
-        height: { ideal: landscapeSensor ? 1080 : 1920 }
-      };
+      const useDeviceId = options.useDeviceId !== false;
+      const deviceId = useDeviceId ? pickCameraDeviceId(state.facingMode, ultraWide) : null;
+      const video = {};
+      if (!options.minimal) {
+        video.width = { ideal: landscapeSensor ? 1280 : 720 };
+        video.height = { ideal: landscapeSensor ? 720 : 1280 };
+      }
       if (deviceId) {
         video.deviceId = { ideal: deviceId };
       } else {
         video.facingMode = { ideal: state.facingMode };
       }
       return video;
+    }
+
+    function describeCameraError(e) {
+      if (!e) return "カメラ接続に失敗しました";
+      if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
+        return "カメラが拒否されました。ブラウザ設定でカメラを許可してください";
+      }
+      if (e.name === "NotFoundError" || e.name === "DevicesNotFoundError") {
+        return "カメラが見つかりません。端末にカメラがあるか確認してください";
+      }
+      if (e.name === "NotReadableError" || e.name === "TrackStartError") {
+        return "カメラを開けません（他アプリで使用中の可能性）。他アプリを閉じて再試行してください";
+      }
+      if (e.name === "OverconstrainedError" || e.name === "ConstraintNotSatisfiedError") {
+        return "カメラ設定を自動調整して再試行します…";
+      }
+      if (e.name === "SecurityError") {
+        return "カメラはHTTPSまたはlocalhostが必要です";
+      }
+      return "カメラ接続に失敗しました（他アプリでカメラ使用中の可能性）";
+    }
+
+    async function acquireCameraStream() {
+      const attempts = [
+        { video: getCamVideoConstraints({ useDeviceId: true }), audio: false },
+        { video: getCamVideoConstraints({ useDeviceId: false }), audio: false },
+        { video: { facingMode: { ideal: state.facingMode } }, audio: false },
+        { video: { facingMode: state.facingMode }, audio: false },
+        { video: true, audio: false }
+      ];
+      let lastErr = null;
+      for (let i = 0; i < attempts.length; i++) {
+        try {
+          return await navigator.mediaDevices.getUserMedia(attempts[i]);
+        } catch (e) {
+          lastErr = e;
+          if (e && (e.name === "NotAllowedError" || e.name === "PermissionDeniedError")) throw e;
+        }
+      }
+      throw lastErr || new Error("Camera unavailable");
     }
 
     function readZoomCapabilities() {
@@ -3980,15 +4104,14 @@
     }
 
     function showAppLockOverlay() {
+      if (!state.timerId || !state.forcedLock) return;
       if (focusLockOverlay) {
         focusLockOverlay.classList.add("show");
         focusLockOverlay.setAttribute("aria-hidden", "false");
       }
-      if (isForcedSessionActive()) {
-        if (focusLockTitle) focusLockTitle.textContent = "集中が途切れる";
-        if (focusLockText) {
-          focusLockText.innerHTML = "ここで離れると、今日の努力が記録に「離脱」として残ります。<br>あと " + fmt(Math.max(0, getForcedTargetSec() - state.elapsed)) + " — 戻って続けよう。";
-        }
+      if (focusLockTitle) focusLockTitle.textContent = "集中が途切れる";
+      if (focusLockText) {
+        focusLockText.innerHTML = "ここで離れると、今日の努力が記録に「離脱」として残ります。<br>あと " + fmt(Math.max(0, getForcedTargetSec() - state.elapsed)) + " — 戻って続けよう。";
       }
     }
 
@@ -4012,6 +4135,48 @@
       updateStudySessionUI();
     }
 
+    function setCamStatus(msg) {
+      if (camStatus) camStatus.textContent = msg;
+    }
+
+    function dismissBlockingOverlays() {
+      if (countdownOverlay) {
+        countdownOverlay.classList.remove("show");
+        countdownOverlay.setAttribute("aria-hidden", "true");
+      }
+      hideFocusLockOverlay();
+      if (focusLockOverlay) {
+        focusLockOverlay.classList.remove("show");
+        focusLockOverlay.setAttribute("aria-hidden", "true");
+      }
+      if (pomodoroCelebrate) {
+        pomodoroCelebrate.classList.remove("show");
+        pomodoroCelebrate.setAttribute("aria-hidden", "true");
+      }
+      if (dayDetailSheet) dayDetailSheet.classList.remove("show");
+    }
+
+    function ensureUiInteractive() {
+      dismissBlockingOverlays();
+      document.body.style.pointerEvents = "";
+      document.documentElement.style.pointerEvents = "";
+      if (!state.timerId) {
+        state.forcedLock = false;
+        state.studyLock = false;
+        state.camFullscreen = false;
+        state.pendingLockWarn = false;
+        document.body.classList.remove("studySessionActive", "forcedAppLock", "forcedSessionActive", "studyLockActive");
+        if (camStage) camStage.classList.remove("is-maximized");
+        if (camFullscreenBtn) camFullscreenBtn.textContent = "⛶";
+        if (studyStopFloat) {
+          studyStopFloat.classList.remove("show", "can-end");
+          studyStopFloat.hidden = true;
+        }
+        if (studyLockBanner) studyLockBanner.hidden = true;
+        updateQuickStartBtn();
+      }
+    }
+
     function resetAppUiState() {
       if (state.timerId) {
         clearInterval(state.timerId);
@@ -4021,11 +4186,10 @@
       state.studyLock = false;
       state.camFullscreen = false;
       state.pendingLockWarn = false;
-      document.body.classList.remove("studySessionActive", "forcedAppLock", "forcedSessionActive");
+      document.body.classList.remove("studySessionActive", "forcedAppLock", "forcedSessionActive", "studyLockActive");
       if (camStage) camStage.classList.remove("is-maximized");
       if (camFullscreenBtn) camFullscreenBtn.textContent = "⛶";
-      hideFocusLockOverlay();
-      if (countdownOverlay) countdownOverlay.classList.remove("show");
+      dismissBlockingOverlays();
       if (studyStopFloat) {
         studyStopFloat.classList.remove("show", "can-end");
         studyStopFloat.hidden = true;
@@ -4133,6 +4297,8 @@
       plan.alarmTime = data.wakeAlarmTime;
       plan.callNumber = data.wakeCallNumber;
       plan.callReminder = data.wakeMode === "call";
+      if (!plan.sleepTime && sleepTimeInput) plan.sleepTime = sleepTimeInput.value;
+      if (!plan.studyStartTime && studyStartTimeInput) plan.studyStartTime = studyStartTimeInput.value;
       localStorage.setItem("mustudyPlan", JSON.stringify(plan));
     }
 
@@ -4705,19 +4871,15 @@
         if (camStatus) camStatus.textContent = "このブラウザはカメラに対応していません";
         return false;
       }
+      if (!cam) return false;
       try {
         if (state.stream) {
           state.stream.getTracks().forEach((t) => t.stop());
           state.stream = null;
         }
-        await ensureCameraDevices();
-        if (state.camZoom < 0.75 && state.facingMode !== "user") {
-          state.wantUltraWide = true;
-        }
-        state.stream = await navigator.mediaDevices.getUserMedia({
-          video: getCamVideoConstraints(),
-          audio: false
-        });
+        if (camStatus) camStatus.textContent = "カメラを接続しています…";
+        state.stream = await acquireCameraStream();
+        await ensureCameraDevices(true);
         cam.srcObject = state.stream;
         await cam.play();
         readZoomCapabilities();
@@ -4725,7 +4887,7 @@
         const label = state.facingMode === "user" ? "内カメ" : "外カメ";
         const zoomHint = state.wantUltraWide ? " · 広角" : "";
         if (camStatus) {
-          camStatus.textContent = label + zoomHint + " 起動済み · 0.5×は超広角レンズ";
+          camStatus.textContent = label + zoomHint + " 起動済み · ピンチ/0.5×で画角調整";
         }
         updateStudyTimerHud(state.timerId ? state.elapsed : 0);
         applyCamTransform();
@@ -4735,10 +4897,7 @@
         if (state.wantUltraWide) {
           state.wantUltraWide = false;
           try {
-            state.stream = await navigator.mediaDevices.getUserMedia({
-              video: getCamVideoConstraints(),
-              audio: false
-            });
+            state.stream = await acquireCameraStream();
             cam.srcObject = state.stream;
             await cam.play();
             readZoomCapabilities();
@@ -4748,12 +4907,7 @@
             return true;
           } catch (_2) {}
         }
-        const denied = e && (e.name === "NotAllowedError" || e.name === "PermissionDeniedError");
-        if (camStatus) {
-          camStatus.textContent = denied
-            ? "カメラが拒否されました。ブラウザ設定でカメラを許可してください"
-            : "カメラ接続に失敗しました（他アプリでカメラ使用中の可能性）";
-        }
+        if (camStatus) camStatus.textContent = describeCameraError(e);
         return false;
       }
     }
@@ -4920,17 +5074,25 @@
         return;
       }
       let n = 3;
-      countdownOverlay.classList.add("show");
-      countdownNum.textContent = String(n);
-      const iv = setInterval(() => {
-        n -= 1;
-        if (n <= 0) {
-          clearInterval(iv);
-          countdownOverlay.classList.remove("show");
+      let iv = null;
+      const finish = () => {
+        if (iv) clearInterval(iv);
+        countdownOverlay.classList.remove("show");
+        countdownOverlay.setAttribute("aria-hidden", "true");
+        try {
           fn();
-        } else {
-          countdownNum.textContent = String(n);
+        } catch (err) {
+          console.error("Mustudy countdown callback:", err);
+          ensureUiInteractive();
         }
+      };
+      countdownOverlay.classList.add("show");
+      countdownOverlay.setAttribute("aria-hidden", "false");
+      countdownNum.textContent = String(n);
+      iv = setInterval(() => {
+        n -= 1;
+        if (n <= 0) finish();
+        else countdownNum.textContent = String(n);
       }, 750);
     }
 
@@ -5726,7 +5888,7 @@
           const total = getForcedTargetSec();
           if (state.elapsed >= total) {
             stopSession(true);
-            camStatus.textContent = "設定時間に到達して終了しました";
+            setCamStatus("設定時間に到達して終了しました");
           }
         }
         if (state.elapsed % 5 === 0) snapshot("timelapse");
@@ -5763,7 +5925,7 @@
       setStudyTimerHudVisible(false);
       setVlogTimerHudVisible(false);
       persistSession();
-      camStatus.textContent = "セッション終了（記録に保存しました）";
+      setCamStatus("セッション終了（記録に保存しました）");
       if (vlogTools) {
         vlogTools.classList.add("show");
         updateVlogClock(0, state.lastSessionSec);
@@ -5834,62 +5996,180 @@
       URL.revokeObjectURL(a.href);
     }
 
+    function collectBookGoalsFromDom() {
+      if (!bookGoalsList) return [];
+      const items = [];
+      bookGoalsList.querySelectorAll(".bookGoalItem").forEach((row) => {
+        const title = (row.querySelector("[data-book-title]") && row.querySelector("[data-book-title]").value.trim()) || "";
+        const target = (row.querySelector("[data-book-target]") && row.querySelector("[data-book-target]").value.trim()) || "";
+        const deadline = (row.querySelector("[data-book-deadline]") && row.querySelector("[data-book-deadline]").value) || "";
+        if (title || target || deadline) {
+          items.push({ title, target, deadline });
+        }
+      });
+      return items;
+    }
+
+    function renderBookGoals(items) {
+      if (!bookGoalsList) return;
+      const list = Array.isArray(items) && items.length ? items : [{ title: "", target: "", deadline: "" }];
+      bookGoalsList.innerHTML = list.map((g, i) => (
+        '<div class="bookGoalItem" data-goal-idx="' + i + '">' +
+        '<input class="mini" type="text" data-book-title placeholder="参考書名（例: システム英単語）" value="' + escapeHtml(g.title || "") + '" />' +
+        '<input class="mini" type="text" data-book-target placeholder="ゴール（例: 5〜10章 / 全範囲）" value="' + escapeHtml(g.target || "") + '" />' +
+        '<input class="mini" type="date" data-book-deadline value="' + escapeHtml(g.deadline || "") + '" />' +
+        '<button type="button" class="bookGoalRemove" data-remove-goal>削除</button></div>'
+      )).join("");
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function formatPlanDate(iso) {
+      if (!iso) return "未設定";
+      const d = new Date(iso + "T12:00:00");
+      if (Number.isNaN(d.getTime())) return iso;
+      return d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
+    }
+
     function renderPlanSummary(plan) {
       if (!planSummary) return;
       if (!plan) {
         planSummary.textContent = "計画はまだ保存されていません。";
         return;
       }
-      planSummary.textContent = [
+      const lines = [
         "保存済み勉強計画",
-        "アラーム: " + plan.alarmTime,
-        "勉強開始: " + plan.studyStartTime,
-        "電話リマインド: " + (plan.callReminder ? "ON" : "OFF"),
-        "電話番号: " + (plan.callNumber || "未設定")
-      ].join("\n");
+        "起床: " + (plan.alarmTime || "—"),
+        "就寝: " + (plan.sleepTime || "—"),
+        "勉強開始: " + (plan.studyStartTime || "—"),
+        "電話リマインド: " + (plan.callReminder ? "ON" : "OFF")
+      ];
+      if (plan.callNumber) lines.push("電話番号: " + plan.callNumber);
+      const books = plan.bookGoals || [];
+      if (books.length) {
+        lines.push("", "【参考書ゴール】");
+        books.forEach((b, i) => {
+          lines.push(
+            (i + 1) + ". " + (b.title || "（未入力）") +
+            " → " + (b.target || "—") +
+            " / 期限 " + formatPlanDate(b.deadline)
+          );
+        });
+      }
+      planSummary.textContent = lines.join("\n");
     }
 
     function savePlan() {
       const plan = {
         alarmTime: (alarmTimeInput && alarmTimeInput.value) || "",
+        sleepTime: (sleepTimeInput && sleepTimeInput.value) || "",
         studyStartTime: (studyStartTimeInput && studyStartTimeInput.value) || "",
         callReminder: !!(callReminderInput && callReminderInput.checked),
         callNumber: (callNumberInput && callNumberInput.value) || "",
+        bookGoals: collectBookGoalsFromDom(),
         updatedAt: new Date().toISOString()
       };
       localStorage.setItem("mustudyPlan", JSON.stringify(plan));
       renderPlanSummary(plan);
-      camStatus.textContent = "勉強計画を保存しました";
+      if (camStatus) camStatus.textContent = "勉強計画を保存しました";
+      const toast = document.getElementById("departureToast");
+      if (toast) {
+        toast.textContent = "計画を保存しました";
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2200);
+      }
     }
 
     function restorePlan() {
       try {
         const raw = localStorage.getItem("mustudyPlan");
-        if (!raw) return;
+        if (!raw) {
+          renderBookGoals([]);
+          renderPlanSummary(null);
+          return;
+        }
         const plan = JSON.parse(raw);
         if (alarmTimeInput) alarmTimeInput.value = plan.alarmTime || "06:30";
+        if (sleepTimeInput) sleepTimeInput.value = plan.sleepTime || "23:30";
         if (studyStartTimeInput) studyStartTimeInput.value = plan.studyStartTime || "07:00";
         if (callReminderInput) callReminderInput.checked = !!plan.callReminder;
         if (callNumberInput) callNumberInput.value = plan.callNumber || "";
+        renderBookGoals(plan.bookGoals || []);
         renderPlanSummary(plan);
       } catch (_) {
+        renderBookGoals([]);
         renderPlanSummary(null);
+      }
+    }
+
+    function handleTabAction(btn) {
+      if (!btn) return;
+      try {
+        if (!state.timerId) dismissBlockingOverlays();
+        document.querySelectorAll(".tabBtn").forEach((b) => b.classList.remove("on"));
+        btn.classList.add("on");
+        const action = btn.dataset.appAction;
+        if (!document.body.classList.contains("appOpen")) {
+          document.body.classList.add("appOpen");
+          renderStreakUI();
+          showRecoveryIfNeeded();
+          renderFriendFeed();
+          renderStudyDashboard();
+        }
+        if (!action) return;
+        if (isAppNavigationLocked() && action !== "camera") {
+          showAppLockOverlay();
+          return;
+        }
+        switchAppScreen(action);
+        if (action === "camera") {
+          setMode("study");
+        } else if (action === "record") {
+          if (loadSessions().length && vlogTools) vlogTools.classList.add("show");
+        } else if (action === "feedback") {
+          buildAiComment();
+        } else if (action === "plan") {
+          const planEl = document.getElementById("studyPlanPanel");
+          if (planEl) planEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        const hint = document.getElementById("appChromeHint");
+        if (hint) hint.textContent = action;
+      } catch (err) {
+        console.error("Mustudy tab:", err);
+        ensureUiInteractive();
       }
     }
 
     function bindAppUi() {
       resetAppUiState();
+      ensureUiInteractive();
 
-      const tabbar = document.querySelector(".mobileTabbar");
-      if (tabbar && !tabbar.dataset.bound) {
-        tabbar.dataset.bound = "1";
-        tabbar.addEventListener("click", (e) => {
-          const btn = e.target.closest(".tabBtn");
-          if (!btn) return;
+      if (!document.documentElement.dataset.mustudyUiBound) {
+        document.documentElement.dataset.mustudyUiBound = "1";
+        const onTabActivate = (e) => {
+          const tabBtn = e.target.closest(".mobileTabbar .tabBtn");
+          if (!tabBtn) return;
           e.preventDefault();
           e.stopPropagation();
-          handleTabAction(btn);
-        });
+          handleTabAction(tabBtn);
+        };
+        document.addEventListener("click", onTabActivate, true);
+        document.addEventListener("touchend", onTabActivate, { capture: true, passive: false });
+        document.addEventListener("click", (e) => {
+          if (e.target.closest("[data-remove-goal]")) {
+            const row = e.target.closest(".bookGoalItem");
+            if (row && bookGoalsList) {
+              row.remove();
+              if (!bookGoalsList.querySelector(".bookGoalItem")) renderBookGoals([]);
+            }
+          }
+        }, true);
+        window.addEventListener("pageshow", () => ensureUiInteractive());
       }
 
       if (camWrap && !camWrap.dataset.uiBound) {
@@ -5917,34 +6197,36 @@
             toggleCamOrientation();
             return;
           }
-          if (!state.cameraLive && !e.target.closest(".camLaunchBtn")) {
+          if (!state.cameraLive && !e.target.closest(".camLaunchBtn, button, .camOverlayBtn")) {
             startCam();
           }
         });
       }
-    }
 
-    function handleTabAction(btn) {
-      document.querySelectorAll(".tabBtn").forEach((b) => b.classList.remove("on"));
-      btn.classList.add("on");
-      const action = btn.dataset.appAction;
-      if (!document.body.classList.contains("appOpen")) {
-        openAppView();
-      }
-      if (!action) return;
-      if (isAppNavigationLocked() && action !== "camera") {
-        showAppLockOverlay();
-        return;
-      }
-      switchAppScreen(action);
-      if (action === "camera") {
-        setMode("study");
-      } else if (action === "record") {
-        if (loadSessions().length && vlogTools) vlogTools.classList.add("show");
-      } else if (action === "feedback") {
-        buildAiComment();
-      } else if (action === "plan" && alarmTimeInput) {
-        alarmTimeInput.focus();
+      const screenCameraEl = document.getElementById("screenCamera");
+      if (screenCameraEl && !screenCameraEl.dataset.chipsBound) {
+        screenCameraEl.dataset.chipsBound = "1";
+        screenCameraEl.addEventListener("click", (e) => {
+          const facingBtn = e.target.closest("#facingPicker [data-facing]");
+          if (facingBtn) {
+            setFacing(facingBtn.dataset.facing, state.cameraLive);
+            return;
+          }
+          const layoutBtn = e.target.closest(".layoutChip");
+          if (layoutBtn) {
+            setCamLayout(layoutBtn.dataset.layout, true);
+            return;
+          }
+          const vpBtn = e.target.closest("#viewportPicker [data-viewport]");
+          if (vpBtn) {
+            setViewportMode(vpBtn.dataset.viewport);
+            return;
+          }
+          const aspectBtn = e.target.closest("#frameAspectPicker [data-frame-aspect], .camTopBtn[data-frame-aspect]");
+          if (aspectBtn) {
+            setFrameAspect(aspectBtn.dataset.frameAspect);
+          }
+        });
       }
     }
 
@@ -5964,6 +6246,17 @@
         startCam();
       });
     }
+    bindAppUi();
+    restorePlan();
+
+    if (addBookGoalBtn) {
+      addBookGoalBtn.addEventListener("click", () => {
+        const current = collectBookGoalsFromDom();
+        current.push({ title: "", target: "", deadline: "" });
+        renderBookGoals(current);
+      });
+    }
+
     if (studyStopFloat) {
       studyStopFloat.addEventListener("click", () => {
         if (state.timerId) quickStartStudy();
@@ -5990,22 +6283,10 @@
     document.querySelectorAll(".sessionTypeBtn").forEach((btn) => {
       btn.addEventListener("click", () => setSessionType(btn.dataset.sessionType));
     });
-    document.querySelectorAll("#viewportPicker [data-viewport]").forEach((btn) => {
-      btn.addEventListener("click", () => setViewportMode(btn.dataset.viewport));
-    });
-    document.querySelectorAll("#frameAspectPicker [data-frame-aspect], .camTopBtn[data-frame-aspect]").forEach((btn) => {
-      btn.addEventListener("click", () => setFrameAspect(btn.dataset.frameAspect));
-    });
     if (!localStorage.getItem("mustudyWake")) setWakeMode("app");
     updateCreateVlogBtn();
     document.querySelectorAll(".endModeBtn").forEach((btn) => {
       btn.addEventListener("click", () => setEndMode(btn.dataset.end));
-    });
-    document.querySelectorAll("#facingPicker [data-facing]").forEach((btn) => {
-      btn.addEventListener("click", () => setFacing(btn.dataset.facing, true));
-    });
-    document.querySelectorAll(".layoutChip").forEach((btn) => {
-      btn.addEventListener("click", () => setCamLayout(btn.dataset.layout, true));
     });
     document.querySelectorAll(".statsPeriodTab").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -6203,12 +6484,9 @@
       return isMobile;
     }
 
-    bindAppUi();
-
     if (shouldAutoOpenApp()) {
       requestAnimationFrame(() => openAppView());
     }
-    restorePlan();
     restoreWakeSettings();
     restoreProfile();
     updateMyPageOrbs();
