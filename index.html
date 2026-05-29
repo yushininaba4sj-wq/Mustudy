@@ -705,7 +705,7 @@
       background: #000;
       aspect-ratio: 9 / 16;
       overflow: hidden;
-      touch-action: none;
+      touch-action: manipulation;
     }
     .camWrap.viewport-landscape { aspect-ratio: 16 / 9; }
     .camWrap.viewport-portrait { aspect-ratio: 9 / 16; }
@@ -805,7 +805,8 @@
       align-items: center;
       justify-content: center;
       gap: 14px;
-      z-index: 12;
+      z-index: 20;
+      pointer-events: auto;
       -webkit-tap-highlight-color: transparent;
     }
     .camWrap.is-live .camLaunchBtn { display: none; }
@@ -888,11 +889,19 @@
     .camWrap.is-live .camFsBtn { display: block; }
     .camStage.is-maximized {
       position: fixed;
-      inset: 0;
-      z-index: 88;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+      z-index: 50;
       margin: 0 !important;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
       background: #000;
+    }
+    body.studySessionActive.forcedAppLock .camStage.is-maximized {
+      bottom: 0;
+      z-index: 88;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     .camStage.is-maximized .camWrap {
       width: 100%;
@@ -1135,7 +1144,8 @@
     }
     .swmStudyHero {
       position: relative;
-      z-index: 4;
+      z-index: 5;
+      pointer-events: auto;
       margin-bottom: var(--space-lg);
       padding: var(--space-md);
       border-radius: var(--radius-lg);
@@ -1264,8 +1274,12 @@
       display: none;
       align-items: center;
       justify-content: center;
+      pointer-events: none;
     }
-    .countdownOverlay.show { display: flex; }
+    .countdownOverlay.show {
+      display: flex;
+      pointer-events: auto;
+    }
     .countdownOverlay span {
       font-size: 96px;
       font-weight: 900;
@@ -1339,10 +1353,6 @@
       opacity: 0.35;
       pointer-events: none;
     }
-    body.studySessionActive .mobileTabbar {
-      pointer-events: none;
-      opacity: 0.35;
-    }
     body.studySessionActive .vlogCreateDock,
     body.studySessionActive .swmSettings { display: none; }
     body.forcedAppLock .myPageOrb,
@@ -1370,6 +1380,9 @@
       font-weight: 900;
       letter-spacing: 0.03em;
       cursor: pointer;
+      pointer-events: auto;
+      position: relative;
+      z-index: 6;
       box-shadow: 0 14px 40px rgba(37, 99, 235, 0.5);
       border: 1px solid rgba(147, 197, 253, 0.35);
     }
@@ -1635,8 +1648,12 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
+      pointer-events: none;
     }
-    .focusLockOverlay.show { display: flex; }
+    .focusLockOverlay.show {
+      display: flex;
+      pointer-events: auto;
+    }
     .focusLockCard {
       width: min(340px, 100%);
       background: var(--app-bg-elevated);
@@ -1692,7 +1709,7 @@
     .vlogBgmBlock.is-off { opacity: 0.72; }
     .vlogBgmBlock.is-off select,
     .vlogBgmBlock.is-off .vlogBgmVolRow,
-    .vlogBgmPreviewBtn { pointer-events: none; }
+    .vlogBgmBlock.is-off .vlogBgmPreviewBtn { pointer-events: none; }
     .vlogBgmBlock.is-off .vlogBgmPreviewBtn { display: none; }
     .vlogBgmPickRow { display: flex; gap: 8px; align-items: stretch; }
     .vlogBgmPickRow select { flex: 1; }
@@ -2033,11 +2050,17 @@
     .myPageScreen {
       position: fixed;
       inset: 0;
-      z-index: 50;
+      z-index: 130;
       background: var(--app-bg);
       padding: 16px;
       overflow-y: auto;
       padding-bottom: 100px;
+      display: none !important;
+      pointer-events: none !important;
+    }
+    .myPageScreen.active {
+      display: block !important;
+      pointer-events: auto !important;
     }
     .myPageScreen .pageHead .pageTitle { margin-right: 0; }
     .profileHero {
@@ -2239,7 +2262,8 @@
       display: none;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 0;
-      z-index: 40;
+      z-index: 120;
+      pointer-events: auto;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 -1px 0 rgba(77, 156, 247, 0.08);
@@ -2320,10 +2344,6 @@
     .appOpen .loginBtn {
       display: none;
     }
-    .myPageScreen.active {
-      display: block;
-    }
-
     @media (max-width: 860px) {
       .storyGrid, .steps, .stats, .mvpGrid, .conceptGrid, .stackGrid, .demoGrid { grid-template-columns: 1fr; }
       .navLinks { display: none; }
@@ -3987,6 +4007,29 @@
       document.body.classList.remove("forcedAppLock");
       if (!state.studyLock && studyLockBanner) studyLockBanner.hidden = true;
       exitCamFullscreenIfAllowed();
+      updateStudySessionUI();
+    }
+
+    function resetAppUiState() {
+      if (state.timerId) {
+        clearInterval(state.timerId);
+        state.timerId = null;
+      }
+      state.forcedLock = false;
+      state.studyLock = false;
+      state.camFullscreen = false;
+      state.pendingLockWarn = false;
+      document.body.classList.remove("studySessionActive", "forcedAppLock", "forcedSessionActive");
+      if (camStage) camStage.classList.remove("is-maximized");
+      if (camFullscreenBtn) camFullscreenBtn.textContent = "⛶";
+      hideFocusLockOverlay();
+      if (countdownOverlay) countdownOverlay.classList.remove("show");
+      if (studyStopFloat) {
+        studyStopFloat.classList.remove("show", "can-end");
+        studyStopFloat.hidden = true;
+      }
+      if (studyLockBanner) studyLockBanner.hidden = true;
+      updateQuickStartBtn();
     }
 
     async function quickStartStudy() {
@@ -4371,14 +4414,18 @@
         state.camPanY = startPanY + dy;
         applyCamTransform();
       };
-      const onEnd = () => {
+      const onEnd = (e) => {
         panning = false;
         if (camWrap) camWrap.classList.remove("is-panning");
+        if (e && camViewport.hasPointerCapture && camViewport.hasPointerCapture(e.pointerId)) {
+          try { camViewport.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
         saveFacingPrefs();
       };
       camViewport.addEventListener("pointerdown", (e) => {
+        if (!state.cameraLive) return;
         if (e.pointerType === "mouse" && e.button !== 0) return;
-        if (e.target.closest(".camOverlayBtn, .camFsBtn, .zoomDock")) return;
+        if (e.target.closest(".camLaunchBtn, .camOverlayBtn, .camFsBtn, .zoomDock, button")) return;
         camViewport.setPointerCapture(e.pointerId);
         onStart(e.clientX, e.clientY);
       });
@@ -5694,6 +5741,7 @@
       snapshot("end");
       disableStudyLock();
       disableForcedLock();
+      resetAppUiState();
       updateStudySessionUI();
       setStudyTimerHudVisible(false);
       setVlogTimerHudVisible(false);
@@ -5949,10 +5997,16 @@
     const registerEmailBtn = document.getElementById("registerEmailBtn");
     if (saveProfileBtn) saveProfileBtn.addEventListener("click", saveProfile);
     if (registerEmailBtn) registerEmailBtn.addEventListener("click", registerEmail);
-    document.getElementById("startSession").addEventListener("click", startSession);
-    document.getElementById("stopSession").addEventListener("click", stopSession);
-    document.getElementById("makeAI").addEventListener("click", buildAiComment);
-    document.getElementById("saveVlog").addEventListener("click", saveVlogJson);
+    const startSessionEl = document.getElementById("startSession");
+    const stopSessionEl = document.getElementById("stopSession");
+    const makeAIEl = document.getElementById("makeAI");
+    const playVlogEl = document.getElementById("playVlog");
+    const stopVlogPlayEl = document.getElementById("stopVlogPlay");
+    const saveVlogEl = document.getElementById("saveVlog");
+    if (startSessionEl) startSessionEl.addEventListener("click", () => startSession());
+    if (stopSessionEl) stopSessionEl.addEventListener("click", stopSession);
+    if (makeAIEl) makeAIEl.addEventListener("click", buildAiComment);
+    if (saveVlogEl) saveVlogEl.addEventListener("click", saveVlogJson);
     if (saveVlogVideoBtn) saveVlogVideoBtn.addEventListener("click", saveVlogVideo);
     document.querySelectorAll(".wakeModeBtn").forEach((btn) => {
       btn.addEventListener("click", () => setWakeMode(btn.dataset.wake));
@@ -5982,8 +6036,8 @@
       });
     }
     if (vlogBgmPreviewBtn) vlogBgmPreviewBtn.addEventListener("click", previewVlogBgm);
-    document.getElementById("playVlog").addEventListener("click", playVlog);
-    document.getElementById("stopVlogPlay").addEventListener("click", stopVlogPlayback);
+    if (playVlogEl) playVlogEl.addEventListener("click", playVlog);
+    if (stopVlogPlayEl) stopVlogPlayEl.addEventListener("click", stopVlogPlayback);
     if (savePlanBtn) savePlanBtn.addEventListener("click", savePlan);
     const openAppBtn = document.getElementById("openAppBtn");
     const closeAppBtn = document.getElementById("closeAppBtn");
@@ -6091,7 +6145,9 @@
     } catch (_) {}
 
     document.querySelectorAll(".tabBtn").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         document.querySelectorAll(".tabBtn").forEach(b => b.classList.remove("on"));
         btn.classList.add("on");
         const isApp = document.body.classList.contains("appOpen");
