@@ -1066,24 +1066,29 @@
       justify-content: center;
       gap: 8px;
       flex-wrap: wrap;
+      padding: 2px 0 0;
     }
     .zoomLevelBtn {
-      min-width: 40px;
-      height: 32px;
-      padding: 0 10px;
+      min-width: 46px;
+      height: 34px;
+      padding: 0 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(2, 6, 23, 0.46);
       color: #fff;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 800;
       cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
     }
     .zoomLevelBtn.on {
       background: #fff;
       color: var(--app-brand-dim);
       border-color: #fff;
-      transform: scale(1.08);
+      transform: scale(1.1);
+      box-shadow: 0 4px 14px rgba(255, 255, 255, 0.32);
     }
     .camTopBar {
       position: absolute;
@@ -1834,6 +1839,20 @@
       color: #061018;
       border-color: var(--app-brand);
     }
+    .timelineShell {
+      display: grid;
+      gap: 10px;
+    }
+    .timelineThemeToggle {
+      border: 1px solid var(--app-border);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--app-muted);
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
     .tlCard {
       border: 1px solid var(--app-border);
       border-radius: var(--radius-md);
@@ -1872,17 +1891,125 @@
       gap: 8px;
     }
     .moreBtn {
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(15, 23, 42, 0.12);
       border-radius: 12px;
       padding: 12px 10px;
-      background: rgba(255, 255, 255, 0.04);
-      color: #e2e8f0;
+      background: #f8fafc;
+      color: #0f172a;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       text-align: left;
     }
-    .moreBtn small { display: block; font-size: 10px; color: #9fb0c5; font-weight: 600; margin-top: 4px; }
+    .moreBtn small { display: block; font-size: 10px; color: #64748b; font-weight: 600; margin-top: 4px; }
+    .timelinePostList {
+      background: #fff;
+      border: 1px solid var(--app-border);
+      border-radius: var(--radius-md);
+      padding: 10px;
+    }
+    .timelinePost {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+    .timelinePost:last-child { border-bottom: none; }
+    .timelinePost .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(140deg, #60a5fa, #2563eb);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .timelinePost .metaTop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+    .timelinePost .metaTop b {
+      font-size: 15px;
+      color: #0f172a;
+      letter-spacing: 0.01em;
+    }
+    .timelinePost .metaTop span {
+      font-size: 12px;
+      color: #64748b;
+      font-variant-numeric: tabular-nums;
+    }
+    .timelinePost .bookCard {
+      border: 1px solid rgba(15, 23, 42, 0.11);
+      border-radius: 12px;
+      padding: 9px 10px;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      margin-bottom: 7px;
+    }
+    .timelinePost .bookCard strong {
+      display: block;
+      color: #0f172a;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+    .timelinePost .bookCard .mins {
+      font-size: 25px;
+      color: #0f172a;
+      font-weight: 900;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .timelinePost .actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    #screenTimeline.timeline-dark {
+      background: #060a12;
+      color: #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 12px;
+    }
+    #screenTimeline.timeline-dark .pageTitle { color: #e2e8f0; }
+    #screenTimeline.timeline-dark .timelineThemeToggle {
+      background: rgba(15, 23, 42, 0.8);
+      color: #cbd5e1;
+      border-color: rgba(148, 163, 184, 0.35);
+    }
+    #screenTimeline.timeline-dark .timelinePostList,
+    #screenTimeline.timeline-dark .tlCard {
+      background: rgba(15, 23, 42, 0.86);
+      border-color: rgba(148, 163, 184, 0.26);
+    }
+    #screenTimeline.timeline-dark .moreBtn {
+      background: rgba(2, 6, 23, 0.72);
+      color: #e2e8f0;
+      border-color: rgba(148, 163, 184, 0.24);
+    }
+    #screenTimeline.timeline-dark .moreBtn small { color: #94a3b8; }
+    #screenTimeline.timeline-dark .timelinePost .metaTop b,
+    #screenTimeline.timeline-dark .timelinePost .bookCard strong,
+    #screenTimeline.timeline-dark .timelinePost .bookCard .mins {
+      color: #f8fafc;
+    }
+    #screenTimeline.timeline-dark .timelinePost .metaTop span,
+    #screenTimeline.timeline-dark .timelinePost .actions,
+    #screenTimeline.timeline-dark .tlCard p {
+      color: #94a3b8;
+    }
+    #screenTimeline.timeline-dark .timelinePost .bookCard {
+      background: rgba(2, 6, 23, 0.6);
+      border-color: rgba(148, 163, 184, 0.28);
+    }
     .studyStatsHero {
       display: grid;
       gap: var(--space-sm);
@@ -2605,7 +2732,9 @@
                 <span class="myPageOrbInitial">Y</span>
               </button>
               <h3 class="pageTitle">タイムライン</h3>
+              <button type="button" class="timelineThemeToggle" id="timelineThemeToggle" aria-label="タイムライン配色切替">白テーマ</button>
             </header>
+            <div class="timelineShell">
             <div class="streakHero">
               <div class="statBox"><strong id="tlStreak">0</strong><span>連続日数</span></div>
               <div class="statBox"><strong id="tlTodayMin">0</strong><span>今日(分)</span></div>
@@ -2621,6 +2750,8 @@
               <button type="button" class="moreBtn" data-goto="record">記録・Vlog<small>カレンダー · 自動生成</small></button>
               <button type="button" class="moreBtn" data-goto="feedback">AI振り返り<small>感情コメント</small></button>
               <button type="button" class="moreBtn" data-goto="plan">計画<small>開始時刻 · 起床</small></button>
+            </div>
+            <div class="timelinePostList" id="friendFeed"></div>
             </div>
           </div>
 
@@ -2763,7 +2894,7 @@
 
             <div class="swmStudyHero">
               <div class="camStage" id="camStage">
-              <div id="camWrap" class="camWrap layout-stand viewport-portrait frame-4x3 facing-environment">
+              <div id="camWrap" class="camWrap layout-stand viewport-landscape frame-16x9 facing-environment">
                 <button type="button" id="camLaunch" class="camLaunchBtn" aria-label="カメラを起動">
                   <span class="camLaunchIcon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 8h2l1.5-2h9L18 8h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
@@ -2878,13 +3009,13 @@
               <div style="margin-top:10px;">
               <p class="optLabel">画面（端末の持ち方）</p>
               <div class="chipRow" id="viewportPicker">
-                <button type="button" class="facingChip on" data-viewport="portrait">縦持ち</button>
-                <button type="button" class="facingChip" data-viewport="landscape">横持ち</button>
+                <button type="button" class="facingChip" data-viewport="portrait">縦持ち</button>
+                <button type="button" class="facingChip on" data-viewport="landscape">横持ち</button>
               </div>
               <p class="optLabel">撮影比率（iPhoneと同じ・縦持ちのまま横長OK）</p>
               <div class="chipRow" id="frameAspectPicker">
-                <button type="button" class="facingChip on" data-frame-aspect="4:3">4:3</button>
-                <button type="button" class="facingChip" data-frame-aspect="16:9">16:9 横長</button>
+                <button type="button" class="facingChip" data-frame-aspect="4:3">4:3</button>
+                <button type="button" class="facingChip on" data-frame-aspect="16:9">16:9 横長</button>
               </div>
               <p class="optLabel">カメラ向き</p>
               <div class="chipRow" id="facingPicker">
@@ -3295,7 +3426,7 @@
       frameAspect: "4:3",
       facingPrefs: {
         user: { zoom: 1, layout: "face", viewportMode: "portrait", frameAspect: "4:3", panX: 0, panY: 0 },
-        environment: { zoom: 1, layout: "stand", viewportMode: "portrait", frameAspect: "4:3", panX: 0, panY: 0 }
+        environment: { zoom: 1, layout: "stand", viewportMode: "landscape", frameAspect: "16:9", panX: 0, panY: 0 }
       },
       sessionType: "free",
       camFullscreen: false,
@@ -3309,6 +3440,7 @@
       wakeMode: "app",
       currentScreen: "camera",
       selectedRecordId: null,
+      timelineTheme: "light",
       statsPeriod: "week",
       calendarMonth: null,
       selectedCalendarDay: null,
@@ -3405,6 +3537,7 @@
     const recTodayMin = document.getElementById("recTodayMin");
     const recMonthMin = document.getElementById("recMonthMin");
     const friendFeed = document.getElementById("friendFeed");
+    const timelineThemeToggle = document.getElementById("timelineThemeToggle");
     const todayGoalText = document.getElementById("todayGoalText");
     const screenMyPage = document.getElementById("screenMyPage");
     const switchCamBtn = document.getElementById("switchCamBtn");
@@ -3730,6 +3863,13 @@
         const parsed = JSON.parse(raw);
         if (parsed && typeof parsed === "object") {
           state.facingPrefs = Object.assign({}, state.facingPrefs, parsed);
+          if (state.facingPrefs.environment) {
+            const env = state.facingPrefs.environment;
+            if (env.viewportMode === "portrait" && env.frameAspect === "4:3") {
+              env.viewportMode = "landscape";
+              env.frameAspect = "16:9";
+            }
+          }
         }
       } catch (_) {}
     }
@@ -4041,16 +4181,23 @@
       return !!(track && track.readyState !== "ended");
     }
 
-    async function acquireCameraStream() {
+    async function acquireCameraStream(preferFacing) {
       const gum = getGum();
       if (!gum) throw new Error("getUserMedia unsupported");
       const facing = state.facingMode === "user" ? "user" : "environment";
-      const attempts = [
-        { video: true, audio: false },
-        { video: { facingMode: facing }, audio: false },
-        { video: { facingMode: { ideal: facing } }, audio: false },
-        { video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: { ideal: facing } }, audio: false }
-      ];
+      const attempts = preferFacing
+        ? [
+          { video: { facingMode: facing }, audio: false },
+          { video: { facingMode: { ideal: facing } }, audio: false },
+          { video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: { ideal: facing } }, audio: false },
+          { video: true, audio: false }
+        ]
+        : [
+          { video: true, audio: false },
+          { video: { facingMode: facing }, audio: false },
+          { video: { facingMode: { ideal: facing } }, audio: false },
+          { video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: { ideal: facing } }, audio: false }
+        ];
       let lastErr = null;
       for (let i = 0; i < attempts.length; i++) {
         try {
@@ -4138,8 +4285,7 @@
       saveFacingPrefs();
       syncCamWrapClasses();
       syncCamSettingChips();
-      if (state.cameraLive && prev !== aspect) applyCamTransform();
-      else applyCamTransform();
+      applyCamTransform();
       if (camStatus) {
         camStatus.textContent =
           state.viewportMode === "portrait" && aspect === "16:9"
@@ -4808,7 +4954,7 @@
       let startDist = 0;
       let startZoom = 1;
       camViewport.addEventListener("touchstart", (e) => {
-        if (e.touches.length === 2) {
+        if (e.touches.length === 2 && isCameraReady()) {
           startDist = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
             e.touches[0].clientY - e.touches[1].clientY
@@ -4817,7 +4963,7 @@
         }
       }, { passive: true });
       camViewport.addEventListener("touchmove", (e) => {
-        if (e.touches.length === 2 && state.cameraLive) {
+        if (e.touches.length === 2 && isCameraReady()) {
           e.preventDefault();
           const dist = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
@@ -4842,6 +4988,7 @@
         zoomToRatio(ZOOM_MIN + pct * (ZOOM_MAX - ZOOM_MIN));
       };
       zoomSliderTrack.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
         dragging = true;
         zoomSliderTrack.setPointerCapture(e.pointerId);
         setZoomFromClientX(e.clientX);
@@ -4860,11 +5007,12 @@
         }
       }, { passive: true });
       zoomSliderTrack.addEventListener("touchmove", (e) => {
-        if (e.touches.length === 1 && state.cameraLive) {
+        if (e.touches.length === 1 && isCameraReady()) {
+          e.preventDefault();
           const dx = e.touches[0].clientX - swipeStartX;
-          zoomToRatio(swipeStartZoom + dx * 0.008);
+          zoomToRatio(swipeStartZoom + dx * 0.006);
         }
-      }, { passive: true });
+      }, { passive: false });
     }
 
     function setEndMode(mode) {
@@ -5021,12 +5169,16 @@
         state.wantUltraWide = false;
       }
       loadFacingPrefs(mode);
+      if (mode === "environment" && state.viewportMode === "portrait" && state.frameAspect === "4:3") {
+        state.viewportMode = "landscape";
+        state.frameAspect = "16:9";
+      }
       syncCamSettingChips();
       syncCamWrapClasses();
       updateFacingBadge();
       updateCamHint();
       if (restart && state.cameraLive) {
-        startCam();
+        startCam(true);
       } else {
         applyCamTransform();
       }
@@ -5042,7 +5194,7 @@
       }
     }
 
-    async function startCam() {
+    async function startCam(forceRestart) {
       if (!window.isSecureContext) {
         setCamStatus("カメラはHTTPSまたはlocalhostが必要です");
         return false;
@@ -5056,7 +5208,7 @@
         await waitForCameraReady(6000);
         return isCameraReady();
       }
-      if (isCameraReady()) {
+      if (isCameraReady() && !forceRestart) {
         showCamLive();
         setCamStatus("カメラ起動済み · スタートで記録開始");
         return true;
@@ -5070,7 +5222,7 @@
         releaseAllCameraTracks();
         await waitMs(150);
 
-        const newStream = await acquireCameraStream();
+        const newStream = await acquireCameraStream(!!forceRestart);
         await attachStreamToVideo(newStream);
 
         if (prevStream && prevStream !== newStream) {
@@ -5127,15 +5279,50 @@
       }));
     }
 
+    const TIMELINE_THEME_KEY = "mustudyTimelineTheme";
+
+    function applyTimelineTheme(theme) {
+      const screenTimeline = document.getElementById("screenTimeline");
+      if (!screenTimeline) return;
+      const next = theme === "dark" ? "dark" : "light";
+      state.timelineTheme = next;
+      screenTimeline.classList.toggle("timeline-dark", next === "dark");
+      if (timelineThemeToggle) {
+        timelineThemeToggle.textContent = next === "dark" ? "黒テーマ" : "白テーマ";
+      }
+      localStorage.setItem(TIMELINE_THEME_KEY, next);
+    }
+
+    function toggleTimelineTheme() {
+      applyTimelineTheme(state.timelineTheme === "dark" ? "light" : "dark");
+    }
+
+    function restoreTimelineTheme() {
+      try {
+        const theme = localStorage.getItem(TIMELINE_THEME_KEY) || "light";
+        applyTimelineTheme(theme);
+      } catch (_) {
+        applyTimelineTheme("light");
+      }
+    }
+
     function renderFriendFeed() {
       if (!friendFeed) return;
       renderStreakUI();
-      friendFeed.innerHTML = state.friends.map((f) => (
-        '<div class="friendItem">' +
-        '<div class="friendAv">' + f.initial + '</div>' +
-        '<div class="friendMeta"><b>' + f.name + ' · ' + f.subject + '</b>' +
-        '<span>' + f.mins + '分勉強 · ' + f.ago + '</span></div></div>'
+      const list = state.friends.map((f) => (
+        '<article class="timelinePost">' +
+          '<div class="avatar">' + f.initial + '</div>' +
+          '<div class="postBody">' +
+            '<div class="metaTop"><b>' + f.name + '</b><span>' + f.ago + '</span></div>' +
+            '<div class="bookCard">' +
+              '<strong>' + f.subject + '</strong>' +
+              '<span class="mins">' + f.mins + '分</span>' +
+            '</div>' +
+            '<div class="actions"><span>コメント</span><span>いいね ' + Math.max(1, Math.floor(f.mins / 20)) + '</span></div>' +
+          '</div>' +
+        '</article>'
       )).join("");
+      friendFeed.innerHTML = list || '<p class="optLabel">まだ投稿がありません。</p>';
     }
 
     const STREAK_KEY = "mustudyStreak";
@@ -6481,10 +6668,12 @@
     bindAppUi();
     restorePlan();
     restoreStudyMinutes();
+    restoreTimelineTheme();
     if (studyMinutes) {
       studyMinutes.addEventListener("change", saveStudyMinutes);
       studyMinutes.addEventListener("input", saveStudyMinutes);
     }
+    if (timelineThemeToggle) timelineThemeToggle.addEventListener("click", toggleTimelineTheme);
 
     if (addBookGoalBtn) {
       addBookGoalBtn.addEventListener("click", () => {
