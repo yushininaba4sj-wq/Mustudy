@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mustudy-build" content="2026-05-29-camfix4">
   <title>Mustudy | 今日の努力が、一生の思い出になる。</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1189,6 +1190,14 @@
       text-align: center;
       margin-top: var(--space-sm);
       line-height: 1.5;
+    }
+    #screenCamera.studyWithMeScreen .status.camStatusOk {
+      color: #86efac;
+      font-weight: 700;
+    }
+    #screenCamera.studyWithMeScreen .status.camStatusErr {
+      color: #fca5a5;
+      font-weight: 700;
     }
     .swmStudyHero {
       position: relative;
@@ -2765,7 +2774,7 @@
                 <div class="camLetterbox" id="camLetterbox">
                   <div class="camViewport" id="camViewport">
                     <div class="camVideoLayer" id="camVideoLayer">
-                      <video id="cam" class="demoVideo is-hidden" playsinline muted></video>
+                      <video id="cam" class="demoVideo is-hidden" playsinline webkit-playsinline muted autoplay></video>
                     </div>
                     <span class="camPanHint" id="camPanHint">1本指で胸元・手元を動かせます</span>
                   </div>
@@ -3291,6 +3300,7 @@
       sessionType: "free",
       camFullscreen: false,
       cameraLive: false,
+      camStarting: false,
       studyLock: false,
       forcedLock: false,
       pendingLockWarn: false,
@@ -3708,6 +3718,20 @@
         panX: state.camPanX,
         panY: state.camPanY
       };
+      try {
+        localStorage.setItem("mustudyFacingPrefs", JSON.stringify(state.facingPrefs));
+      } catch (_) {}
+    }
+
+    function restoreFacingPrefsFromStorage() {
+      try {
+        const raw = localStorage.getItem("mustudyFacingPrefs");
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          state.facingPrefs = Object.assign({}, state.facingPrefs, parsed);
+        }
+      } catch (_) {}
     }
 
     function loadFacingPrefs(mode) {
@@ -3860,7 +3884,7 @@
       state.wantUltraWide = next < 0.75 && state.facingMode !== "user";
       saveFacingPrefs();
 
-      if (state.cameraLive && !isCameraStreamActive()) {
+      if (state.cameraLive && !isCameraReady()) {
         await startCam();
         return;
       }
@@ -3962,41 +3986,105 @@
     function describeCameraError(e) {
       if (!e) return "カメラ接続に失敗しました";
       if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
-        return "カメラが拒否されました。ブラウザ設定でカメラを許可してください";
+        return "カメラが拒否されました。Safariの aA → Webサイトの設定 → カメラ を許可してください";
       }
       if (e.name === "NotFoundError" || e.name === "DevicesNotFoundError") {
-        return "カメラが見つかりません。端末にカメラがあるか確認してください";
+        return "カメラが見つかりません";
       }
       if (e.name === "NotReadableError" || e.name === "TrackStartError") {
-        return "カメラを開けません（他アプリで使用中の可能性）。他アプリを閉じて再試行してください";
+        return "カメラが使えません。Safariを一度閉じて、他アプリのカメラを終了してから再タップしてください";
       }
       if (e.name === "OverconstrainedError" || e.name === "ConstraintNotSatisfiedError") {
-        return "カメラ設定を自動調整して再試行します…";
+        return "カメラ設定を簡易モードで再試行します（もう一度タップ）";
+      }
+      if (e.name === "AbortError") {
+        return "カメラ接続が中断されました。もう一度タップしてください";
       }
       if (e.name === "SecurityError") {
-        return "カメラはHTTPSまたはlocalhostが必要です";
+        return "カメラはHTTPSが必要です";
       }
-      return "カメラ接続に失敗しました（他アプリでカメラ使用中の可能性）";
+      return "カメラ接続に失敗しました。下の「カメラを起動」をもう一度タップ";
+    }
+
+    function getGum() {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        return navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+      }
+      const legacy = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      if (!legacy) return null;
+      return (constraints) => new Promise((resolve, reject) => {
+        legacy.call(navigator, constraints, resolve, reject);
+      });
+    }
+
+    function releaseAllCameraTracks() {
+      try {
+        if (state.stream) {
+          state.stream.getTracks().forEach((t) => {
+            try { t.stop(); } catch (_) {}
+          });
+        }
+      } catch (_) {}
+      state.stream = null;
+      if (cam && cam.srcObject) {
+        try {
+          const s = cam.srcObject;
+          if (s && s.getTracks) s.getTracks().forEach((t) => { try { t.stop(); } catch (_) {} });
+        } catch (_) {}
+        cam.srcObject = null;
+      }
+    }
+
+    function hasLiveVideoTrack(stream) {
+      if (!stream) return false;
+      const track = stream.getVideoTracks()[0];
+      return !!(track && track.readyState !== "ended");
     }
 
     async function acquireCameraStream() {
+      const gum = getGum();
+      if (!gum) throw new Error("getUserMedia unsupported");
+      const facing = state.facingMode === "user" ? "user" : "environment";
       const attempts = [
-        { video: getCamVideoConstraints({ useDeviceId: true }), audio: false },
-        { video: getCamVideoConstraints({ useDeviceId: false }), audio: false },
-        { video: { facingMode: { ideal: state.facingMode } }, audio: false },
-        { video: { facingMode: state.facingMode }, audio: false },
-        { video: true, audio: false }
+        { video: true, audio: false },
+        { video: { facingMode: facing }, audio: false },
+        { video: { facingMode: { ideal: facing } }, audio: false },
+        { video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: { ideal: facing } }, audio: false }
       ];
       let lastErr = null;
       for (let i = 0; i < attempts.length; i++) {
         try {
-          return await navigator.mediaDevices.getUserMedia(attempts[i]);
+          const stream = await gum(attempts[i]);
+          if (hasLiveVideoTrack(stream)) return stream;
+          stream.getTracks().forEach((t) => t.stop());
         } catch (e) {
           lastErr = e;
           if (e && (e.name === "NotAllowedError" || e.name === "PermissionDeniedError")) throw e;
+          await waitMs(300);
         }
       }
       throw lastErr || new Error("Camera unavailable");
+    }
+
+    async function attachStreamToVideo(stream) {
+      if (!cam || !stream) return false;
+      state.stream = stream;
+      cam.srcObject = stream;
+      cam.muted = true;
+      cam.playsInline = true;
+      cam.setAttribute("playsinline", "");
+      cam.setAttribute("webkit-playsinline", "");
+      cam.autoplay = true;
+      for (let i = 0; i < 40; i++) {
+        try {
+          await cam.play();
+          break;
+        } catch (_) {
+          await waitMs(80);
+        }
+        if (cam.videoWidth > 0 || hasLiveVideoTrack(stream)) break;
+      }
+      return hasLiveVideoTrack(stream) || cam.videoWidth > 0 || cam.readyState >= 2;
     }
 
     function readZoomCapabilities() {
@@ -4050,7 +4138,7 @@
       saveFacingPrefs();
       syncCamWrapClasses();
       syncCamSettingChips();
-      if (state.cameraLive && prev !== aspect) startCam();
+      if (state.cameraLive && prev !== aspect) applyCamTransform();
       else applyCamTransform();
       if (camStatus) {
         camStatus.textContent =
@@ -4153,13 +4241,53 @@
     }
 
     function setCamStatus(msg) {
-      if (camStatus) camStatus.textContent = msg;
+      if (!camStatus) return;
+      camStatus.textContent = msg;
+      const err = /失敗|拒否|未接続|使えません|タップしてから/.test(msg);
+      camStatus.classList.toggle("camStatusErr", err);
+      camStatus.classList.toggle("camStatusOk", !err && /起動済み|カウントダウン|接続済み/.test(msg));
+    }
+
+    function syncCamStateFromElement() {
+      if (!cam) return;
+      if (cam.srcObject instanceof MediaStream) {
+        state.stream = cam.srcObject;
+      }
+      if (cam.srcObject && camWrap && camWrap.classList.contains("is-live")) {
+        state.cameraLive = true;
+        cam.classList.remove("is-hidden");
+      }
     }
 
     function isCameraStreamActive() {
       if (!state.stream) return false;
       const track = state.stream.getVideoTracks()[0];
       return !!(track && track.readyState === "live");
+    }
+
+    function isCameraReady() {
+      syncCamStateFromElement();
+      if (hasLiveVideoTrack(state.stream)) return true;
+      if (isCameraStreamActive()) return true;
+      if (!cam || !cam.srcObject) return false;
+      if (cam.videoWidth > 0 && cam.videoHeight > 0) return true;
+      if (cam.readyState >= 2) return true;
+      if (hasLiveVideoTrack(cam.srcObject)) return true;
+      return !!(state.cameraLive && camWrap && camWrap.classList.contains("is-live"));
+    }
+
+    function waitMs(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function waitForCameraReady(maxMs) {
+      const deadline = Date.now() + (maxMs || 3000);
+      while (Date.now() < deadline) {
+        if (isCameraReady()) return true;
+        if (!state.camStarting) return isCameraReady();
+        await waitMs(80);
+      }
+      return isCameraReady();
     }
 
     function markCameraOffline() {
@@ -4205,11 +4333,6 @@
       dismissBlockingOverlays();
       document.body.style.pointerEvents = "";
       document.documentElement.style.pointerEvents = "";
-      if (!state.timerId && state.cameraLive && !isCameraStreamActive()) {
-        markCameraOffline();
-        if (cam) cam.srcObject = null;
-        state.stream = null;
-      }
       if (!state.timerId) {
         state.forcedLock = false;
         state.studyLock = false;
@@ -4259,11 +4382,17 @@
       setSessionType("forced");
       saveStudyMinutes();
       restoreStudyMinutes();
-      if (!isCameraStreamActive()) {
-        if (state.cameraLive) markCameraOffline();
-        setCamStatus("カメラを起動しています…許可ダイアログを確認してください");
-        const ok = await startCam();
-        if (!ok || !isCameraStreamActive()) return;
+      syncCamStateFromElement();
+      if (!isCameraReady()) {
+        setCamStatus("カメラを起動しています…");
+        await startCam();
+        await waitForCameraReady(4000);
+        if (!isCameraReady()) {
+          setCamStatus("先に「カメラを起動」をタップして映像を表示してから、スタートしてください");
+          return;
+        }
+      } else {
+        showCamLive();
       }
       setCamStatus("カウントダウン…");
       runCountdownThen(() => startSession());
@@ -4915,56 +5044,72 @@
 
     async function startCam() {
       if (!window.isSecureContext) {
-        setCamStatus("カメラはHTTPSまたはlocalhostが必要です（file://では動きません）");
+        setCamStatus("カメラはHTTPSまたはlocalhostが必要です");
         return false;
       }
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      if (!getGum()) {
         setCamStatus("このブラウザはカメラに対応していません");
         return false;
       }
       if (!cam) return false;
+      if (state.camStarting) {
+        await waitForCameraReady(6000);
+        return isCameraReady();
+      }
+      if (isCameraReady()) {
+        showCamLive();
+        setCamStatus("カメラ起動済み · スタートで記録開始");
+        return true;
+      }
 
+      state.camStarting = true;
       const prevStream = state.stream;
-      const hadLive = isCameraStreamActive();
 
       try {
-        setCamStatus("カメラを接続しています…");
+        setCamStatus("カメラ許可をタップ…");
+        releaseAllCameraTracks();
+        await waitMs(150);
+
         const newStream = await acquireCameraStream();
+        await attachStreamToVideo(newStream);
+
         if (prevStream && prevStream !== newStream) {
-          prevStream.getTracks().forEach((t) => t.stop());
+          try {
+            prevStream.getTracks().forEach((t) => t.stop());
+          } catch (_) {}
         }
-        state.stream = newStream;
+
+        await waitForCameraReady(5000);
+
+        if (!hasLiveVideoTrack(state.stream) && !isCameraReady()) {
+          throw new Error("No live track");
+        }
+
         await ensureCameraDevices(true);
-        cam.srcObject = state.stream;
-        await cam.play();
         readZoomCapabilities();
         showCamLive();
         const label = state.facingMode === "user" ? "内カメ" : "外カメ";
-        const zoomHint = state.camZoom < 0.75 ? " · 0.5×広角" : "";
+        const zoomHint = state.camZoom < 0.75 ? " · 0.5×" : "";
         setCamStatus(label + zoomHint + " 起動済み · スタートで記録開始");
         updateStudyTimerHud(state.timerId ? state.elapsed : 0);
         applyCamTransform();
         if (state.timerId || state.forcedLock) enterCamFullscreen();
         return true;
       } catch (e) {
-        if (hadLive && prevStream && prevStream.getVideoTracks()[0]) {
-          state.stream = prevStream;
-          cam.srcObject = prevStream;
+        console.error("Mustudy startCam:", e && e.name, e && e.message);
+        if (hasLiveVideoTrack(state.stream) || isCameraReady()) {
           showCamLive();
           applyCamTransform();
-          if (state.camZoom < 0.75) {
-            state.wantUltraWide = false;
-            setCamStatus("0.5×は広角表示で継続（レンズ切替はスキップ）");
-          } else {
-            setCamStatus("カメラは接続済み — そのまま勉強をスタートできます");
-          }
+          setCamStatus("カメラ起動済み · スタートで記録開始");
           return true;
         }
+        releaseAllCameraTracks();
         markCameraOffline();
-        state.stream = null;
-        if (cam) cam.srcObject = null;
-        setCamStatus(describeCameraError(e));
+        const detail = e && e.name ? "（" + e.name + "）" : "";
+        setCamStatus(describeCameraError(e) + detail + " — 下をタップして再試行");
         return false;
+      } finally {
+        state.camStarting = false;
       }
     }
 
@@ -5928,14 +6073,17 @@
     }
 
     async function startSession() {
-      if (!isCameraStreamActive()) {
+      syncCamStateFromElement();
+      if (!isCameraReady()) {
         setCamStatus("カメラを起動中…");
-        const ok = await startCam();
-        if (!ok || !isCameraStreamActive()) {
-          setCamStatus("カメラを許可してから再度スタートしてください");
+        await startCam();
+        await waitForCameraReady(4000);
+        if (!isCameraReady()) {
+          setCamStatus("カメラが未接続です。「カメラを起動」→ 映像確認 → スタート");
           return;
         }
       }
+      showCamLive();
       if (state.timerId) return;
       setSessionType(state.sessionType || "forced");
       state.elapsed = 0;
@@ -6270,7 +6418,9 @@
             toggleCamOrientation();
             return;
           }
-          if (!state.cameraLive && !e.target.closest(".camLaunchBtn, button, .camOverlayBtn")) {
+          if (e.target.closest(".camLaunchBtn")) return;
+          if (!state.cameraLive && !e.target.closest("button, .camOverlayBtn")) {
+            state.wantUltraWide = false;
             startCam();
           }
         });
@@ -6314,9 +6464,18 @@
       });
     }
     if (camLaunch) {
-      camLaunch.addEventListener("click", (e) => {
+      const onCamLaunch = (e) => {
+        e.preventDefault();
         e.stopPropagation();
+        state.wantUltraWide = false;
         startCam();
+      };
+      camLaunch.addEventListener("click", onCamLaunch);
+      camLaunch.addEventListener("touchend", onCamLaunch, { passive: false });
+    }
+    if (camStatus) {
+      camStatus.addEventListener("click", () => {
+        if (camStatus.classList.contains("camStatusErr")) startCam();
       });
     }
     bindAppUi();
@@ -6346,7 +6505,9 @@
     initZoomControls();
     setEndMode("time");
     setSessionType("forced");
+    restoreFacingPrefsFromStorage();
     loadFacingPrefs(state.facingMode);
+    state.wantUltraWide = false;
     setCamLayout(state.camLayout, false);
     setViewportMode(state.viewportMode);
     setFrameAspect(state.frameAspect);
@@ -6506,7 +6667,14 @@
     }
 
     if (openAppBtn) openAppBtn.addEventListener("click", openAppView);
-    if (quickStartBtn) quickStartBtn.addEventListener("click", quickStartStudy);
+    if (quickStartBtn) {
+      const onQuickStart = (e) => {
+        e.preventDefault();
+        quickStartStudy();
+      };
+      quickStartBtn.addEventListener("click", onQuickStart);
+      quickStartBtn.addEventListener("touchend", onQuickStart, { passive: false });
+    }
     if (dayDetailClose) dayDetailClose.addEventListener("click", closeDayDetail);
     if (dayDetailSheet) {
       dayDetailSheet.addEventListener("click", (e) => {
