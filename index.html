@@ -1617,7 +1617,12 @@
     }
     .camWrap.is-live .zoomHud { opacity: 1; }
     .camWrap .mustudyWatermark { display: none; }
-    .camWrap.is-live .mustudyWatermark { display: flex; }
+    .camWrap.is-live .mustudyWatermark {
+      display: flex;
+      bottom: 118px;
+      right: 10px;
+      z-index: 5;
+    }
     .standHint {
       position: absolute;
       bottom: 10px;
@@ -2833,6 +2838,7 @@
                 <option value="content">content</option>
               </select>
               <div id="endTimeFields" class="fieldGroup">
+                <label class="optLabel" for="studyMinutes">勉強時間（分）— 保存されます</label>
                 <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
               </div>
               <div id="endContentFields" class="fieldGroup" hidden>
@@ -3645,6 +3651,7 @@
     const ZOOM_MIN = 0.5;
     const ZOOM_MAX = 3;
     const ZOOM_LEVELS = [0.5, 1, 2, 3];
+    const STUDY_MINUTES_KEY = "mustudyStudyMinutes";
 
     const LAYOUT_PRESETS = {
       stand: {
@@ -3847,21 +3854,31 @@
       if (forcedModeNote) forcedModeNote.hidden = type !== "forced";
     }
 
-    function zoomToRatio(r) {
+    async function zoomToRatio(r) {
       const next = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, r));
-      const prev = state.camZoom;
       state.camZoom = next;
-      const wantUltra = next < 0.75 && state.facingMode !== "user";
-      const hadUltra = prev < 0.75;
-      state.wantUltraWide = wantUltra;
-      if (state.cameraLive && wantUltra !== hadUltra) {
-        startCam();
+      state.wantUltraWide = next < 0.75 && state.facingMode !== "user";
+      saveFacingPrefs();
+
+      if (state.cameraLive && !isCameraStreamActive()) {
+        await startCam();
         return;
       }
+
       applyCamTransform();
       updateZoomUI();
-      if (camStatus && wantUltra && !state.zoomCaps.hasZoom) {
-        camStatus.textContent = "0.5× — 超広角レンズに切り替え中";
+
+      if (!state.cameraLive || !state.stream) return;
+
+      const hwApplied = await applyTrackZoomIfSupported(next);
+      if (next <= 0.55 && state.facingMode !== "user") {
+        if (state.zoomCaps.hasZoom && state.zoomCaps.min < 1) {
+          setCamStatus("0.5× — 光学広角");
+        } else if (hwApplied) {
+          setCamStatus("0.5× — ズーム適用済み");
+        } else {
+          setCamStatus("0.5× — 広角表示（カメラはそのまま）");
+        }
       }
     }
 
@@ -3901,7 +3918,7 @@
       if (!hasLabels) return null;
       const isBack = (label) => /back|rear|環境|背面/i.test(label) && !/front|内|前面|selfie/i.test(label);
       const isFront = (label) => /front|user|内|前面|selfie/i.test(label);
-      const isUltra = (label) => /ultra|ultrawide|超広|0\.5x|0,5|wide angle/i.test(label);
+      const isUltra = (label) => /ultra\s*wide|ultrawide|超広|0\.5x|0,5x/i.test(label);
       const isStandard = (label) => !/ultra|ultrawide|超広|0\.5x|0,5/i.test(label);
 
       let pool = devs;
@@ -4139,6 +4156,34 @@
       if (camStatus) camStatus.textContent = msg;
     }
 
+    function isCameraStreamActive() {
+      if (!state.stream) return false;
+      const track = state.stream.getVideoTracks()[0];
+      return !!(track && track.readyState === "live");
+    }
+
+    function markCameraOffline() {
+      state.cameraLive = false;
+      if (camWrap) camWrap.classList.remove("is-live", "is-recording");
+      if (cam) cam.classList.add("is-hidden");
+    }
+
+    function saveStudyMinutes() {
+      if (!studyMinutes) return;
+      const v = parseInt(studyMinutes.value, 10);
+      if (v >= 1 && v <= 300) {
+        localStorage.setItem(STUDY_MINUTES_KEY, String(v));
+      }
+    }
+
+    function restoreStudyMinutes() {
+      if (!studyMinutes) return;
+      try {
+        const v = parseInt(localStorage.getItem(STUDY_MINUTES_KEY) || "", 10);
+        if (v >= 1 && v <= 300) studyMinutes.value = String(v);
+      } catch (_) {}
+    }
+
     function dismissBlockingOverlays() {
       if (countdownOverlay) {
         countdownOverlay.classList.remove("show");
@@ -4160,6 +4205,11 @@
       dismissBlockingOverlays();
       document.body.style.pointerEvents = "";
       document.documentElement.style.pointerEvents = "";
+      if (!state.timerId && state.cameraLive && !isCameraStreamActive()) {
+        markCameraOffline();
+        if (cam) cam.srcObject = null;
+        state.stream = null;
+      }
       if (!state.timerId) {
         state.forcedLock = false;
         state.studyLock = false;
@@ -4201,22 +4251,21 @@
     async function quickStartStudy() {
       if (state.timerId) {
         if (canStopSessionNow()) stopSession(true);
-        else if (camStatus) {
-          camStatus.textContent = "残り " + fmt(getForcedTargetSec() - state.elapsed) + " — 時間が終わるまで終了できません";
+        else {
+          setCamStatus("残り " + fmt(getForcedTargetSec() - state.elapsed) + " — 時間が終わるまで終了できません");
         }
         return;
       }
       setSessionType("forced");
-      if (studyMinutes) studyMinutes.value = studyMinutes.value || "25";
-      if (!state.cameraLive) {
-        if (camStatus) camStatus.textContent = "カメラを起動しています…許可ダイアログを確認してください";
+      saveStudyMinutes();
+      restoreStudyMinutes();
+      if (!isCameraStreamActive()) {
+        if (state.cameraLive) markCameraOffline();
+        setCamStatus("カメラを起動しています…許可ダイアログを確認してください");
         const ok = await startCam();
-        if (!ok) return;
+        if (!ok || !isCameraStreamActive()) return;
       }
-      if (!state.stream) {
-        if (camStatus) camStatus.textContent = "カメラが使えません。上の映像エリアをタップして許可してください";
-        return;
-      }
+      setCamStatus("カウントダウン…");
       runCountdownThen(() => startSession());
     }
 
@@ -4244,17 +4293,21 @@
     }
 
     async function applyTrackZoomIfSupported(displayZoom) {
-      if (!state.stream) return;
+      if (!state.stream) return false;
       const track = state.stream.getVideoTracks()[0];
-      if (!track) return;
+      if (!track) return false;
       const value = mapDisplayZoomToTrack(displayZoom);
-      if (value == null) return;
+      if (value == null) return false;
       try {
         await track.applyConstraints({ advanced: [{ zoom: value }] });
+        return true;
       } catch (_) {
         try {
           await track.applyConstraints({ zoom: value });
-        } catch (_2) {}
+          return true;
+        } catch (_2) {
+          return false;
+        }
       }
     }
 
@@ -4533,7 +4586,7 @@
       resetCamVideoStyles();
       cam.style.objectPosition = preset.posX + "% " + preset.posY + "%";
 
-      if (displayZ < 0.99 && !hwUltra && !state.wantUltraWide) {
+      if (displayZ < 0.99 && !hwUltra) {
         cam.style.zoom = String(displayZ);
         camVideoLayer.style.transform = "translate(" + clamped.x + "px," + clamped.y + "px)";
       } else {
@@ -4862,52 +4915,55 @@
 
     async function startCam() {
       if (!window.isSecureContext) {
-        if (camStatus) {
-          camStatus.textContent = "カメラはHTTPSまたはlocalhostが必要です（file://では動きません）";
-        }
+        setCamStatus("カメラはHTTPSまたはlocalhostが必要です（file://では動きません）");
         return false;
       }
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        if (camStatus) camStatus.textContent = "このブラウザはカメラに対応していません";
+        setCamStatus("このブラウザはカメラに対応していません");
         return false;
       }
       if (!cam) return false;
+
+      const prevStream = state.stream;
+      const hadLive = isCameraStreamActive();
+
       try {
-        if (state.stream) {
-          state.stream.getTracks().forEach((t) => t.stop());
-          state.stream = null;
+        setCamStatus("カメラを接続しています…");
+        const newStream = await acquireCameraStream();
+        if (prevStream && prevStream !== newStream) {
+          prevStream.getTracks().forEach((t) => t.stop());
         }
-        if (camStatus) camStatus.textContent = "カメラを接続しています…";
-        state.stream = await acquireCameraStream();
+        state.stream = newStream;
         await ensureCameraDevices(true);
         cam.srcObject = state.stream;
         await cam.play();
         readZoomCapabilities();
         showCamLive();
         const label = state.facingMode === "user" ? "内カメ" : "外カメ";
-        const zoomHint = state.wantUltraWide ? " · 広角" : "";
-        if (camStatus) {
-          camStatus.textContent = label + zoomHint + " 起動済み · ピンチ/0.5×で画角調整";
-        }
+        const zoomHint = state.camZoom < 0.75 ? " · 0.5×広角" : "";
+        setCamStatus(label + zoomHint + " 起動済み · スタートで記録開始");
         updateStudyTimerHud(state.timerId ? state.elapsed : 0);
         applyCamTransform();
         if (state.timerId || state.forcedLock) enterCamFullscreen();
         return true;
       } catch (e) {
-        if (state.wantUltraWide) {
-          state.wantUltraWide = false;
-          try {
-            state.stream = await acquireCameraStream();
-            cam.srcObject = state.stream;
-            await cam.play();
-            readZoomCapabilities();
-            showCamLive();
-            applyCamTransform();
-            if (camStatus) camStatus.textContent = "広角レンズなし — 標準カメラで起動しました";
-            return true;
-          } catch (_2) {}
+        if (hadLive && prevStream && prevStream.getVideoTracks()[0]) {
+          state.stream = prevStream;
+          cam.srcObject = prevStream;
+          showCamLive();
+          applyCamTransform();
+          if (state.camZoom < 0.75) {
+            state.wantUltraWide = false;
+            setCamStatus("0.5×は広角表示で継続（レンズ切替はスキップ）");
+          } else {
+            setCamStatus("カメラは接続済み — そのまま勉強をスタートできます");
+          }
+          return true;
         }
-        if (camStatus) camStatus.textContent = describeCameraError(e);
+        markCameraOffline();
+        state.stream = null;
+        if (cam) cam.srcObject = null;
+        setCamStatus(describeCameraError(e));
         return false;
       }
     }
@@ -5696,13 +5752,30 @@
       updateCreateVlogBtn();
     }
 
+    function getRecorderMimeType() {
+      if (!window.MediaRecorder) return "";
+      const types = [
+        "video/webm;codecs=vp9",
+        "video/webm;codecs=vp8",
+        "video/webm",
+        "video/mp4"
+      ];
+      for (let i = 0; i < types.length; i++) {
+        if (MediaRecorder.isTypeSupported(types[i])) return types[i];
+      }
+      return "";
+    }
+
     function startRecorder() {
-      if (!state.stream || !window.MediaRecorder) return;
+      if (!isCameraStreamActive() || !window.MediaRecorder) return;
       state.chunks = [];
-      const mime = MediaRecorder.isTypeSupported("video/webm;codecs=vp8")
-        ? "video/webm;codecs=vp8"
-        : "video/webm";
-      state.recorder = new MediaRecorder(state.stream, { mimeType: mime });
+      const mime = getRecorderMimeType();
+      if (!mime) return;
+      try {
+        state.recorder = new MediaRecorder(state.stream, { mimeType: mime });
+      } catch (_) {
+        return;
+      }
       state.recorder.ondataavailable = (e) => { if (e.data.size) state.chunks.push(e.data); };
       state.recorder.onstop = () => {
         if (!state.chunks.length) return;
@@ -5855,11 +5928,11 @@
     }
 
     async function startSession() {
-      if (!state.stream) {
-        if (camStatus) camStatus.textContent = "カメラを起動中…";
+      if (!isCameraStreamActive()) {
+        setCamStatus("カメラを起動中…");
         const ok = await startCam();
-        if (!ok || !state.stream) {
-          if (camStatus) camStatus.textContent = "カメラを許可してから再度スタートしてください";
+        if (!ok || !isCameraStreamActive()) {
+          setCamStatus("カメラを許可してから再度スタートしてください");
           return;
         }
       }
@@ -6248,6 +6321,11 @@
     }
     bindAppUi();
     restorePlan();
+    restoreStudyMinutes();
+    if (studyMinutes) {
+      studyMinutes.addEventListener("change", saveStudyMinutes);
+      studyMinutes.addEventListener("input", saveStudyMinutes);
+    }
 
     if (addBookGoalBtn) {
       addBookGoalBtn.addEventListener("click", () => {
