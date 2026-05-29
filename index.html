@@ -37,6 +37,11 @@
       --radius-sm: 10px;
       --radius-md: 14px;
       --radius-lg: 18px;
+      --space-xs: 8px;
+      --space-sm: 12px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -504,8 +509,15 @@
       background: var(--app-card);
       border: 1px solid var(--app-border-strong);
       border-radius: var(--radius-lg);
-      padding: 14px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+      padding: var(--space-md);
+      box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+    }
+    .appOpen .demoWrap {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      border-radius: 0;
     }
     .appChrome {
       display: flex;
@@ -556,8 +568,8 @@
     .demoPanel {
       border: 1px solid var(--app-border);
       border-radius: var(--radius-md);
-      padding: 12px;
-      margin-bottom: 10px;
+      padding: var(--space-md);
+      margin-bottom: var(--space-sm);
       background: var(--app-card);
     }
     .demoRow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
@@ -623,7 +635,10 @@
       text-align: center;
     }
 
-    .appScreen { display: none; }
+    .appScreen {
+      display: none;
+      padding: var(--space-md) var(--space-md) calc(88px + env(safe-area-inset-bottom, 0px));
+    }
     .appScreen.active { display: block; }
     .pageHead {
       display: flex;
@@ -742,6 +757,9 @@
       transform-origin: center center;
       will-change: transform;
     }
+    .camViewport {
+      overflow: hidden;
+    }
     .camWrap .demoVideo {
       width: 100%;
       height: 100%;
@@ -754,6 +772,7 @@
       pointer-events: none;
       -webkit-user-select: none;
       user-select: none;
+      transform-origin: center center;
     }
     .camWrap.facing-user .demoVideo {
       transform: scaleX(-1);
@@ -779,30 +798,39 @@
       position: absolute;
       inset: 0;
       border: none;
-      background: transparent;
+      background: rgba(8, 12, 22, 0.72);
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      z-index: 2;
+      gap: 14px;
+      z-index: 12;
+      -webkit-tap-highlight-color: transparent;
     }
     .camWrap.is-live .camLaunchBtn { display: none; }
     .camLaunchIcon {
-      width: 88px;
-      height: 88px;
+      width: 96px;
+      height: 96px;
       border-radius: 999px;
-      background: var(--app-bg-elevated);
-      border: 2px solid var(--app-border-strong);
-      box-shadow: 0 8px 28px rgba(59, 130, 246, 0.18);
+      background: rgba(255, 255, 255, 0.96);
+      border: 2px solid rgba(96, 165, 250, 0.5);
+      box-shadow: 0 12px 40px rgba(37, 99, 235, 0.45);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--app-brand);
+      color: #2563eb;
     }
-    .camLaunchIcon svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 1.6; }
-    .camLaunchText { font-size: 13px; font-weight: 700; color: var(--app-muted); }
+    .camLaunchIcon svg { width: 48px; height: 48px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+    .camLaunchText { font-size: 15px; font-weight: 800; color: #f8fafc; letter-spacing: 0.02em; }
+    .camLaunchSub {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(226, 232, 240, 0.85);
+      max-width: 240px;
+      text-align: center;
+      line-height: 1.5;
+    }
     .studyTimerHud {
       position: absolute;
       top: 10px;
@@ -861,18 +889,21 @@
     .camStage.is-maximized {
       position: fixed;
       inset: 0;
-      z-index: 85;
+      z-index: 88;
       margin: 0 !important;
       padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       background: #000;
     }
     .camStage.is-maximized .camWrap {
+      width: 100%;
       height: 100%;
+      min-height: 100%;
       max-height: 100%;
       aspect-ratio: unset;
       border-radius: 0;
       border: none;
     }
+    body.studySessionActive .camStage.is-maximized .zoomDock { display: flex; }
     .zoomDock {
       position: absolute;
       left: 0;
@@ -1077,18 +1108,56 @@
     }
     body.forcedSessionActive .forcedBanner { display: block; }
     #screenCamera.studyWithMeScreen {
-      background: #070b14;
+      background: #060a12;
       color: #e2e8f0;
       position: relative;
       overflow: hidden;
+      padding-top: var(--space-sm);
     }
-    #screenCamera.studyWithMeScreen .pageTitle { color: #f1f5f9; }
-    #screenCamera.studyWithMeScreen .pageHead { position: relative; z-index: 4; }
+    #screenCamera.studyWithMeScreen .pageTitle { color: #f8fafc; font-size: 17px; }
+    #screenCamera.studyWithMeScreen .pageHead {
+      position: relative;
+      z-index: 4;
+      margin-bottom: var(--space-md);
+    }
     #screenCamera.studyWithMeScreen .demoPanel {
-      background: rgba(15, 23, 42, 0.72);
-      border-color: rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.88);
+      border-color: rgba(255, 255, 255, 0.1);
+      margin-top: var(--space-md);
     }
-    #screenCamera.studyWithMeScreen .optLabel { color: rgba(148, 163, 184, 0.95); }
+    #screenCamera.studyWithMeScreen .optLabel { color: #cbd5e1; font-size: 12px; }
+    #screenCamera.studyWithMeScreen .status {
+      color: #93c5fd;
+      font-size: 13px;
+      text-align: center;
+      margin-top: var(--space-sm);
+      line-height: 1.5;
+    }
+    .swmStudyHero {
+      position: relative;
+      z-index: 4;
+      margin-bottom: var(--space-lg);
+      padding: var(--space-md);
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+    }
+    .swmStudyHero .camStage { margin-bottom: var(--space-md); }
+    .swmStudyHero .camWrap {
+      min-height: min(52vh, 420px);
+      border-color: rgba(96, 165, 250, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+    body.studySessionActive .swmStudyHero {
+      padding: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      margin-bottom: 0;
+    }
+    body.studySessionActive .swmPreOnly { display: none !important; }
+    body:not(.studySessionActive) .swmSessionOnly { display: none !important; }
     .swmAmbient {
       position: absolute;
       inset: 0;
@@ -1102,7 +1171,7 @@
     .swmLoFi {
       position: absolute;
       inset: 0;
-      opacity: 0.3;
+      opacity: 0.15;
       background: repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(59, 130, 246, 0.04) 60px, rgba(59, 130, 246, 0.04) 61px);
       animation: loFiDrift 24s linear infinite;
     }
@@ -1112,31 +1181,31 @@
       position: relative;
       z-index: 4;
       display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
       flex-wrap: wrap;
     }
     .swmStreakPill {
-      padding: 8px 14px;
+      padding: 10px 16px;
       border-radius: 999px;
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(96, 165, 250, 0.35);
-      font-size: 11px;
+      background: rgba(59, 130, 246, 0.28);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      font-size: 12px;
       font-weight: 800;
-      color: #93c5fd;
+      color: #bfdbfe;
     }
     .swmStreakPill b { font-size: 17px; color: #fff; margin-right: 4px; }
     .swmTodayPill {
       flex: 1;
       min-width: 120px;
-      padding: 8px 14px;
+      padding: 10px 16px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 10px;
-      color: rgba(248, 250, 252, 0.75);
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 11px;
+      color: #e2e8f0;
     }
-    .swmTodayPill strong { display: block; font-size: 15px; color: #fff; margin-top: 2px; }
+    .swmTodayPill strong { display: block; font-size: 16px; color: #fff; margin-top: 2px; }
     .swmFocusBlock { position: relative; z-index: 4; margin-bottom: 10px; }
     .swmFocusHead {
       display: flex;
@@ -1227,10 +1296,12 @@
     .swmCoreMsg {
       position: relative;
       z-index: 4;
-      font-size: 10px;
-      color: rgba(148, 163, 184, 0.8);
+      font-size: 12px;
+      color: #94a3b8;
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: var(--space-sm);
+      line-height: 1.55;
+      padding: 0 var(--space-xs);
     }
     .swmSettings { position: relative; z-index: 3; margin-top: 8px; }
     .swmSettings summary {
@@ -1268,30 +1339,61 @@
       opacity: 0.35;
       pointer-events: none;
     }
+    body.studySessionActive .mobileTabbar {
+      pointer-events: none;
+      opacity: 0.35;
+    }
+    body.studySessionActive .vlogCreateDock,
+    body.studySessionActive .swmSettings { display: none; }
     body.forcedAppLock .myPageOrb,
     body.forcedAppLock .pageHead .myPageOrb {
       pointer-events: none;
       opacity: 0.4;
     }
-    .camStage.camFirst {
-      order: -1;
-      margin-bottom: 12px;
-    }
-    .quickStartDock {
-      margin-bottom: 12px;
+    .quickStartDock { margin-bottom: 0; }
+    .swmStartHint {
+      margin-top: var(--space-sm);
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-align: center;
+      line-height: 1.5;
     }
     .quickStartBtn {
       width: 100%;
-      padding: 18px 20px;
+      padding: 20px 22px;
       border: none;
       border-radius: var(--radius-md);
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
       color: #fff;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 900;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
       cursor: pointer;
-      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+      box-shadow: 0 14px 40px rgba(37, 99, 235, 0.5);
+      border: 1px solid rgba(147, 197, 253, 0.35);
+    }
+    .studyStopFloat {
+      display: none;
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+      z-index: 90;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(220, 38, 38, 0.95);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 8px 28px rgba(220, 38, 38, 0.45);
+      cursor: pointer;
+    }
+    body.studySessionActive .studyStopFloat.show { display: block; }
+    body.studySessionActive.forcedAppLock .studyStopFloat:not(.can-end) {
+      opacity: 0.45;
+      pointer-events: none;
     }
     .quickStartBtn:active { transform: scale(0.98); }
     .quickStartBtn.recording {
@@ -1700,9 +1802,9 @@
     .moreBtn small { display: block; font-size: 10px; color: #9fb0c5; font-weight: 600; margin-top: 4px; }
     .studyStatsHero {
       display: grid;
-      gap: 10px;
-      margin-bottom: 12px;
-      padding: 14px 12px;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      padding: var(--space-md);
       border-radius: var(--radius-md);
       border: 1px solid var(--app-border-strong);
       background: linear-gradient(135deg, var(--app-brand-soft) 0%, #fff 55%);
@@ -2554,7 +2656,7 @@
               <button type="button" id="recoveryStartBtn" class="ctl main">15分だけ再開する</button>
             </div>
 
-            <div class="swmFocusBlock">
+            <div class="swmFocusBlock swmSessionOnly">
               <div class="swmFocusHead">
                 <span>集中ゲージ</span>
                 <span id="swmFocusPct">0%</span>
@@ -2562,26 +2664,24 @@
               <div class="swmFocusBar"><div class="swmFocusFill" id="swmFocusFill"></div></div>
             </div>
 
-            <p class="swmCoreMsg">離脱すると努力が途切れ、今日の記録に残ります</p>
+            <p class="swmCoreMsg swmSessionOnly">離脱すると努力が途切れ、今日の記録に残ります</p>
 
-            <div id="studyLockBanner" class="studyLockBanner" hidden>
+            <div id="studyLockBanner" class="studyLockBanner swmSessionOnly" hidden>
               勉強中 — 戻ると streak が止まり、記録に「離脱」がつきます
             </div>
-            <div id="forcedBanner" class="forcedBanner">
+            <div id="forcedBanner" class="forcedBanner swmSessionOnly">
               集中モード — あと <b id="forcedRemain">25:00</b>（全画面 · 解除不可）
             </div>
 
-            <div class="quickStartDock">
-              <button type="button" id="quickStartBtn" class="quickStartBtn">勉強をスタート</button>
-            </div>
-
-            <div class="camStage camFirst" id="camStage">
+            <div class="swmStudyHero">
+              <div class="camStage" id="camStage">
               <div id="camWrap" class="camWrap layout-stand viewport-portrait frame-4x3 facing-environment">
                 <button type="button" id="camLaunch" class="camLaunchBtn" aria-label="カメラを起動">
                   <span class="camLaunchIcon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 8h2l1.5-2h9L18 8h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
                   </span>
-                  <span class="camLaunchText">タップしてカメラを起動</span>
+                  <span class="camLaunchText">カメラを起動</span>
+                  <span class="camLaunchSub">タップして許可 · 手元が映ればOK</span>
                 </button>
                 <div class="camLetterbox" id="camLetterbox">
                   <div class="camViewport" id="camViewport">
@@ -2635,10 +2735,17 @@
                   </div>
                 </div>
               </div>
-              <p class="status" id="camStatus">カメラをタップして起動 · スワイプでズーム</p>
+              </div>
+              <div class="quickStartDock swmPreOnly">
+                <button type="button" id="quickStartBtn" class="quickStartBtn">勉強をスタート</button>
+                <p class="swmStartHint">カメラON → 全画面 · 時間が終わるまで解除できません</p>
+              </div>
+              <p class="status swmPreOnly" id="camStatus">カメラをタップするか、下のボタンでスタート</p>
             </div>
 
-            <details class="demoPanel swmSettings sessionSetupCollapsible">
+            <button type="button" id="studyStopFloat" class="studyStopFloat" hidden>勉強を終了</button>
+
+            <details class="demoPanel swmSettings sessionSetupCollapsible swmPreOnly">
               <summary>設定 · 科目 · 強制モード</summary>
               <div style="margin-top:10px;">
               <p class="optLabel">終了のしかた</p>
@@ -2661,8 +2768,8 @@
               <input id="goalInput" class="mini" placeholder="今日の目標（例: 英単語200 + 長文2題）" />
               <p class="optLabel" style="margin-top:8px;">記録モード</p>
               <div class="sessionTypeRow">
-                <button type="button" class="sessionTypeBtn on" data-session-type="free">自分で</button>
-                <button type="button" class="sessionTypeBtn" data-session-type="forced">強制</button>
+                <button type="button" class="sessionTypeBtn" data-session-type="free">自分で</button>
+                <button type="button" class="sessionTypeBtn on" data-session-type="forced">強制</button>
               </div>
               <p id="forcedModeNote" class="contentLockNote" hidden>※ 強制：設定した勉強時間が終わるまでカメラを閉じられません</p>
               <div class="demoRow" style="margin-top:8px;">
@@ -2677,7 +2784,7 @@
               </div>
             </details>
 
-            <details class="demoPanel swmSettings camOpts">
+            <details class="demoPanel swmSettings camOpts swmPreOnly">
               <summary>カメラ詳細設定</summary>
               <div style="margin-top:10px;">
               <p class="optLabel">画面（端末の持ち方）</p>
@@ -2709,7 +2816,7 @@
               </div>
             </details>
 
-            <div class="vlogCreateDock" style="position:relative;z-index:3;">
+            <div class="vlogCreateDock swmPreOnly" style="position:relative;z-index:3;">
               <button type="button" id="createVlogBtn" class="ctl main" disabled>今日のVlogを自動生成</button>
               <p class="vlogCreateHint">勉強のあと、1タップでタイムラプスが完成</p>
             </div>
@@ -3068,6 +3175,9 @@
       facingMode: "environment",
       camLayout: "stand",
       camZoom: 1,
+      wantUltraWide: false,
+      zoomCaps: { hasZoom: false, min: 1, max: 1, step: 0.01 },
+      cameraDevices: null,
       camPanX: 0,
       camPanY: 0,
       viewportMode: "portrait",
@@ -3158,6 +3268,7 @@
     const dayDetailClose = document.getElementById("dayDetailClose");
     const dayDetailPlayVlog = document.getElementById("dayDetailPlayVlog");
     const quickStartBtn = document.getElementById("quickStartBtn");
+    const studyStopFloat = document.getElementById("studyStopFloat");
     const landingSceneTimer = document.getElementById("landingSceneTimer");
     const swmStreakNum = document.getElementById("swmStreakNum");
     const swmTodayMin = document.getElementById("swmTodayMin");
@@ -3586,32 +3697,47 @@
     }
 
     function isForcedSessionActive() {
-      return state.sessionType === "forced" && !!state.timerId;
+      return !!state.timerId;
     }
 
     function canCloseCamera() {
-      if (!isForcedSessionActive()) return true;
+      if (!state.timerId) return true;
+      if (endMode && endMode.value === "content") return false;
       return state.elapsed >= getForcedTargetSec();
     }
 
     function canStopSessionNow() {
-      if (!isForcedSessionActive()) return true;
+      if (!state.timerId) return true;
       if (endMode && endMode.value === "content") return true;
       return state.elapsed >= getForcedTargetSec();
     }
 
-    function updateForcedSessionUI() {
-      const forced = isForcedSessionActive();
-      document.body.classList.toggle("forcedSessionActive", forced);
+    function updateStudySessionUI() {
+      const active = !!state.timerId;
+      document.body.classList.toggle("studySessionActive", active);
+      document.body.classList.toggle("forcedSessionActive", active);
       if (forcedModeNote) forcedModeNote.hidden = state.sessionType !== "forced";
+      const canEnd = canStopSessionNow();
       if (stopSessionBtn) {
-        stopSessionBtn.disabled = forced && !canStopSessionNow();
+        stopSessionBtn.disabled = active && !canEnd;
         stopSessionBtn.style.opacity = stopSessionBtn.disabled ? "0.45" : "1";
       }
-      if (forced && forcedRemain) {
+      if (studyStopFloat) {
+        studyStopFloat.classList.toggle("show", active);
+        studyStopFloat.classList.toggle("can-end", canEnd);
+        studyStopFloat.hidden = !active;
+        studyStopFloat.textContent = canEnd
+          ? "勉強を終了"
+          : "あと " + fmt(Math.max(0, getForcedTargetSec() - state.elapsed));
+      }
+      if (active && forcedRemain) {
         const remain = Math.max(0, getForcedTargetSec() - state.elapsed);
         forcedRemain.textContent = fmt(remain);
       }
+    }
+
+    function updateForcedSessionUI() {
+      updateStudySessionUI();
     }
 
     function setSessionType(type) {
@@ -3623,14 +3749,28 @@
     }
 
     function zoomToRatio(r) {
-      state.camZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, r));
+      const next = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, r));
+      const prev = state.camZoom;
+      state.camZoom = next;
+      const wantUltra = next < 0.75;
+      const hadUltra = prev < 0.75;
+      if (state.cameraLive && wantUltra !== hadUltra) {
+        state.wantUltraWide = wantUltra;
+        startCam();
+        return;
+      }
+      state.wantUltraWide = wantUltra;
       applyCamTransform();
       updateZoomUI();
     }
 
     function updateZoomUI() {
       const z = state.camZoom;
-      if (zoomLabel) zoomLabel.textContent = z.toFixed(1).replace(".0", "") + "×";
+      let label = z.toFixed(1).replace(".0", "") + "×";
+      if (z < 0.75 && state.zoomCaps.hasZoom && state.zoomCaps.min >= 1 && !state.wantUltraWide) {
+        label += " (広角非対応)";
+      }
+      if (zoomLabel) zoomLabel.textContent = label;
       document.querySelectorAll(".zoomLevelBtn").forEach((btn) => {
         const bz = parseFloat(btn.dataset.zoom);
         btn.classList.toggle("on", Math.abs(bz - z) < 0.15);
@@ -3643,13 +3783,91 @@
       }
     }
 
+    async function ensureCameraDevices() {
+      if (state.cameraDevices) return;
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        state.cameraDevices = devices.filter((d) => d.kind === "videoinput");
+      } catch (_) {
+        state.cameraDevices = [];
+      }
+    }
+
+    function pickCameraDeviceId(facing, ultraWide) {
+      const devs = state.cameraDevices || [];
+      if (!devs.length) return null;
+      const isBack = (label) => /back|rear|環境|背面|wide/i.test(label) && !/front|内|前面/i.test(label);
+      const isFront = (label) => /front|user|内|前面|selfie/i.test(label);
+      const isUltra = (label) => /ultra|ultrawide|超広|0\.5x|0,5|wide angle/i.test(label);
+      const isStandard = (label) => !/ultra|ultrawide|超広|0\.5x|0,5/i.test(label);
+
+      let pool = devs;
+      if (facing === "user") {
+        const front = devs.filter((d) => isFront(d.label));
+        pool = front.length ? front : devs;
+      } else {
+        const back = devs.filter((d) => isBack(d.label) || (!isFront(d.label) && devs.length > 1));
+        pool = back.length ? back : devs;
+      }
+
+      if (ultraWide && facing !== "user") {
+        const uw = pool.find((d) => isUltra(d.label));
+        if (uw) return uw.deviceId;
+      } else if (!ultraWide) {
+        const std = pool.find((d) => isStandard(d.label));
+        if (std) return std.deviceId;
+      }
+      return pool[0] ? pool[0].deviceId : null;
+    }
+
     function getCamVideoConstraints() {
       const landscapeSensor = state.frameAspect === "16:9";
-      return {
-        facingMode: { ideal: state.facingMode },
-        width: { ideal: landscapeSensor ? 1280 : 960 },
-        height: { ideal: landscapeSensor ? 720 : 1280 }
+      const ultraWide = !!state.wantUltraWide && state.facingMode !== "user";
+      const deviceId = pickCameraDeviceId(state.facingMode, ultraWide);
+      const video = {
+        width: { ideal: landscapeSensor ? 1920 : 1080 },
+        height: { ideal: landscapeSensor ? 1080 : 1920 }
       };
+      if (deviceId) {
+        video.deviceId = { ideal: deviceId };
+      } else {
+        video.facingMode = { ideal: state.facingMode };
+      }
+      return video;
+    }
+
+    function readZoomCapabilities() {
+      state.zoomCaps = { hasZoom: false, min: 1, max: 1, step: 0.01 };
+      const track = state.stream && state.stream.getVideoTracks()[0];
+      if (!track || !track.getCapabilities) return;
+      try {
+        const caps = track.getCapabilities();
+        if (caps.zoom) {
+          state.zoomCaps = {
+            hasZoom: true,
+            min: caps.zoom.min != null ? caps.zoom.min : 1,
+            max: caps.zoom.max != null ? caps.zoom.max : 1,
+            step: caps.zoom.step != null ? caps.zoom.step : 0.01
+          };
+        }
+      } catch (_) {}
+    }
+
+    function mapDisplayZoomToTrack(displayZ) {
+      if (!state.zoomCaps.hasZoom) return null;
+      const d = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, displayZ));
+      const min = state.zoomCaps.min;
+      const max = state.zoomCaps.max;
+      if (d <= 0.55) return min;
+      if (d >= 2.5) return max;
+      if (d <= 1) {
+        if (min < 1) {
+          return min + ((d - ZOOM_MIN) / (1 - ZOOM_MIN)) * (1 - min);
+        }
+        return min + ((d - ZOOM_MIN) / (1 - ZOOM_MIN)) * (Math.min(1, max) - min);
+      }
+      const t = (d - 1) / (ZOOM_MAX - 1);
+      return Math.min(max, 1 + t * (max - 1));
     }
 
     function setViewportMode(mode) {
@@ -3716,7 +3934,7 @@
     }
 
     function exitCamFullscreenIfAllowed() {
-      if (isForcedSessionActive() && state.forcedLock) return false;
+      if (state.timerId && state.forcedLock) return false;
       if (state.camFullscreen) {
         state.camFullscreen = false;
         if (camStage) camStage.classList.remove("is-maximized");
@@ -3726,7 +3944,7 @@
     }
 
     function toggleCamFullscreen() {
-      if (state.camFullscreen && isForcedSessionActive() && state.forcedLock) {
+      if (state.camFullscreen && state.timerId && state.forcedLock) {
         if (camStatus) camStatus.textContent = "強制モード：時間が終わるまで全画面を解除できません";
         return;
       }
@@ -3736,7 +3954,7 @@
     }
 
     function isAppNavigationLocked() {
-      return isForcedSessionActive() && state.forcedLock;
+      return !!state.timerId && state.forcedLock;
     }
 
     function showAppLockOverlay() {
@@ -3757,10 +3975,11 @@
       document.body.classList.add("forcedAppLock");
       if (studyLockBanner) {
         studyLockBanner.hidden = false;
-        studyLockBanner.textContent = "強制勉強中 — この画面から移動できません";
+        studyLockBanner.textContent = "勉強中 — 全画面ロック（時間終了まで解除不可）";
       }
       requestWakeLock();
       enterCamFullscreen();
+      updateStudySessionUI();
     }
 
     function disableForcedLock() {
@@ -3772,15 +3991,23 @@
 
     async function quickStartStudy() {
       if (state.timerId) {
-        stopSession();
+        if (canStopSessionNow()) stopSession(true);
+        else if (camStatus) {
+          camStatus.textContent = "残り " + fmt(getForcedTargetSec() - state.elapsed) + " — 時間が終わるまで終了できません";
+        }
         return;
       }
-      if (!state.cameraLive) {
-        if (camStatus) camStatus.textContent = "カメラを起動しています…";
-        await startCam();
-      }
-      if (!state.stream) return;
+      setSessionType("forced");
       if (studyMinutes) studyMinutes.value = studyMinutes.value || "25";
+      if (!state.cameraLive) {
+        if (camStatus) camStatus.textContent = "カメラを起動しています…許可ダイアログを確認してください";
+        const ok = await startCam();
+        if (!ok) return;
+      }
+      if (!state.stream) {
+        if (camStatus) camStatus.textContent = "カメラが使えません。上の映像エリアをタップして許可してください";
+        return;
+      }
       runCountdownThen(() => startSession());
     }
 
@@ -3795,31 +4022,31 @@
       }
     }
 
-    function getVisualZoomScale(camZoom) {
-      const z = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, camZoom));
+    function getCssZoomScale(displayZ) {
+      const z = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, displayZ));
+      if (state.zoomCaps.hasZoom) {
+        if (z < 0.98 && state.zoomCaps.min < 1) return 1;
+        if (z <= 1) return 1;
+        const hw = mapDisplayZoomToTrack(z);
+        if (hw != null && hw <= state.zoomCaps.max * 0.99) return 1;
+        return z / (state.zoomCaps.max || 1);
+      }
       return z;
     }
 
     async function applyTrackZoomIfSupported(displayZoom) {
       if (!state.stream) return;
       const track = state.stream.getVideoTracks()[0];
-      if (!track || !track.getCapabilities) return;
+      if (!track) return;
+      const value = mapDisplayZoomToTrack(displayZoom);
+      if (value == null) return;
       try {
-        const caps = track.getCapabilities();
-        if (!caps.zoom) return;
-        const min = caps.zoom.min != null ? caps.zoom.min : 1;
-        const max = caps.zoom.max != null ? caps.zoom.max : 1;
-        let value;
-        if (displayZoom <= 0.55) {
-          value = min;
-        } else if (displayZoom >= 2.5) {
-          value = max;
-        } else {
-          const t = (displayZoom - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN);
-          value = min + t * (max - min);
-        }
         await track.applyConstraints({ advanced: [{ zoom: value }] });
-      } catch (_) {}
+      } catch (_) {
+        try {
+          await track.applyConstraints({ zoom: value });
+        } catch (_2) {}
+      }
     }
 
     function setVlogTimerHudVisible(visible) {
@@ -4065,34 +4292,37 @@
     function applyCamTransform() {
       if (!cam || !camVideoLayer) return;
       const preset = getLayoutPreset(state.camLayout, state.facingMode);
-      const z = getVisualZoomScale(state.camZoom);
-      const clamped = clampCamPan(state.camPanX, state.camPanY, z);
+      const displayZ = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, state.camZoom));
+      const cssScale = getCssZoomScale(displayZ);
+      const panLimit = getPanLimitScale(displayZ, cssScale);
+      const clamped = clampCamPan(state.camPanX, state.camPanY, panLimit);
       state.camPanX = clamped.x;
       state.camPanY = clamped.y;
+
+      camVideoLayer.style.left = "0";
+      camVideoLayer.style.top = "0";
+      camVideoLayer.style.width = "100%";
+      camVideoLayer.style.height = "100%";
+      camVideoLayer.style.marginLeft = "0";
+      camVideoLayer.style.marginTop = "0";
+      cam.style.width = "100%";
+      cam.style.height = "100%";
+      cam.style.objectFit = "cover";
+      cam.style.position = "";
+      cam.style.left = "";
+      cam.style.top = "";
+      cam.style.marginLeft = "";
+      cam.style.marginTop = "";
+      cam.style.transform = "";
       cam.style.objectPosition = preset.posX + "% " + preset.posY + "%";
-      if (z < 1) {
-        const inv = 1 / z;
-        camVideoLayer.style.left = "50%";
-        camVideoLayer.style.top = "50%";
-        camVideoLayer.style.width = (inv * 100) + "%";
-        camVideoLayer.style.height = (inv * 100) + "%";
-        camVideoLayer.style.marginLeft = (-inv * 50) + "%";
-        camVideoLayer.style.marginTop = (-inv * 50) + "%";
-      } else {
-        camVideoLayer.style.left = "0";
-        camVideoLayer.style.top = "0";
-        camVideoLayer.style.width = "100%";
-        camVideoLayer.style.height = "100%";
-        camVideoLayer.style.marginLeft = "0";
-        camVideoLayer.style.marginTop = "0";
-      }
       camVideoLayer.style.transform =
-        "translate(" + state.camPanX + "px," + state.camPanY + "px) scale(" + z + ")";
+        "translate(" + clamped.x + "px," + clamped.y + "px) scale(" + cssScale + ")";
+
       syncCamWrapClasses();
       updateZoomUI();
       updateFacingBadge();
       updateCamHint();
-      applyTrackZoomIfSupported(state.camZoom);
+      applyTrackZoomIfSupported(displayZ);
     }
 
     function showCamLive() {
@@ -4374,6 +4604,10 @@
       if (mode !== "user" && mode !== "environment") return;
       if (mode !== state.facingMode) saveFacingPrefs();
       state.facingMode = mode;
+      if (mode === "user" && state.camZoom < 1) {
+        state.camZoom = 1;
+        state.wantUltraWide = false;
+      }
       loadFacingPrefs(mode);
       syncCamSettingChips();
       syncCamWrapClasses();
@@ -4397,10 +4631,24 @@
     }
 
     async function startCam() {
+      if (!window.isSecureContext) {
+        if (camStatus) {
+          camStatus.textContent = "カメラはHTTPSまたはlocalhostが必要です（file://では動きません）";
+        }
+        return false;
+      }
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        if (camStatus) camStatus.textContent = "このブラウザはカメラに対応していません";
+        return false;
+      }
       try {
         if (state.stream) {
           state.stream.getTracks().forEach((t) => t.stop());
           state.stream = null;
+        }
+        await ensureCameraDevices();
+        if (state.camZoom < 0.75 && state.facingMode !== "user") {
+          state.wantUltraWide = true;
         }
         state.stream = await navigator.mediaDevices.getUserMedia({
           video: getCamVideoConstraints(),
@@ -4408,16 +4656,41 @@
         });
         cam.srcObject = state.stream;
         await cam.play();
+        readZoomCapabilities();
         showCamLive();
         const label = state.facingMode === "user" ? "内カメ" : "外カメ";
-        camStatus.textContent = label + " · ドラッグで位置 · 0.5×〜3×";
+        const zoomHint = state.wantUltraWide ? " · 広角" : "";
+        if (camStatus) {
+          camStatus.textContent = label + zoomHint + " 起動済み · 0.5×は超広角レンズ";
+        }
         updateStudyTimerHud(state.timerId ? state.elapsed : 0);
         applyCamTransform();
-        if (state.forcedLock || (state.sessionType === "forced" && state.timerId)) {
-          enterCamFullscreen();
-        }
+        if (state.timerId || state.forcedLock) enterCamFullscreen();
+        return true;
       } catch (e) {
-        camStatus.textContent = "カメラ接続に失敗しました（権限を許可してください）";
+        if (state.wantUltraWide) {
+          state.wantUltraWide = false;
+          try {
+            state.stream = await navigator.mediaDevices.getUserMedia({
+              video: getCamVideoConstraints(),
+              audio: false
+            });
+            cam.srcObject = state.stream;
+            await cam.play();
+            readZoomCapabilities();
+            showCamLive();
+            applyCamTransform();
+            if (camStatus) camStatus.textContent = "広角レンズなし — 標準カメラで起動しました";
+            return true;
+          } catch (_2) {}
+        }
+        const denied = e && (e.name === "NotAllowedError" || e.name === "PermissionDeniedError");
+        if (camStatus) {
+          camStatus.textContent = denied
+            ? "カメラが拒否されました。ブラウザ設定でカメラを許可してください"
+            : "カメラ接続に失敗しました（他アプリでカメラ使用中の可能性）";
+        }
+        return false;
       }
     }
 
@@ -5355,12 +5628,17 @@
       playVlogSlideshow(targetSec, studySec);
     }
 
-    function startSession() {
+    async function startSession() {
       if (!state.stream) {
-        camStatus.textContent = "先にカメラアイコンをタップして起動してください";
-        return;
+        if (camStatus) camStatus.textContent = "カメラを起動中…";
+        const ok = await startCam();
+        if (!ok || !state.stream) {
+          if (camStatus) camStatus.textContent = "カメラを許可してから再度スタートしてください";
+          return;
+        }
       }
       if (state.timerId) return;
+      setSessionType(state.sessionType || "forced");
       state.elapsed = 0;
       state.awayCount = 0;
       state.pomodoroDone = false;
@@ -5389,16 +5667,13 @@
         }
         if (state.elapsed % 5 === 0) snapshot("timelapse");
       }, 1000);
-      if (state.sessionType === "forced") {
-        enableForcedLock();
-        enterCamFullscreen();
-        camStatus.textContent = "強制モード — 全画面で勉強中（解除不可）";
-      } else if (endMode && endMode.value === "content") {
-        enableStudyLock();
-        camStatus.textContent = "勉強ロック中 · 他のアプリは開けません";
-      } else {
-        camStatus.textContent = "勉強記録中 · " + (studyMinutes && studyMinutes.value) + "分";
+      enableForcedLock();
+      enterCamFullscreen();
+      if (camStatus) {
+        camStatus.textContent = "全画面ロック中 — 残り " + fmt(getForcedTargetSec()) + "（解除不可）";
       }
+      if (endMode && endMode.value === "content") enableStudyLock();
+      updateStudySessionUI();
       updateCreateVlogBtn();
       updateQuickStartBtn();
     }
@@ -5419,7 +5694,7 @@
       snapshot("end");
       disableStudyLock();
       disableForcedLock();
-      updateForcedSessionUI();
+      updateStudySessionUI();
       setStudyTimerHudVisible(false);
       setVlogTimerHudVisible(false);
       persistSession();
@@ -5540,13 +5815,37 @@
     document.querySelectorAll(".modeBtn").forEach(btn => {
       btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
-    if (camLaunch) camLaunch.addEventListener("click", startCam);
+    if (cam && !cam.dataset.zoomBound) {
+      cam.dataset.zoomBound = "1";
+      cam.addEventListener("loadedmetadata", () => {
+        readZoomCapabilities();
+        applyCamTransform();
+      });
+    }
+    if (camLaunch) {
+      camLaunch.addEventListener("click", (e) => {
+        e.stopPropagation();
+        startCam();
+      });
+    }
+    if (camWrap) {
+      camWrap.addEventListener("click", (e) => {
+        if (state.cameraLive) return;
+        if (e.target.closest(".camLaunchBtn")) return;
+        startCam();
+      });
+    }
+    if (studyStopFloat) {
+      studyStopFloat.addEventListener("click", () => {
+        if (state.timerId) quickStartStudy();
+      });
+    }
     if (switchCamBtn) switchCamBtn.addEventListener("click", toggleFacing);
     initCamPan();
     initPinchZoom();
     initZoomControls();
     setEndMode("time");
-    setSessionType("free");
+    setSessionType("forced");
     loadFacingPrefs(state.facingMode);
     setCamLayout(state.camLayout, false);
     setViewportMode(state.viewportMode);
