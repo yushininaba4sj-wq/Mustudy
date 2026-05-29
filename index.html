@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="mustudy-build" content="2026-05-29-camfix10">
+  <meta name="mustudy-build" content="2026-05-29-white2">
   <title>Mustudy | 今日の努力が、一生の思い出になる。</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,8 @@
       --brand-dark: #0b7285;
       --accent: #e8f9fc;
       /* App（白基調・勉強） */
-      --app-bg: #f3f5f8;
+      --app-bg: #ffffff;
+      --app-bg-subtle: #f8fafc;
       --app-bg-elevated: #ffffff;
       --app-card: #ffffff;
       --app-border: rgba(15, 23, 42, 0.08);
@@ -53,22 +54,14 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--app-bg);
-      background-image:
-        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.12), transparent 55%),
-        radial-gradient(ellipse 45% 40% at 100% 15%, rgba(124, 58, 237, 0.07), transparent 50%),
-        radial-gradient(ellipse 40% 35% at 0% 30%, rgba(13, 148, 136, 0.08), transparent 45%);
+      background: #ffffff;
       color: var(--app-text);
       font-family: "Inter", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
     body.appOpen {
-      background: var(--app-bg);
-      background-image:
-        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(59, 130, 246, 0.12), transparent 55%),
-        radial-gradient(ellipse 45% 40% at 100% 15%, rgba(124, 58, 237, 0.07), transparent 50%),
-        radial-gradient(ellipse 40% 35% at 0% 30%, rgba(13, 148, 136, 0.08), transparent 45%);
+      background: #ffffff;
     }
     a { color: inherit; text-decoration: none; }
     .wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
@@ -649,7 +642,7 @@
       padding: 10px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--app-border-strong);
-      background: var(--app-bg);
+      background: var(--app-bg-subtle);
     }
     .bookGoalItem .mini { margin-bottom: 6px; }
     .bookGoalRemove {
@@ -729,6 +722,33 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    .myPageEntry {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+      min-width: 40px;
+    }
+    .myPageLabel {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--app-muted);
+      opacity: 0.72;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+    }
+    #screenCamera.studyWithMeScreen .myPageLabel {
+      color: rgba(226, 232, 240, 0.78);
+      opacity: 1;
+    }
+    #screenTimeline.timeline-dark .myPageLabel {
+      color: rgba(148, 163, 184, 0.88);
+      opacity: 1;
     }
     .myPageLink {
       border: none;
@@ -898,15 +918,17 @@
       margin-bottom: 12px;
       padding: 14px 12px;
       border-radius: var(--radius-lg);
-      border: 2px solid rgba(59, 130, 246, 0.45);
-      background: linear-gradient(165deg, rgba(30, 58, 138, 0.35) 0%, rgba(15, 23, 42, 0.75) 100%);
-      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     .swmQuickSetup h4 {
       margin: 0 0 10px;
       font-size: 14px;
       font-weight: 900;
-      color: #e0f2fe;
+      color: var(--app-text);
       letter-spacing: 0.04em;
     }
     .swmQuickSetup .mini { margin-bottom: 8px; }
@@ -1595,8 +1617,8 @@
     }
     body.studySessionActive .vlogCreateDock,
     body.studySessionActive .swmSettings { display: none; }
-    body.forcedAppLock .myPageOrb,
-    body.forcedAppLock .pageHead .myPageOrb {
+    body.forcedAppLock .myPageEntry,
+    body.forcedAppLock .pageHead .myPageEntry {
       pointer-events: none;
       opacity: 0.4;
     }
@@ -2193,7 +2215,7 @@
       padding: var(--space-md);
       border-radius: var(--radius-md);
       border: 1px solid var(--app-border-strong);
-      background: linear-gradient(135deg, var(--app-brand-soft) 0%, #fff 55%);
+      background: #ffffff;
     }
     .studyStatToday {
       text-align: center;
@@ -2220,7 +2242,7 @@
       text-align: center;
       padding: 10px 8px;
       border-radius: var(--radius-sm);
-      background: rgba(255, 255, 255, 0.85);
+      background: var(--app-bg-subtle);
       border: 1px solid var(--app-border);
     }
     .studyStatBox span {
@@ -2247,21 +2269,21 @@
       padding: 8px;
       font-size: 11px;
       font-weight: 800;
-      background: var(--app-bg);
+      background: #ffffff;
       color: var(--app-muted);
       cursor: pointer;
     }
     .statsPeriodTab.on {
       background: var(--app-brand);
       border-color: var(--app-brand);
-      color: #061018;
+      color: #ffffff;
     }
     .vlogSummaryRow {
       margin: 12px 0 10px;
       padding: 12px;
       border-radius: var(--radius-md);
       border: 1px solid var(--app-border-strong);
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      background: #ffffff;
     }
     .vlogPeriodBtns {
       display: flex;
@@ -2275,9 +2297,14 @@
       padding: 10px 6px;
       font-size: 11px;
       font-weight: 800;
-      background: var(--app-bg);
+      background: #ffffff;
       color: var(--app-text);
       cursor: pointer;
+    }
+    .vlogPeriodBtn.on {
+      background: var(--app-brand-soft);
+      border-color: var(--app-brand);
+      color: var(--app-brand-dim);
     }
     .vlogPeriodBtn:active { transform: scale(0.98); }
     .studyBarChart {
@@ -2360,7 +2387,7 @@
       aspect-ratio: 1;
       border: none;
       border-radius: 8px;
-      background: var(--app-bg);
+      background: var(--app-bg-subtle);
       font-size: 11px;
       font-weight: 700;
       color: var(--app-muted);
@@ -2405,7 +2432,7 @@
       justify-content: space-between;
       gap: 8px;
       padding: 10px 12px;
-      background: var(--app-bg);
+      background: var(--app-bg-subtle);
       border-bottom: 1px solid var(--app-border);
     }
     .recordDayHead b {
@@ -2484,14 +2511,19 @@
       margin-bottom: 12px;
     }
     .statBox {
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: 1px solid var(--app-border-strong);
       border-radius: 12px;
       padding: 10px 8px;
       text-align: center;
-      background: rgba(255, 255, 255, 0.03);
+      background: #ffffff;
     }
-    .statBox strong { display: block; font-size: 18px; color: var(--app-brand); }
-    .statBox span { font-size: 10px; color: #9fb0c5; font-weight: 700; }
+    .statBox strong { display: block; font-size: 18px; color: var(--app-brand-dim); }
+    .statBox span { font-size: 10px; color: var(--app-muted); font-weight: 700; }
+    #screenTimeline.timeline-dark .statBox {
+      border-color: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    #screenTimeline.timeline-dark .statBox span { color: #94a3b8; }
 
     .brandWhisper {
       margin: 0 0 14px;
@@ -2777,166 +2809,85 @@
       .appOpen .nav { display: none; }
       .appOpen #demo { padding-top: 6px; }
     }
-    /* 控えめなアクセントカラー（見やすさ優先） */
-    .streakHero .statBox:nth-child(1) {
-      background: linear-gradient(165deg, rgba(217, 119, 6, 0.18), rgba(255, 255, 255, 0.04));
-      border-color: rgba(251, 191, 36, 0.35);
-    }
-    .streakHero .statBox:nth-child(1) strong { color: #fbbf24; }
-    .streakHero .statBox:nth-child(2) {
-      background: linear-gradient(165deg, rgba(59, 130, 246, 0.16), rgba(255, 255, 255, 0.04));
-      border-color: rgba(96, 165, 250, 0.32);
-    }
-    .streakHero .statBox:nth-child(2) strong { color: #93c5fd; }
-    .streakHero .statBox:nth-child(3) {
-      background: linear-gradient(165deg, rgba(13, 148, 136, 0.16), rgba(255, 255, 255, 0.04));
-      border-color: rgba(45, 212, 191, 0.3);
-    }
-    .streakHero .statBox:nth-child(3) strong { color: #5eead4; }
+    /* 白基調＋控えめアクセント */
+    .streakHero .statBox:nth-child(1) strong { color: var(--app-warm); }
+    .streakHero .statBox:nth-child(2) strong { color: var(--app-brand-dim); }
+    .streakHero .statBox:nth-child(3) strong { color: var(--app-mint); }
 
     .studyStatsHero {
-      background: linear-gradient(145deg, rgba(59, 130, 246, 0.14) 0%, rgba(124, 58, 237, 0.08) 50%, #fff 100%);
-      border-color: rgba(59, 130, 246, 0.22);
+      background: #ffffff;
+      border-color: var(--app-border-strong);
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
     }
-    .studyStatToday strong {
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .studyStatToday strong { color: var(--app-brand-dim); }
+    .studyStatRow .studyStatBox {
+      background: var(--app-bg-subtle);
+      border-color: var(--app-border-strong);
     }
-    .studyStatRow .studyStatBox:first-child {
-      background: linear-gradient(180deg, var(--app-teal-soft), #fff);
-      border-color: rgba(13, 148, 136, 0.28);
-    }
-    .studyStatRow .studyStatBox:first-child strong { color: #0f766e; }
-    .studyStatRow .studyStatBox:last-child {
-      background: linear-gradient(180deg, var(--app-violet-soft), #fff);
-      border-color: rgba(124, 58, 237, 0.25);
-    }
-    .studyStatRow .studyStatBox:last-child strong { color: #6d28d9; }
+    .studyStatRow .studyStatBox strong { color: var(--app-text); }
 
-    .statsPeriodTab.on[data-period="week"] {
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
-      border-color: #2563eb;
+    .studyBarCol .studyBar {
+      background: linear-gradient(180deg, #93c5fd 0%, var(--app-brand-dim) 100%);
     }
-    .statsPeriodTab.on[data-period="month"] {
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      border-color: #6d28d9;
-    }
-
-    .studyBarCol:nth-child(7n+1) .studyBar { background: linear-gradient(180deg, #60a5fa, #2563eb); }
-    .studyBarCol:nth-child(7n+2) .studyBar { background: linear-gradient(180deg, #818cf8, #4f46e5); }
-    .studyBarCol:nth-child(7n+3) .studyBar { background: linear-gradient(180deg, #a78bfa, #7c3aed); }
-    .studyBarCol:nth-child(7n+4) .studyBar { background: linear-gradient(180deg, #2dd4bf, #0d9488); }
-    .studyBarCol:nth-child(7n+5) .studyBar { background: linear-gradient(180deg, #34d399, #059669); }
-    .studyBarCol:nth-child(7n+6) .studyBar { background: linear-gradient(180deg, #fbbf24, #d97706); }
-    .studyBarCol:nth-child(7n) .studyBar { background: linear-gradient(180deg, #fb7185, #e11d48); }
+    .studyBarCol:nth-child(7n) .studyBar { opacity: 0.88; }
 
     .studyCalDay.has-study {
-      background: linear-gradient(165deg, var(--app-mint-soft), var(--app-brand-soft));
-      color: #0f766e;
+      background: var(--app-brand-soft);
+      color: var(--app-brand-dim);
     }
     .studyCalDay.selected {
-      background: linear-gradient(135deg, #3b82f6, #7c3aed);
+      background: var(--app-brand);
+      color: #ffffff;
     }
 
-    .vlogSummaryRow {
-      border-color: rgba(124, 58, 237, 0.22);
-      background: linear-gradient(145deg, rgba(124, 58, 237, 0.08) 0%, rgba(13, 148, 136, 0.06) 45%, #fff 100%);
-    }
-    .vlogPeriodBtn:nth-child(1).on,
-    .vlogPeriodBtn:active {
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
-      border-color: #2563eb;
-      color: #fff;
-    }
-    .vlogPeriodBtn:nth-child(2).on {
-      background: linear-gradient(135deg, #0d9488, #0f766e);
-      border-color: #0f766e;
-      color: #fff;
-    }
-    .vlogPeriodBtn:nth-child(3).on {
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      border-color: #6d28d9;
-      color: #fff;
-    }
-
-    .recordDayGroup:nth-child(odd) { border-left: 3px solid #3b82f6; }
-    .recordDayGroup:nth-child(even) { border-left: 3px solid #0d9488; }
-    .recordDayHead {
-      background: linear-gradient(90deg, rgba(59, 130, 246, 0.08), transparent);
-    }
-    .recordDayHead span { color: #2563eb; }
+    .recordDayGroup { border-left: 3px solid var(--app-border-strong); }
+    .recordDayHead { background: var(--app-bg-subtle); }
+    .recordDayHead span { color: var(--app-muted); }
     .recordItem.on {
-      border-color: #3b82f6;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.14), rgba(124, 58, 237, 0.08));
+      border-color: var(--app-brand);
+      background: var(--app-brand-soft);
     }
 
-    #screenRecord .demoPanel {
-      border-left: 3px solid rgba(13, 148, 136, 0.45);
-      background: linear-gradient(135deg, #ffffff, #f0fdfa);
-    }
-    #screenFeedback .demoPanel {
-      border-left: 3px solid rgba(217, 119, 6, 0.45);
-      background: linear-gradient(135deg, #ffffff, #fffbeb);
-    }
-    #screenPlan .demoPanel {
-      border-left: 3px solid rgba(5, 150, 105, 0.45);
-      background: linear-gradient(135deg, #ffffff, #ecfdf5);
-    }
+    #screenRecord .demoPanel,
+    #screenFeedback .demoPanel,
+    #screenPlan .demoPanel,
     #screenTimeline:not(.timeline-dark) .tlCard {
-      border-left: 3px solid rgba(124, 58, 237, 0.4);
-      background: linear-gradient(135deg, #ffffff, #faf5ff);
-    }
-    #screenTimeline:not(.timeline-dark) .timelinePostList {
-      border-color: rgba(59, 130, 246, 0.12);
+      background: #ffffff;
+      border-left: none;
     }
 
     .swmStreakPill {
-      background: linear-gradient(135deg, rgba(217, 119, 6, 0.35), rgba(251, 191, 36, 0.2));
-      border-color: rgba(251, 191, 36, 0.45);
-      color: #fde68a;
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fef3c7;
     }
     .swmTodayPill {
-      background: linear-gradient(135deg, rgba(13, 148, 136, 0.35), rgba(0, 0, 0, 0.35));
-      border-color: rgba(45, 212, 191, 0.35);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.3);
     }
     .swmFocusFill {
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #14b8a6);
-    }
-    .swmQuickSetup {
-      border-color: rgba(59, 130, 246, 0.5);
-      background: linear-gradient(165deg, rgba(37, 99, 235, 0.28) 0%, rgba(124, 58, 237, 0.15) 40%, rgba(15, 23, 42, 0.82) 100%);
-    }
-    .swmQuickSetup h4 { color: #bfdbfe; }
-    .swmAmbient {
-      background:
-        radial-gradient(ellipse 70% 45% at 20% 0%, rgba(251, 191, 36, 0.12), transparent 50%),
-        radial-gradient(ellipse 80% 50% at 80% 10%, rgba(124, 58, 237, 0.14), transparent 55%),
-        radial-gradient(ellipse 90% 50% at 50% 0%, rgba(59, 130, 246, 0.2), transparent 55%),
-        linear-gradient(180deg, #0a0f1a 0%, #070b14 100%);
+      background: linear-gradient(90deg, var(--app-brand), #60a5fa);
     }
 
-    .tabBtn[data-app-action="camera"].on { color: #60a5fa; }
-    .tabBtn[data-app-action="timeline"].on { color: #c4b5fd; }
-    .tabBtn[data-app-action="record"].on { color: #2dd4bf; }
-    .tabBtn[data-app-action="feedback"].on { color: #fbbf24; }
-    .tabBtn[data-app-action="plan"].on { color: #34d399; }
+    .tabBtn.on { color: var(--tab-active); }
 
     .layoutChip.on, .facingChip.on {
-      background: linear-gradient(135deg, var(--app-brand-soft), var(--app-violet-soft));
+      background: var(--app-brand-soft);
       border-color: var(--app-brand);
       color: var(--app-brand-dim);
     }
-    .layoutChip[data-layout="split"].on {
-      background: linear-gradient(135deg, var(--app-violet-soft), var(--app-mint-soft));
-      border-color: #7c3aed;
-      color: #6d28d9;
-    }
 
-    .quickStartBtn {
-      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #2563eb 100%);
-      box-shadow: 0 14px 40px rgba(99, 102, 241, 0.45);
+    #screenCamera.studyWithMeScreen .layoutChip,
+    #screenCamera.studyWithMeScreen .facingChip {
+      border-color: var(--app-border-strong);
+      background: #ffffff;
+      color: var(--app-text);
+    }
+    #screenCamera.studyWithMeScreen .layoutChip.on,
+    #screenCamera.studyWithMeScreen .facingChip.on {
+      background: var(--app-brand-soft);
+      border-color: var(--app-brand);
+      color: var(--app-brand-dim);
     }
 
     .tlCard h4 { color: #6d28d9; }
@@ -3093,10 +3044,13 @@
 
           <div id="screenTimeline" class="appScreen">
             <header class="pageHead">
-              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
-                <img class="myPageOrbImg" alt="" hidden />
-                <span class="myPageOrbInitial">Y</span>
-              </button>
+              <div class="myPageEntry">
+                <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                  <img class="myPageOrbImg" alt="" hidden />
+                  <span class="myPageOrbInitial">Y</span>
+                </button>
+                <span class="myPageLabel">マイページ</span>
+              </div>
               <h3 class="pageTitle">タイムライン</h3>
               <button type="button" class="timelineThemeToggle" id="timelineThemeToggle" aria-label="タイムライン配色切替">白テーマ</button>
             </header>
@@ -3123,10 +3077,13 @@
 
           <div id="screenRecord" class="appScreen">
             <header class="pageHead">
-              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
-                <img class="myPageOrbImg" alt="" hidden />
-                <span class="myPageOrbInitial">Y</span>
-              </button>
+              <div class="myPageEntry">
+                <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                  <img class="myPageOrbImg" alt="" hidden />
+                  <span class="myPageOrbInitial">Y</span>
+                </button>
+                <span class="myPageLabel">マイページ</span>
+              </div>
               <h3 class="pageTitle">勉強記録</h3>
             </header>
             <div class="streakHero">
@@ -3233,10 +3190,13 @@
             <div class="swmAmbient" aria-hidden="true"><div class="swmLoFi"></div></div>
 
             <header class="pageHead">
-              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
-                <img class="myPageOrbImg" alt="" hidden />
-                <span class="myPageOrbInitial">Y</span>
-              </button>
+              <div class="myPageEntry">
+                <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                  <img class="myPageOrbImg" alt="" hidden />
+                  <span class="myPageOrbInitial">Y</span>
+                </button>
+                <span class="myPageLabel">マイページ</span>
+              </div>
               <h3 class="pageTitle">StudyWithMe</h3>
             </header>
 
@@ -3485,10 +3445,13 @@
 
           <div id="screenFeedback" class="appScreen">
             <header class="pageHead">
-              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
-                <img class="myPageOrbImg" alt="" hidden />
-                <span class="myPageOrbInitial">Y</span>
-              </button>
+              <div class="myPageEntry">
+                <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                  <img class="myPageOrbImg" alt="" hidden />
+                  <span class="myPageOrbInitial">Y</span>
+                </button>
+                <span class="myPageLabel">マイページ</span>
+              </div>
               <h3 class="pageTitle">フィードバック</h3>
             </header>
             <div class="demoPanel">
@@ -3503,10 +3466,13 @@
 
           <div id="screenPlan" class="appScreen">
             <header class="pageHead">
-              <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
-                <img class="myPageOrbImg" alt="" hidden />
-                <span class="myPageOrbInitial">Y</span>
-              </button>
+              <div class="myPageEntry">
+                <button type="button" class="myPageOrb" data-action="mypage" aria-label="マイページ">
+                  <img class="myPageOrbImg" alt="" hidden />
+                  <span class="myPageOrbInitial">Y</span>
+                </button>
+                <span class="myPageLabel">マイページ</span>
+              </div>
               <h3 class="pageTitle">勉強計画</h3>
             </header>
             <div class="demoPanel wakePanel">
