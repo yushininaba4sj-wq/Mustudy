@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="mustudy-build" content="2026-05-29-appux1">
+  <meta name="mustudy-build" content="2026-05-29-camnative1">
   <title>Mustudy | スマホを開けなくして、勉強時間を強制的に作る</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -988,40 +988,42 @@
       width: 100%;
       border-radius: var(--radius-md);
       border: 1px solid var(--app-border-strong);
-      background: #f1f5f9;
+      background: #000;
       aspect-ratio: 9 / 16;
       overflow: hidden;
       touch-action: manipulation;
     }
     .camWrap.viewport-landscape { aspect-ratio: 16 / 9; }
-    .camWrap.viewport-portrait { aspect-ratio: 9 / 16; }
+    .camWrap.viewport-portrait { aspect-ratio: 3 / 4; }
     .camLetterbox {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f1f5f9;
+      align-items: stretch;
+      justify-content: stretch;
+      background: #000;
       z-index: 1;
     }
     .camViewport {
-      position: relative;
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
+      min-height: 100%;
       overflow: hidden;
       touch-action: none;
+      background: #000;
     }
     .camVideoLayer {
       position: absolute;
-      left: 0;
-      top: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       transform-origin: center center;
       will-change: transform;
-    }
-    .camViewport {
-      overflow: hidden;
     }
     .camWrap .demoVideo {
       width: 100%;
@@ -1468,11 +1470,41 @@
       right: 0;
       bottom: 0;
       z-index: 6;
-      padding: 10px 12px 14px;
-      background: linear-gradient(transparent, rgba(255, 255, 255, 0.92));
+      padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.72) 35%, rgba(0, 0, 0, 0.88));
       display: none;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
+    }
+    .camNativeBar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .camFlipDockBtn {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      pointer-events: auto;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      padding: 0;
+    }
+    .camFlipDockBtn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
     }
     .camWrap.is-live .zoomDock { display: flex; }
     .camStartOverlayBtn {
@@ -1611,8 +1643,28 @@
       display: flex;
       justify-content: center;
       gap: 8px;
-      flex-wrap: wrap;
-      padding: 2px 0 0;
+      flex: 1;
+      flex-wrap: nowrap;
+      padding: 0;
+    }
+    .camWrap.is-live .zoomLevelBtn {
+      min-width: 44px;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 13px;
+      font-weight: 800;
+      backdrop-filter: none;
+    }
+    .camWrap.is-live .zoomLevelBtn.on {
+      background: #fbbf24;
+      color: #1e293b;
+      border: none;
+      transform: none;
+      box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.45);
     }
     .zoomLevelBtn {
       min-width: 46px;
@@ -1770,9 +1822,9 @@
     }
     .swmStudyHero .camStage { margin-bottom: var(--space-md); }
     .swmStudyHero .camWrap {
-      min-height: min(52vh, 420px);
-      border-color: rgba(96, 165, 250, 0.35);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+      min-height: min(56vh, 480px);
+      border-color: rgba(15, 23, 42, 0.12);
+      box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12);
     }
     body.studySessionActive .swmStudyHero {
       padding: 0;
@@ -3178,6 +3230,18 @@
       .appOpen .nav { display: none; }
       .appOpen #demo { padding-top: 6px; }
       .vlogCreateDock.swmPreOnly { display: none; }
+      .camTopBar,
+      .camQuickLayout,
+      .zoomSliderTrack,
+      #camOrientOverlayBtn,
+      .facingBadge,
+      .standHint { display: none !important; }
+      .camOverlayRow { bottom: 72px; }
+      .camWrap.is-live .camStartOverlayBtn { bottom: 118px; }
+      .swmStudyHero .camWrap {
+        aspect-ratio: 3 / 4;
+        min-height: min(58vh, 520px);
+      }
     }
     /* 白基調＋控えめアクセント */
     .streakHero .statBox:nth-child(1) strong { color: var(--app-warm); }
@@ -3854,13 +3918,13 @@
 
             <div class="swmStudyHero">
               <div class="camStage" id="camStage">
-              <div id="camWrap" class="camWrap layout-stand viewport-landscape frame-16x9 facing-environment">
+              <div id="camWrap" class="camWrap layout-stand viewport-portrait frame-16x9 facing-environment">
                 <button type="button" id="camLaunch" class="camLaunchBtn" aria-label="カメラを起動">
                   <span class="camLaunchIcon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 8h2l1.5-2h9L18 8h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 012-2z"/><circle cx="12" cy="13" r="3.5"/></svg>
                   </span>
-                  <span class="camLaunchText">カメラを起動</span>
-                  <span class="camLaunchSub">タップして許可 · 手元が映ればOK</span>
+                  <span class="camLaunchText">タップしてカメラを起動</span>
+                  <span class="camLaunchSub">ピンチでズーム · 右下で内カメ切替</span>
                 </button>
                 <div class="camLetterbox" id="camLetterbox">
                   <div class="camViewport" id="camViewport">
@@ -3913,20 +3977,25 @@
                 </div>
                 <button type="button" id="camStartOverlayBtn" class="camStartOverlayBtn">ロック開始</button>
                 <div class="zoomDock" id="zoomDock">
-                  <div class="camQuickLayout" id="camQuickLayout">
+                  <div class="camNativeBar">
+                    <div class="zoomBtnRow" id="zoomBtnRow">
+                      <button type="button" class="zoomLevelBtn" data-zoom="0.5">.5×</button>
+                      <button type="button" class="zoomLevelBtn on" data-zoom="1">1×</button>
+                      <button type="button" class="zoomLevelBtn" data-zoom="2">2×</button>
+                    </div>
+                    <button type="button" id="camFlipDockBtn" class="camFlipDockBtn" aria-label="カメラ切替">
+                      <svg viewBox="0 0 24 24"><path d="M7 8h10l-2-2M17 16H7l2 2"/><rect x="5" y="2" width="14" height="20" rx="3"/></svg>
+                    </button>
+                  </div>
+                  <div class="camQuickLayout" id="camQuickLayout" hidden>
                     <button type="button" class="camQuickLayoutBtn on" data-layout="stand">立てる</button>
                     <button type="button" class="camQuickLayoutBtn" data-layout="split">上+手元</button>
                     <button type="button" class="camQuickLayoutBtn" data-layout="hands">手元</button>
                     <button type="button" class="camQuickLayoutBtn" data-layout="face">内カメ</button>
                   </div>
-                  <div class="zoomSliderTrack" id="zoomSliderTrack">
+                  <div class="zoomSliderTrack" id="zoomSliderTrack" hidden>
                     <div class="zoomSliderRail"></div>
                     <div class="zoomSliderThumb" id="zoomSliderThumb"></div>
-                  </div>
-                  <div class="zoomBtnRow" id="zoomBtnRow">
-                    <button type="button" class="zoomLevelBtn" data-zoom="0.5">.5×</button>
-                    <button type="button" class="zoomLevelBtn on" data-zoom="1">1×</button>
-                    <button type="button" class="zoomLevelBtn" data-zoom="2">2×</button>
                   </div>
                 </div>
               </div>
@@ -4499,7 +4568,7 @@
       frameAspect: "4:3",
       facingPrefs: {
         user: { zoom: 1, layout: "face", viewportMode: "portrait", frameAspect: "4:3", panX: 0, panY: 0 },
-        environment: { zoom: 1, layout: "stand", viewportMode: "landscape", frameAspect: "16:9", panX: 0, panY: 0 }
+        environment: { zoom: 1, layout: "stand", viewportMode: "portrait", frameAspect: "16:9", panX: 0, panY: 0 }
       },
       sessionType: "free",
       camFullscreen: false,
@@ -4991,7 +5060,6 @@
           if (state.facingPrefs.environment) {
             const env = state.facingPrefs.environment;
             if (env.viewportMode === "portrait" && env.frameAspect === "4:3") {
-              env.viewportMode = "landscape";
               env.frameAspect = "16:9";
             }
           }
@@ -5113,6 +5181,7 @@
       bindCamTapControl(camOrientOverlayBtn, () => toggleCamOrientation());
       bindCamTapControl(camFsOverlayBtn, () => toggleCamFullscreen());
       bindCamTapControl(camFlipOverlayBtn, () => safeToggleFacing());
+      bindCamTapControl(document.getElementById("camFlipDockBtn"), () => safeToggleFacing());
       bindCamTapControl(camFullscreenBtn, () => toggleCamFullscreen());
       bindCamTapControl(document.getElementById("camStartOverlayBtn"), () => quickStartStudy());
       root.querySelectorAll(".camTopBtn[data-frame-aspect]").forEach((btn) => {
@@ -5647,7 +5716,43 @@
       }
       syncCamWrapClasses();
       updateFacingBadge();
-      scheduleCamRefresh(state.cameraLive);
+      applyCamTransform();
+      stabilizeSessionCameraLayout();
+      if (!window.matchMedia("(max-width: 860px)").matches) {
+        scheduleCamRefresh(state.cameraLive);
+      }
+    }
+
+    function initNativeCamDefaults() {
+      if (!window.matchMedia("(max-width: 860px)").matches) return;
+      if (localStorage.getItem("mustudyFacingPrefs")) return;
+      state.viewportMode = "portrait";
+      state.frameAspect = "16:9";
+      if (state.facingPrefs && state.facingPrefs.environment) {
+        state.facingPrefs.environment.viewportMode = "portrait";
+        state.facingPrefs.environment.frameAspect = "16:9";
+      }
+      loadFacingPrefs(state.facingMode);
+      syncCamWrapClasses();
+      syncCamSettingChips();
+    }
+
+    function warmCameraIfNeeded() {
+      if (!window.matchMedia("(max-width: 860px)").matches) return;
+      if (state.currentScreen !== "camera" || state.timerId) return;
+      if (state.cameraLive || state.camStarting) return;
+      startCam();
+    }
+
+    function initCamResizeGuard() {
+      if (!camViewport || camViewport.dataset.resizeBound) return;
+      camViewport.dataset.resizeBound = "1";
+      if (typeof ResizeObserver === "undefined") return;
+      const ro = new ResizeObserver(() => {
+        if (state.cameraLive) requestAnimationFrame(() => applyCamTransform());
+      });
+      ro.observe(camViewport);
+      if (camWrap) ro.observe(camWrap);
     }
 
     function resetCamPan() {
@@ -5701,6 +5806,8 @@
       state.camFullscreen = !state.camFullscreen;
       if (camStage) camStage.classList.toggle("is-maximized", state.camFullscreen);
       if (camFullscreenBtn) camFullscreenBtn.textContent = state.camFullscreen ? "✕" : "⛶";
+      applyCamTransform();
+      stabilizeSessionCameraLayout();
       if (camStatus) {
         camStatus.textContent = state.camFullscreen ? "全画面 — ✕で戻す" : "通常表示に戻しました";
       }
@@ -6612,23 +6719,12 @@
       return parts.join(" ");
     }
 
-    function applyCamLayerSizing(scale) {
+    function applyCamLayerSizing(_scale) {
       if (!camVideoLayer) return;
-      const s = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, scale));
-      if (s < 0.999) {
-        const inv = 1 / s;
-        const pct = inv * 100;
-        const off = -((pct - 100) / 2);
-        camVideoLayer.style.width = pct + "%";
-        camVideoLayer.style.height = pct + "%";
-        camVideoLayer.style.left = off + "%";
-        camVideoLayer.style.top = off + "%";
-      } else {
-        camVideoLayer.style.width = "100%";
-        camVideoLayer.style.height = "100%";
-        camVideoLayer.style.left = "0";
-        camVideoLayer.style.top = "0";
-      }
+      camVideoLayer.style.width = "100%";
+      camVideoLayer.style.height = "100%";
+      camVideoLayer.style.left = "0";
+      camVideoLayer.style.top = "0";
     }
 
     function applySplitVideoTransform(videoEl, scale, posX, posY, mirror) {
@@ -6691,7 +6787,10 @@
       } else {
         const preset = getLayoutPreset(state.camLayout, state.facingMode);
         cam.style.objectPosition = preset.posX + "% " + preset.posY + "%";
-        applyCamLayerSizing(cssScale);
+        camVideoLayer.style.width = "100%";
+        camVideoLayer.style.height = "100%";
+        camVideoLayer.style.left = "0";
+        camVideoLayer.style.top = "0";
         camVideoLayer.style.transform = buildCamLayerTransform(cssScale, clamped.x, clamped.y, mirror);
       }
 
@@ -7848,6 +7947,7 @@
       if (name === "record") {
         renderStudyDashboard();
       }
+      if (name === "camera") warmCameraIfNeeded();
       refreshVlogToolsVisibility();
     }
 
@@ -9049,12 +9149,14 @@
     }
     if (switchCamBtn) switchCamBtn.addEventListener("click", toggleFacing);
     initCamPan();
+    initCamResizeGuard();
     initPinchZoom();
     initZoomControls();
     bindCamOverlayControls();
     setEndMode("time");
     setSessionType("forced");
     restoreFacingPrefsFromStorage();
+    initNativeCamDefaults();
     loadFacingPrefs(state.facingMode);
     state.wantUltraWide = false;
     setCamLayout(state.camLayout, false);
@@ -9245,6 +9347,7 @@
       syncTodayGoal();
       const demo = document.querySelector("#demo");
       if (demo) demo.scrollIntoView({ behavior: "smooth", block: "start" });
+      warmCameraIfNeeded();
     }
 
     function closeAppView() {
