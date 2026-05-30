@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="mustudy-build" content="2026-05-29-cam11">
-  <title>Mustudy | 今日の努力が、一生の思い出になる。</title>
+  <meta name="mustudy-build" content="2026-05-29-appux1">
+  <title>Mustudy | スマホを開けなくして、勉強時間を強制的に作る</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
-  <meta name="description" content="Mustudyは、強制力×StudyWithMe×勉強Vlog×AIコーチングを統合した勉強継続アプリ。受験生活を作品化する受験OS。">
+  <meta name="description" content="Mustudyは行動強制型の勉強アプリ。TikTok・SNS・ゲームをブロックし、設定時間が終わるまで解除できません。StudyWithMeカメラで記録も自動保存。">
   <style>
     :root {
       --bg: #f7fbff;
@@ -84,13 +84,166 @@
     .logo { font-weight: 900; font-size: 24px; letter-spacing: -0.02em; color: var(--app-brand); }
     .navLinks { display: flex; gap: 16px; color: #cbd5e1; font-size: 14px; font-weight: 700; }
     .loginBtn {
-      padding: 9px 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      background: rgba(255, 255, 255, 0.06);
-      color: #e2e8f0;
+      border: none;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
       font-size: 13px;
       font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .loginBtn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(37, 99, 235, 0.4); }
+
+    .landingValue {
+      background: #f8fafc;
+      border-top: 1px solid var(--line);
+    }
+    .empathyQuotes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .empathyQuote {
+      margin: 0;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-size: 15px;
+      line-height: 1.7;
+      color: #334155;
+      font-style: italic;
+    }
+    .empathyQuote::before { content: "「"; color: #94a3b8; }
+    .empathyQuote::after { content: "」"; color: #94a3b8; }
+    .forceFlow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+      gap: 6px;
+      align-items: center;
+      margin: 28px 0 32px;
+    }
+    .forceStep {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      min-height: 88px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+    .forceStep b {
+      font-size: 11px;
+      color: #2563eb;
+      letter-spacing: 0.04em;
+    }
+    .forceStep span {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.45;
+    }
+    .forceArrow {
+      color: #94a3b8;
+      font-size: 18px;
+      font-weight: 900;
+      text-align: center;
+    }
+    .compareTable {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      font-size: 14px;
+    }
+    .compareTable th,
+    .compareTable td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+    .compareTable thead th {
+      background: #f1f5f9;
+      font-size: 13px;
+      font-weight: 800;
+      color: #475569;
+    }
+    .compareTable tbody tr:last-child td { border-bottom: none; }
+    .compareTable td:first-child { font-weight: 700; color: #0f172a; }
+    .compareTable .markStrong { color: #2563eb; font-weight: 900; }
+    .compareTable .markWeak { color: #94a3b8; font-weight: 700; }
+    .trustStrip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) 1.4fr;
+      gap: 12px;
+      margin-top: 28px;
+      align-items: stretch;
+    }
+    .trustStat {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+    .trustStat strong {
+      display: block;
+      font-size: 24px;
+      color: #2563eb;
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+    .trustStat span { font-size: 12px; color: #64748b; font-weight: 700; }
+    .trustDev {
+      background: linear-gradient(135deg, #eff6ff, #fff);
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 16px 18px;
+      font-size: 13px;
+      line-height: 1.75;
+      color: #334155;
+    }
+    .trustDev b { display: block; font-size: 14px; color: #1e40af; margin-bottom: 6px; }
+    .landingValueCta {
+      margin-top: 32px;
+      text-align: center;
+    }
+    .btnSitePrimary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+      transition: transform 0.18s ease;
+    }
+    .btnSitePrimary:hover { transform: translateY(-2px); }
+    @media (min-width: 861px) and (max-width: 1100px) {
+      .landingTriad { grid-template-columns: 1fr; }
+      .empathyQuotes { grid-template-columns: 1fr; }
+      .forceFlow { grid-template-columns: 1fr; gap: 4px; }
+      .forceArrow { transform: rotate(90deg); padding: 2px 0; }
+      .trustStrip { grid-template-columns: 1fr 1fr; }
+      .trustDev { grid-column: 1 / -1; }
     }
 
     .landingCinema {
@@ -217,7 +370,27 @@
       letter-spacing: -0.03em;
       font-weight: 900;
       margin-bottom: 16px;
-      max-width: 12ch;
+      max-width: 14ch;
+    }
+    .landingTag {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(147, 197, 253, 0.45);
+      color: #bfdbfe;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .landingHook {
+      font-size: clamp(13px, 1.8vw, 15px);
+      line-height: 1.75;
+      color: rgba(248, 250, 252, 0.62);
+      max-width: 38em;
+      margin-bottom: 14px;
+      font-style: italic;
     }
     .landingSub {
       font-size: clamp(14px, 2vw, 18px);
@@ -226,11 +399,45 @@
       max-width: 36em;
       font-weight: 400;
     }
+    .landingSub strong { color: #fff; font-weight: 800; }
+    .landingTriad {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 20px 0 4px;
+      padding: 0;
+      max-width: 720px;
+    }
+    .landingTriad li {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(248, 250, 252, 0.88);
+    }
+    .landingTriad b {
+      display: block;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      color: #93c5fd;
+      margin-bottom: 4px;
+    }
     .landingCtas {
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 8px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .landingCtaNote {
+      font-size: 12px;
+      color: rgba(248, 250, 252, 0.55);
+      font-weight: 600;
+      margin: 0;
     }
     .btnCinema {
       display: inline-flex;
@@ -246,9 +453,12 @@
     }
     .btnCinema:hover { transform: translateY(-2px); }
     .btnCinemaPrimary {
-      background: #fff;
-      color: #0f172a;
-      box-shadow: 0 12px 40px rgba(59, 130, 246, 0.35);
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
+      box-shadow: 0 14px 44px rgba(37, 99, 235, 0.45);
+      border: 1px solid rgba(147, 197, 253, 0.35);
+      padding: 18px 36px;
+      font-size: 16px;
     }
     .btnCinemaGhost {
       background: rgba(255, 255, 255, 0.1);
@@ -801,29 +1011,6 @@
       overflow: hidden;
       touch-action: none;
     }
-    .camWrap.viewport-portrait.frame-16x9 .camViewport {
-      width: 100%;
-      height: auto;
-      max-height: 100%;
-      aspect-ratio: 16 / 9;
-    }
-    .camWrap.viewport-portrait.frame-4x3 .camViewport {
-      width: 100%;
-      height: auto;
-      max-height: 100%;
-      aspect-ratio: 3 / 4;
-    }
-    .camWrap.viewport-landscape.frame-16x9 .camViewport,
-    .camWrap.viewport-landscape.frame-4x3 .camViewport {
-      width: 100%;
-      height: 100%;
-    }
-    .camWrap.viewport-landscape.frame-4x3 .camViewport {
-      width: auto;
-      max-width: 100%;
-      height: 100%;
-      aspect-ratio: 3 / 4;
-    }
     .camVideoLayer {
       position: absolute;
       left: 0;
@@ -856,10 +1043,6 @@
     .camWrap.cam-portrait .demoVideo,
     .camWrap.cam-portrait .camSplitPane video {
       filter: contrast(1.07) brightness(1.05) saturate(1.08);
-    }
-    .camWrap.facing-user .demoVideo,
-    .camWrap.facing-user .camSplitPane video {
-      transform: scaleX(-1);
     }
     .camWrap.cam-portrait.facing-user .demoVideo {
       filter: contrast(1.08) brightness(1.06) saturate(1.1);
@@ -958,6 +1141,151 @@
       grid-template-columns: 1fr 1fr;
       gap: 8px;
       align-items: end;
+    }
+    .lockRulesCard {
+      position: relative;
+      z-index: 6;
+      margin-bottom: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      background: linear-gradient(135deg, rgba(239, 246, 255, 0.98), rgba(255, 255, 255, 0.98));
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+    }
+    .lockRulesTag {
+      margin: 0 0 8px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      color: #2563eb;
+    }
+    .lockRulesList {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .lockRulesList li {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #334155;
+    }
+    .lockRulesList b {
+      display: inline-block;
+      min-width: 4.5em;
+      font-size: 11px;
+      font-weight: 900;
+      color: #1e40af;
+    }
+    .timePresetRow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .timePresetBtn {
+      padding: 12px 6px;
+      border-radius: 12px;
+      border: 1px solid var(--app-border-strong);
+      background: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--app-text);
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .timePresetBtn.on {
+      background: var(--app-brand-soft);
+      border-color: var(--app-brand);
+      color: var(--app-brand-dim);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15);
+    }
+    .swmAdvancedInline {
+      margin-top: 10px;
+      border-top: 1px dashed var(--app-border-strong);
+      padding-top: 8px;
+    }
+    .swmAdvancedInline > summary {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--app-muted);
+      cursor: pointer;
+      list-style: none;
+      margin-bottom: 8px;
+    }
+    .pageSubtitle {
+      margin: -6px 0 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--app-muted);
+      letter-spacing: 0.02em;
+    }
+    .achieveHero {
+      margin-bottom: 14px;
+      padding: 20px 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+    }
+    .achieveHeroLabel {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      opacity: 0.85;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .achieveHero strong {
+      display: block;
+      font-size: clamp(36px, 12vw, 48px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .achieveHeroSub {
+      display: block;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0.9;
+    }
+    .streakHero--compact .statBox strong { font-size: 18px; }
+    .streakHero--compact .statBox span { font-size: 10px; }
+    .unlockConfirmCard { max-width: 340px; text-align: center; }
+    .unlockConfirmHero {
+      font-size: 32px;
+      font-weight: 900;
+      color: #dc2626;
+      margin: 8px 0 12px;
+      font-variant-numeric: tabular-nums;
+    }
+    .unlockConfirmWarn {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #334155;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .unlockConfirmList {
+      text-align: left;
+      margin: 0 0 16px;
+      padding: 12px 14px 12px 28px;
+      background: #fef2f2;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.65;
+      color: #7f1d1d;
+    }
+    .unlockConfirmList li { margin-bottom: 4px; }
+    body.studySessionActive.forcedAppLock .studyStopFloat:not(.can-end) {
+      opacity: 1;
+      pointer-events: auto;
+      background: rgba(71, 85, 105, 0.94);
+      font-size: 13px;
     }
     .sessionSetupCollapsible {
       margin-top: 10px;
@@ -1117,11 +1445,11 @@
     }
     body.studySessionActive.forcedAppLock .camStage.is-maximized .camWrap {
       width: 100%;
-      height: auto;
+      height: 100%;
       max-height: 100%;
       min-height: 0;
-      aspect-ratio: 16 / 9;
-      flex-shrink: 0;
+      aspect-ratio: unset;
+      flex: 1;
     }
     body.studySessionActive.forcedAppLock .camStage.is-maximized .camLetterbox {
       position: relative;
@@ -1147,6 +1475,47 @@
       gap: 8px;
     }
     .camWrap.is-live .zoomDock { display: flex; }
+    .camStartOverlayBtn {
+      display: none;
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      z-index: 30;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      pointer-events: auto;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45);
+      border: 1px solid rgba(147, 197, 253, 0.35);
+    }
+    .camStartOverlayBtn:active { transform: scale(0.98); }
+    .camWrap.is-live .camStartOverlayBtn,
+    .camStage.is-maximized .camStartOverlayBtn {
+      display: block;
+    }
+    body.studySessionActive .camStartOverlayBtn {
+      display: none !important;
+    }
+    .camWrap.is-live .camStartOverlayBtn {
+      bottom: 142px;
+    }
+    .camStage.is-maximized .camWrap:not(.is-live) .camStartOverlayBtn {
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    }
+    .camStage.is-maximized .camWrap.is-live .camStartOverlayBtn {
+      bottom: calc(150px + env(safe-area-inset-bottom, 0px));
+    }
+    .camStartOverlayBtn.recording {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
     .camOverlayRow {
       position: absolute;
       left: 0;
@@ -1679,10 +2048,6 @@
       cursor: pointer;
     }
     body.studySessionActive .studyStopFloat.show { display: block; }
-    body.studySessionActive.forcedAppLock .studyStopFloat:not(.can-end) {
-      opacity: 0.45;
-      pointer-events: none;
-    }
     .quickStartBtn:active { transform: scale(0.98); }
     .quickStartBtn.recording {
       background: linear-gradient(135deg, #dc2626, #b91c1c);
@@ -1863,18 +2228,7 @@
       white-space: nowrap;
       pointer-events: none;
     }
-    .layoutGuide {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      border: 2px dashed rgba(59, 130, 246, 0.45);
-      border-radius: 10px;
-      margin: 10% 8% 22% 8%;
-      z-index: 1;
-      opacity: 0;
-      transition: opacity .2s ease;
-    }
-    .camWrap.is-live:not(.layout-full) .layoutGuide { opacity: 1; }
+    .layoutGuide { display: none !important; }
     .endModeRow {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -2789,7 +3143,7 @@
       .navInner { height: 56px; }
       .logo { font-size: 20px; }
       .loginBtn { padding: 7px 10px; font-size: 12px; }
-      .hero, .landingCinema, .filmScroll { display: none; }
+      .hero, .landingCinema, .filmScroll, .landingValue { display: none; }
       .filmBeatInner { grid-template-columns: 1fr; }
       h1 { font-size: clamp(30px, 10vw, 44px); }
       .section { padding: 18px 0; }
@@ -2799,6 +3153,8 @@
       body.appOpen .mobileTabbar { display: grid; }
       body { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
       #concept, #mvp, #growth, #retention, #stories, #tech, #goal, footer { display: none; }
+      #screenRecord .statsPeriodTabs,
+      #screenRecord .studyBarChart { display: none; }
       .demoPanel { padding: 10px; }
       .ctl { width: 100%; }
       .demoRow { gap: 6px; }
@@ -2821,6 +3177,7 @@
       .step h3 { font-size: 15px; margin-bottom: 0; }
       .appOpen .nav { display: none; }
       .appOpen #demo { padding-top: 6px; }
+      .vlogCreateDock.swmPreOnly { display: none; }
     }
     /* 白基調＋控えめアクセント */
     .streakHero .statBox:nth-child(1) strong { color: var(--app-warm); }
@@ -3040,6 +3397,7 @@
     <div class="wrap navInner">
       <a class="logo" href="#">Mustudy</a>
       <nav class="navLinks">
+        <a href="#whyMustudy">強制力</a>
         <a href="#concept">コンセプト</a>
         <a href="#demo">体験デモ</a>
         <a href="#mvp">MVP</a>
@@ -3048,7 +3406,7 @@
         <a href="#stories">体験記</a>
         <a href="#tech">技術</a>
       </nav>
-      <a class="loginBtn" href="#">生徒ログイン</a>
+      <button type="button" class="loginBtn" id="navStartBtn">無料で始める</button>
     </div>
   </header>
 
@@ -3066,11 +3424,18 @@
       </div>
       <div class="landingInner">
         <div class="wrap landingCopy">
-          <h1>今日の努力が、<br>一生の思い出になる。</h1>
-          <p class="landingSub">勉強時間になると、スマホは勉強専用になる。逃げずに積み重ねた毎日を、青春と成長記録として残そう。</p>
+          <p class="landingTag">行動強制型 · 高校生 · 大学生 · 資格受験</p>
+          <p class="landingHook">気づいたらTikTokを1時間見ていた。勉強するつもりだったのに、今日も終わった。</p>
+          <h1>スマホを開けなくして、<br>勉強時間を強制的に作る</h1>
+          <p class="landingSub">TikTok・Instagram・ゲームをブロック。<strong>設定した時間が終わるまで解除できません。</strong></p>
+          <ul class="landingTriad">
+            <li><b>課題</b>スマホの誘惑で、集中が3分で切れる</li>
+            <li><b>Mustudy</b>カメラON · 全画面ロック · 他アプリに逃げられない</li>
+            <li><b>結果</b>やるしかない環境で、勉強記録も自動で残る</li>
+          </ul>
           <div class="landingCtas">
-            <button id="openAppBtn" class="btnCinema btnCinemaPrimary" type="button">今日の勉強を記録する</button>
-            <a href="#filmDay" class="btnCinema btnCinemaGhost">1日の流れを見る</a>
+            <button id="openAppBtn" class="btnCinema btnCinemaPrimary" type="button">無料で始める</button>
+            <p class="landingCtaNote">インストール不要 · ブラウザですぐ試せます（スマホアプリ版とは別画面）</p>
           </div>
         </div>
       </div>
@@ -3114,6 +3479,74 @@
       </section>
     </div>
 
+    <section class="section landingValue" id="whyMustudy">
+      <div class="wrap">
+        <p class="secEyebrow">WHY MUSTUDY</p>
+        <h2>なぜ、Mustudyなら勉強できるのか</h2>
+        <p class="secLead">ForestやStudyplusは「記録・タイマー」が中心。Mustudyは<strong>行動を強制する</strong>ことに特化しています。「どうせ解除できるでしょ」と思わせない設計です。</p>
+        <div class="empathyQuotes">
+          <p class="empathyQuote">テスト前なのに、気づいたら2時間スマホを見ていた</p>
+          <p class="empathyQuote">勉強アプリは入れているのに、結局タイマーだけで終わる</p>
+        </div>
+        <h3 style="font-size:18px;margin-bottom:4px;">勉強開始から解除までの流れ</h3>
+        <div class="forceFlow" aria-label="Mustudyの強制フロー">
+          <div class="forceStep"><b>STEP 1</b><span>勉強時間を設定</span></div>
+          <div class="forceArrow" aria-hidden="true">→</div>
+          <div class="forceStep"><b>STEP 2</b><span>カメラONで開始</span></div>
+          <div class="forceArrow" aria-hidden="true">→</div>
+          <div class="forceStep"><b>STEP 3</b><span>全画面ロック</span></div>
+          <div class="forceArrow" aria-hidden="true">→</div>
+          <div class="forceStep"><b>STEP 4</b><span>SNS・ゲーム遮断</span></div>
+          <div class="forceArrow" aria-hidden="true">→</div>
+          <div class="forceStep"><b>STEP 5</b><span>時間終了で解除</span></div>
+        </div>
+        <h3 style="font-size:18px;margin-bottom:12px;">一般的な勉強アプリとの違い</h3>
+        <table class="compareTable">
+          <thead>
+            <tr>
+              <th>機能</th>
+              <th>Mustudy</th>
+              <th>一般的な勉強アプリ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>スマホ強制制限</td>
+              <td class="markStrong">◎ 時間終了まで解除不可</td>
+              <td class="markWeak">△ すぐ解除できる</td>
+            </tr>
+            <tr>
+              <td>勉強時間記録</td>
+              <td class="markStrong">○ カメラセッション連動</td>
+              <td class="markStrong">○</td>
+            </tr>
+            <tr>
+              <td>習慣化支援</td>
+              <td class="markStrong">○ 強制環境 + 連続記録</td>
+              <td class="markWeak">△ 通知のみ</td>
+            </tr>
+            <tr>
+              <td>StudyWithMe / Vlog</td>
+              <td class="markStrong">○ 手元カメラで自動記録</td>
+              <td class="markWeak">△ なし or 別アプリ</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="trustStrip">
+          <div class="trustStat"><strong id="landingStatHours">—</strong><span>累計勉強時間</span></div>
+          <div class="trustStat"><strong id="landingStatSessions">—</strong><span>セッション数</span></div>
+          <div class="trustStat"><strong id="landingStatStreak">—</strong><span>連続日数</span></div>
+          <div class="trustDev">
+            <b>Mustudy · Web版β（PCサイト）</b>
+            受験生・学生向けに個人開発。スマホアプリ版とは別に、PCブラウザ向けの体験デモと説明サイトです。記録はこのブラウザに保存されます。
+          </div>
+        </div>
+        <div class="landingValueCta">
+          <button type="button" class="btnSitePrimary siteOpenAppBtn">無料で始める</button>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="demo">
       <div class="wrap">
         <p class="secEyebrow">CAMERA SESSION</p>
@@ -3145,10 +3578,9 @@
               </div>
             </div>
             <blockquote class="brandWhisper">
-              <p class="brandHero">今日の努力が、一生の思い出になる。</p>
-              <p class="brandConcept">他のアプリは開けない。<br>勉強時間になると、スマホは勉強専用になる。</p>
-              <p>だからこそ、目の前の机に本気で向き合える。</p>
-              <p>勉強が、努力した毎日が、君だけの成長物語になる。</p>
+              <p class="brandHero">TikTokを開けなくする、集中ロックアプリ。</p>
+              <p class="brandConcept">勉強時間を計測するだけじゃない。<br>設定した時間が終わるまで、Mustudyから逃げられません。</p>
+              <p>意志力に頼らず、環境で勝つ。</p>
             </blockquote>
             <div class="statRow">
               <div class="statBox"><strong id="statStreak">0</strong><span>連続日数</span></div>
@@ -3194,21 +3626,26 @@
               <button type="button" class="timelineThemeToggle" id="timelineThemeToggle" aria-label="タイムライン配色切替">白テーマ</button>
             </header>
             <div class="timelineShell">
-            <div class="streakHero">
+            <div class="achieveHero" id="achieveHero">
+              <span class="achieveHeroLabel">今日の集中</span>
+              <strong id="tlAchieveToday">0分</strong>
+              <span class="achieveHeroSub" id="tlAchieveSub">連続 0 日</span>
+            </div>
+            <div class="moreGrid" style="margin-bottom:12px;">
+              <button type="button" class="moreBtn" data-goto="camera" style="grid-column:1/-1;">ロック開始<small>TikTok · SNSをブロック · 60分</small></button>
+              <button type="button" class="moreBtn" data-goto="record">記録・Vlog<small>カレンダー · 自動生成</small></button>
+              <button type="button" class="moreBtn" data-goto="feedback">AI振り返り<small>短いコメント</small></button>
+              <button type="button" class="moreBtn" data-goto="plan">計画<small>任意 · 後から設定</small></button>
+            </div>
+            <div class="streakHero streakHero--compact">
               <div class="statBox"><strong id="tlStreak">0</strong><span>連続日数</span></div>
               <div class="statBox"><strong id="tlTodayMin">0</strong><span>今日(分)</span></div>
               <div class="statBox"><strong id="tlTotalH">0</strong><span>累計(時間)</span></div>
             </div>
-            <div class="tlCard" id="todayGoalCard">
+            <div class="tlCard" id="todayGoalCard" hidden>
               <h4>今日の目標</h4>
               <p id="todayGoalText">カメラ画面で科目・目標を設定</p>
               <p id="timelineTodayStudy" style="margin-top:8px;font-size:13px;font-weight:800;color:var(--app-brand-dim);">今日の勉強: 0分</p>
-            </div>
-            <div class="moreGrid" style="margin-bottom:12px;">
-              <button type="button" class="moreBtn" data-goto="camera" style="grid-column:1/-1;">勉強をスタート<small>StudyWithMe · 手元カメラ</small></button>
-              <button type="button" class="moreBtn" data-goto="record">記録・Vlog<small>カレンダー · 自動生成</small></button>
-              <button type="button" class="moreBtn" data-goto="feedback">AI振り返り<small>感情コメント</small></button>
-              <button type="button" class="moreBtn" data-goto="plan">計画<small>開始時刻 · 起床</small></button>
             </div>
             <div class="timelinePostList" id="friendFeed"></div>
             </div>
@@ -3343,12 +3780,13 @@
                 </button>
                 <span class="myPageLabel">マイページ</span>
               </div>
-              <h3 class="pageTitle">StudyWithMe</h3>
+              <h3 class="pageTitle">集中ロック</h3>
+              <p class="pageSubtitle swmPreOnly">TikTok · SNS · ゲームをブロック</p>
             </header>
 
             <div class="swmHud">
               <div class="swmStreakPill"><b id="swmStreakNum">0</b>日連続</div>
-              <div class="swmTodayPill">今日の勉強<strong id="swmTodayMin">0分</strong></div>
+              <div class="swmTodayPill">今日<strong id="swmTodayMin">0分</strong></div>
             </div>
 
             <div id="recoveryBanner" class="recoveryBanner" hidden>
@@ -3377,33 +3815,41 @@
               集中モード — あと <b id="forcedRemain">25:00</b>（全画面 · 解除不可）
             </div>
 
-            <section class="swmQuickSetup swmPreOnly" id="swmQuickSetup" aria-label="勉強設定">
-              <h4>設定 · 科目 · 強制モード</h4>
-              <input id="subjectInputTop" class="mini" type="text" placeholder="今日の科目（例: 英語）" />
-              <input id="goalInputTop" class="mini" type="text" placeholder="今日の目標（例: 単語200）" />
-              <div class="swmQuickSetupRow">
-                <label class="optLabel" style="margin:0;">勉強時間（分）
-                  <input id="studyMinutesTop" class="mini" type="number" min="1" max="300" value="25" />
-                </label>
-                <label class="optLabel" style="margin:0;">休憩（分）
-                  <input id="breakMinutesTop" class="mini" type="number" min="1" max="30" value="5" />
-                </label>
+            <section class="lockRulesCard swmPreOnly" id="lockRulesCard" aria-label="ロックのルール">
+              <p class="lockRulesTag">スマホ依存対策 · 強制モード</p>
+              <ul class="lockRulesList">
+                <li><b>制限</b>セッション中はMustudy以外に逃げられません（全画面 · 終了ボタン無効）</li>
+                <li><b>解除条件</b>設定した時間が終わったときだけ解除できます</li>
+                <li><b>緊急解除</b>なし — タブを閉じると「離脱」として記録されます</li>
+              </ul>
+            </section>
+
+            <section class="swmQuickSetup swmPreOnly" id="swmQuickSetup" aria-label="ロック時間">
+              <h4>ロック時間</h4>
+              <div class="timePresetRow" id="timePresetRow">
+                <button type="button" class="timePresetBtn" data-min="25">25分</button>
+                <button type="button" class="timePresetBtn" data-min="45">45分</button>
+                <button type="button" class="timePresetBtn on" data-min="60">60分</button>
+                <button type="button" class="timePresetBtn" data-min="90">90分</button>
               </div>
-              <p class="optLabel" style="margin:8px 0 4px;">タイマー</p>
-              <div class="timerModeRow">
-                <button type="button" class="timerModeBtn on" data-timer-mode="normal">通常</button>
-                <button type="button" class="timerModeBtn" data-timer-mode="pomodoro">ポモドーロ</button>
-              </div>
-              <div class="swmQuickSetupRow" style="margin-top:8px;">
-                <div>
-                  <p class="optLabel" style="margin:0 0 4px;">モード</p>
-                  <div class="sessionTypeRow" style="margin:0;">
-                    <button type="button" class="sessionTypeBtn" data-session-type="free">自分で</button>
-                    <button type="button" class="sessionTypeBtn on" data-session-type="forced">強制</button>
+              <input id="studyMinutesTop" class="mini" type="hidden" min="1" max="300" value="60" />
+              <details class="swmAdvancedInline">
+                <summary>科目・ポモドーロなど（任意）</summary>
+                <input id="subjectInputTop" class="mini" type="text" placeholder="今日の科目（例: 英語）" />
+                <input id="goalInputTop" class="mini" type="text" placeholder="今日の目標（例: 単語200）" />
+                <div class="swmQuickSetupRow">
+                  <label class="optLabel" style="margin:0;">休憩（分）
+                    <input id="breakMinutesTop" class="mini" type="number" min="1" max="30" value="5" />
+                  </label>
+                  <div>
+                    <p class="optLabel" style="margin:0 0 4px;">タイマー</p>
+                    <div class="timerModeRow">
+                      <button type="button" class="timerModeBtn on" data-timer-mode="normal">通常</button>
+                      <button type="button" class="timerModeBtn" data-timer-mode="pomodoro">ポモドーロ</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <button type="button" id="openAdvancedSetup" class="ctl sub" style="width:100%;margin-top:8px;">詳細設定を開く</button>
+              </details>
             </section>
 
             <div class="swmStudyHero">
@@ -3451,7 +3897,6 @@
                   <span class="mustudyMark">M</span>
                   <span>Mustudy</span>
                 </div>
-                <div class="layoutGuide" aria-hidden="true"></div>
                 <span class="facingBadge" id="facingBadge">外カメ</span>
                 <span class="zoomHud" id="zoomLabel">1×</span>
                 <span class="standHint" id="standHint">壁立てのまま手元を映す</span>
@@ -3466,6 +3911,7 @@
                     <svg viewBox="0 0 24 24"><path d="M7 8h10l-2-2M17 16H7l2 2"/><rect x="5" y="2" width="14" height="20" rx="3"/></svg>
                   </button>
                 </div>
+                <button type="button" id="camStartOverlayBtn" class="camStartOverlayBtn">ロック開始</button>
                 <div class="zoomDock" id="zoomDock">
                   <div class="camQuickLayout" id="camQuickLayout">
                     <button type="button" class="camQuickLayoutBtn on" data-layout="stand">立てる</button>
@@ -3486,10 +3932,10 @@
               </div>
               </div>
               <div class="quickStartDock swmPreOnly">
-                <button type="button" id="quickStartBtn" class="quickStartBtn">勉強をスタート</button>
-                <p class="swmStartHint">カメラON → 全画面 · 時間が終わるまで解除できません</p>
+                <button type="button" id="quickStartBtn" class="quickStartBtn">ロック開始</button>
+                <p class="swmStartHint">TikTok · SNSを開けなくします · 時間が終わるまで解除不可</p>
               </div>
-              <p class="status swmPreOnly" id="camStatus">カメラをタップするか、下のボタンでスタート</p>
+              <p class="status swmPreOnly" id="camStatus">時間を選んで「ロック開始」をタップ</p>
             </div>
 
             <button type="button" id="studyStopFloat" class="studyStopFloat" hidden>勉強を終了</button>
@@ -3509,7 +3955,7 @@
               </select>
               <div id="endTimeFields" class="fieldGroup">
                 <label class="optLabel" for="studyMinutes">勉強時間（分）— 保存されます</label>
-                <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="25" placeholder="勉強時間（分）" />
+                <input id="studyMinutes" class="mini" type="number" min="1" max="300" value="60" placeholder="勉強時間（分）" />
               </div>
               <div id="endContentFields" class="fieldGroup" hidden>
                 <input id="contentDoneText" class="mini" placeholder="達成条件（例: 英単語200完了）" />
@@ -3589,6 +4035,21 @@
                   <button type="button" id="camConfirmFlip" class="camConfirmFlip">↻ 内カメ / 外カメを切り替え</button>
                   <button type="button" id="camConfirmStart" class="ctl main">このカメラでスタート</button>
                   <button type="button" id="camConfirmCancel" class="ctl sub">キャンセル</button>
+                </div>
+              </div>
+            </div>
+            <div id="unlockConfirmOverlay" class="countdownOverlay camConfirmOverlay" aria-hidden="true">
+              <div class="camConfirmCard unlockConfirmCard">
+                <h3 id="unlockConfirmTitle">まだ解除できません</h3>
+                <p id="unlockConfirmRemain" class="unlockConfirmHero">あと 23:14</p>
+                <p id="unlockConfirmWarn" class="unlockConfirmWarn">今日の集中記録が途切れます。</p>
+                <ul class="unlockConfirmList" id="unlockConfirmList">
+                  <li>設定時間が終わるまで、ロックは解除できません</li>
+                  <li>今やめると、今日のセッション記録が失われます</li>
+                </ul>
+                <div class="camConfirmActions">
+                  <button type="button" id="unlockConfirmStay" class="ctl main">勉強を続ける</button>
+                  <button type="button" id="unlockConfirmForce" class="ctl sub" hidden>それでも終了する</button>
                 </div>
               </div>
             </div>
@@ -3760,7 +4221,7 @@
       <div class="wrap">
         <p class="secEyebrow">APP OVERVIEW</p>
         <h2>アプリ概要</h2>
-        <p class="secLead">受験生・学生向けの「強制力 × StudyWithMe × 勉強Vlog × AIコーチング」を組み合わせた勉強継続アプリ。目的は「勉強するしかない環境を作る」「努力をコンテンツ化する」「受験生活を作品化する」こと。</p>
+        <p class="secLead">「勉強記録アプリ」ではなく<strong>行動強制型の勉強環境</strong>を作るアプリ。StudyWithMeカメラ · 勉強Vlog · AIコーチングで、意志力に頼らず続けられます。</p>
         <div class="chipList">
           <span class="chip">高校生</span>
           <span class="chip">浪人生</span>
@@ -3971,8 +4432,8 @@
 
   <footer>
     <div class="wrap footInner">
-      <span>Mustudy - 強制自習サービス</span>
-      <span>© 2026 Mustudy</span>
+      <span>Mustudy — 行動強制型の勉強アプリ（Web版β）</span>
+      <span>© 2026 Mustudy · 個人開発</span>
     </div>
   </footer>
   <nav class="mobileTabbar" aria-label="モバイルタブ">
@@ -4638,6 +5099,7 @@
             await applyTrackZoomIfSupported(state.camZoom);
           }
           updateZoomUI();
+          stabilizeSessionCameraLayout();
         } catch (err) {
           console.error("Mustudy cam refresh:", err);
         }
@@ -4652,6 +5114,7 @@
       bindCamTapControl(camFsOverlayBtn, () => toggleCamFullscreen());
       bindCamTapControl(camFlipOverlayBtn, () => safeToggleFacing());
       bindCamTapControl(camFullscreenBtn, () => toggleCamFullscreen());
+      bindCamTapControl(document.getElementById("camStartOverlayBtn"), () => quickStartStudy());
       root.querySelectorAll(".camTopBtn[data-frame-aspect]").forEach((btn) => {
         bindCamTapControl(btn, () => setFrameAspect(btn.dataset.frameAspect));
       });
@@ -4708,7 +5171,7 @@
 
     function getWorkTargetSec() {
       if (state.timerMode === "pomodoro") {
-        return Math.max(1, parseInt((studyMinutes && studyMinutes.value) || "25", 10)) * 60;
+        return Math.max(1, parseInt((studyMinutes && studyMinutes.value) || "60", 10)) * 60;
       }
       return getForcedTargetSec();
     }
@@ -4720,7 +5183,7 @@
     }
 
     function getForcedTargetSec() {
-      return Math.max(1, parseInt((studyMinutes && studyMinutes.value) || "25", 10)) * 60;
+      return Math.max(1, parseInt((studyMinutes && studyMinutes.value) || "60", 10)) * 60;
     }
 
     function isForcedSessionActive() {
@@ -4756,7 +5219,7 @@
         studyStopFloat.classList.toggle("can-end", canEnd);
         studyStopFloat.hidden = !active;
         studyStopFloat.textContent = canEnd
-          ? "勉強を終了"
+          ? "ロックを解除"
           : "あと " + fmt(Math.max(0, getWorkTargetSec() - state.elapsed));
       }
       if (active && forcedRemain) {
@@ -5147,6 +5610,7 @@
       syncCamWrapClasses();
       syncCamSettingChips();
       applyCamTransform();
+      stabilizeSessionCameraLayout();
       if (camStatus) {
         camStatus.textContent = mode === "portrait" ? "縦持ちプレビュー" : "横持ちプレビュー";
       }
@@ -5154,12 +5618,12 @@
 
     function setFrameAspect(aspect) {
       releaseCamInteraction();
-      const prev = state.frameAspect;
       state.frameAspect = aspect;
       saveFacingPrefs();
       syncCamWrapClasses();
       syncCamSettingChips();
       applyCamTransform();
+      stabilizeSessionCameraLayout();
       if (camStatus) {
         camStatus.textContent =
           state.viewportMode === "portrait" && aspect === "16:9"
@@ -5349,10 +5813,72 @@
         const v = parseInt(localStorage.getItem(STUDY_MINUTES_KEY) || "", 10);
         if (v >= 1 && v <= 300) studyMinutes.value = String(v);
       } catch (_) {}
+      syncTimePresetUI();
+    }
+
+    function syncTimePresetUI() {
+      const minutesTop = document.getElementById("studyMinutesTop");
+      const val = parseInt((studyMinutes && studyMinutes.value) || (minutesTop && minutesTop.value) || "60", 10);
+      if (minutesTop) minutesTop.value = String(val);
+      if (studyMinutes) studyMinutes.value = String(val);
+      document.querySelectorAll(".timePresetBtn").forEach((btn) => {
+        btn.classList.toggle("on", parseInt(btn.dataset.min, 10) === val);
+      });
+    }
+
+    function bindTimePresets() {
+      document.querySelectorAll(".timePresetBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const min = btn.dataset.min;
+          if (studyMinutes) studyMinutes.value = min;
+          const minutesTop = document.getElementById("studyMinutesTop");
+          if (minutesTop) minutesTop.value = min;
+          saveStudyMinutes();
+          syncTimePresetUI();
+        });
+      });
+    }
+
+    function hideUnlockConfirmOverlay() {
+      const el = document.getElementById("unlockConfirmOverlay");
+      if (!el) return;
+      el.classList.remove("show");
+      el.setAttribute("aria-hidden", "true");
+    }
+
+    function showUnlockConfirmOverlay(allowEnd) {
+      const el = document.getElementById("unlockConfirmOverlay");
+      if (!el || !state.timerId) return;
+      const remain = Math.max(0, getWorkTargetSec() - state.elapsed);
+      const streak = computeCurrentStreak();
+      const title = document.getElementById("unlockConfirmTitle");
+      const remainEl = document.getElementById("unlockConfirmRemain");
+      const warn = document.getElementById("unlockConfirmWarn");
+      const list = document.getElementById("unlockConfirmList");
+      const forceBtn = document.getElementById("unlockConfirmForce");
+      if (remainEl) {
+        remainEl.textContent = allowEnd ? "終了できます" : "あと " + fmt(remain);
+      }
+      if (title) title.textContent = allowEnd ? "本当に終了しますか？" : "まだ解除できません";
+      if (warn) {
+        warn.textContent = allowEnd
+          ? "今日 " + formatStudyMinutes(state.elapsed) + " 集中しました。ここで終めると流れが切れます。"
+          : "あと " + fmt(remain) + " で終了です。今日の集中記録が途切れます。";
+      }
+      if (list) {
+        const items = allowEnd
+          ? ["セッションは記録に保存されます", streak ? "連続 " + streak + " 日の記録は維持されます" : "明日また続けられます"]
+          : ["設定時間が終わるまでロックは解除できません", streak ? "連続 " + streak + " 日の記録が途切れる可能性があります" : "今日の集中記録が失われます", "Mustudyを閉じると「離脱」として残ります"];
+        list.innerHTML = items.map((t) => "<li>" + t + "</li>").join("");
+      }
+      if (forceBtn) forceBtn.hidden = !allowEnd;
+      el.classList.add("show");
+      el.setAttribute("aria-hidden", "false");
     }
 
     function dismissBlockingOverlays() {
       hideCamConfirmOverlay();
+      hideUnlockConfirmOverlay();
       if (countdownOverlay) {
         countdownOverlay.classList.remove("show");
         countdownOverlay.setAttribute("aria-hidden", "true");
@@ -5413,10 +5939,7 @@
 
     async function quickStartStudy() {
       if (state.timerId) {
-        if (canStopSessionNow()) stopSession(true);
-        else {
-          setCamStatus("残り " + fmt(getForcedTargetSec() - state.elapsed) + " — 時間が終わるまで終了できません");
-        }
+        showUnlockConfirmOverlay(canStopSessionNow());
         return;
       }
       setSessionType("forced");
@@ -5428,24 +5951,31 @@
         await startCam();
         await waitForCameraReady(4000);
         if (!isCameraReady()) {
-          setCamStatus("先に「カメラを起動」をタップして映像を表示してから、スタートしてください");
+          setCamStatus("カメラの許可が必要です。許可してからもう一度「ロック開始」");
           return;
         }
       } else {
         showCamLive();
       }
-      setCamStatus("カメラを確認してください");
-      showCamConfirmThenStart();
+      setCamStatus("ロックを開始します…");
+      if (window.matchMedia("(max-width: 860px)").matches) {
+        runCountdownThen(() => startSession());
+      } else {
+        showCamConfirmThenStart();
+      }
     }
 
     function updateQuickStartBtn() {
-      if (!quickStartBtn) return;
-      if (state.timerId) {
-        quickStartBtn.textContent = "勉強を終了";
-        quickStartBtn.classList.add("recording");
-      } else {
-        quickStartBtn.textContent = "勉強をスタート";
-        quickStartBtn.classList.remove("recording");
+      const overlayStart = document.getElementById("camStartOverlayBtn");
+      const canEnd = state.timerId && canStopSessionNow();
+      const label = state.timerId ? (canEnd ? "ロックを解除" : "解除を試みる") : "ロック開始";
+      if (quickStartBtn) {
+        quickStartBtn.textContent = label;
+        quickStartBtn.classList.toggle("recording", !!state.timerId);
+      }
+      if (overlayStart) {
+        overlayStart.textContent = label;
+        overlayStart.classList.toggle("recording", !!state.timerId);
       }
     }
 
@@ -6051,6 +6581,8 @@
       camVideoLayer.style.height = "100%";
       camVideoLayer.style.marginLeft = "0";
       camVideoLayer.style.marginTop = "0";
+      camVideoLayer.style.transform = "";
+      camVideoLayer.style.transformOrigin = "center center";
       cam.style.width = "100%";
       cam.style.height = "100%";
       cam.style.objectFit = "cover";
@@ -6061,6 +6593,55 @@
       cam.style.marginTop = "";
       cam.style.transform = "";
       cam.style.zoom = "";
+      ["camSplitScene", "camSplitHands"].forEach((id) => {
+        const v = document.getElementById(id);
+        if (!v) return;
+        v.style.transform = "";
+        v.style.transformOrigin = "center center";
+        v.style.width = "100%";
+        v.style.height = "100%";
+        v.style.objectFit = "cover";
+      });
+    }
+
+    function buildCamLayerTransform(scale, panX, panY, mirror) {
+      const s = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, scale));
+      const parts = ["translate(" + panX + "px," + panY + "px)"];
+      if (mirror) parts.push("scaleX(-1)");
+      if (Math.abs(s - 1) > 0.01) parts.push("scale(" + s + ")");
+      return parts.join(" ");
+    }
+
+    function applyCamLayerSizing(scale) {
+      if (!camVideoLayer) return;
+      const s = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, scale));
+      if (s < 0.999) {
+        const inv = 1 / s;
+        const pct = inv * 100;
+        const off = -((pct - 100) / 2);
+        camVideoLayer.style.width = pct + "%";
+        camVideoLayer.style.height = pct + "%";
+        camVideoLayer.style.left = off + "%";
+        camVideoLayer.style.top = off + "%";
+      } else {
+        camVideoLayer.style.width = "100%";
+        camVideoLayer.style.height = "100%";
+        camVideoLayer.style.left = "0";
+        camVideoLayer.style.top = "0";
+      }
+    }
+
+    function applySplitVideoTransform(videoEl, scale, posX, posY, mirror) {
+      if (!videoEl) return;
+      videoEl.style.objectPosition = posX + "% " + posY + "%";
+      videoEl.style.width = "100%";
+      videoEl.style.height = "100%";
+      videoEl.style.transformOrigin = "center center";
+      const s = Math.max(1, scale);
+      const parts = [];
+      if (mirror) parts.push("scaleX(-1)");
+      if (Math.abs(s - 1) > 0.01) parts.push("scale(" + s + ")");
+      videoEl.style.transform = parts.join(" ") || "none";
     }
 
     function syncSplitCamVideos() {
@@ -6084,7 +6665,9 @@
       const isSplit = state.camLayout === "split";
       const displayZ = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, state.camZoom));
       const hwUltra = state.zoomCaps.hasZoom && state.zoomCaps.min < 1;
-      const cssScale = getCssZoomScale(displayZ);
+      let cssScale = getCssZoomScale(displayZ);
+      if (displayZ < 0.99 && hwUltra) cssScale = 1;
+      else if (displayZ < 0.99 && !hwUltra) cssScale = displayZ;
       const panLimit = getPanLimitScale(displayZ, cssScale);
       const allowPan = state.camLayout === "full";
       const clamped = allowPan
@@ -6097,32 +6680,19 @@
         state.camPanX = clamped.x;
         state.camPanY = clamped.y;
       }
+      const mirror = state.facingMode === "user";
       resetCamVideoStyles();
 
       if (isSplit) {
         const sp = getSplitPresets(state.facingMode);
-        const scene = document.getElementById("camSplitScene");
-        const hands = document.getElementById("camSplitHands");
-        if (scene) {
-          scene.style.objectPosition = sp.scene.posX + "% " + sp.scene.posY + "%";
-          scene.style.transform = "scale(" + cssScale + ")";
-        }
-        if (hands) {
-          hands.style.objectPosition = sp.hands.posX + "% " + sp.hands.posY + "%";
-          hands.style.transform = "scale(" + Math.max(cssScale, 1.05) + ")";
-        }
+        applySplitVideoTransform(document.getElementById("camSplitScene"), cssScale, sp.scene.posX, sp.scene.posY, mirror);
+        applySplitVideoTransform(document.getElementById("camSplitHands"), Math.max(cssScale, 1.05), sp.hands.posX, sp.hands.posY, mirror);
         syncSplitCamVideos();
       } else {
         const preset = getLayoutPreset(state.camLayout, state.facingMode);
         cam.style.objectPosition = preset.posX + "% " + preset.posY + "%";
-        if (displayZ < 0.99 && !hwUltra) {
-          cam.style.zoom = String(displayZ);
-          camVideoLayer.style.transform = "translate(" + clamped.x + "px," + clamped.y + "px)";
-        } else {
-          cam.style.zoom = "";
-          camVideoLayer.style.transform =
-            "translate(" + clamped.x + "px," + clamped.y + "px) scale(" + cssScale + ")";
-        }
+        applyCamLayerSizing(cssScale);
+        camVideoLayer.style.transform = buildCamLayerTransform(cssScale, clamped.x, clamped.y, mirror);
       }
 
       if (camPanHint) {
@@ -6139,6 +6709,14 @@
       void applyTrackZoomIfSupported(displayZ);
       } catch (err) {
         console.error("Mustudy applyCamTransform:", err);
+        resetCamVideoStyles();
+        if (camVideoLayer) {
+          camVideoLayer.style.width = "100%";
+          camVideoLayer.style.height = "100%";
+          camVideoLayer.style.left = "0";
+          camVideoLayer.style.top = "0";
+          camVideoLayer.style.transform = state.facingMode === "user" ? "scaleX(-1)" : "none";
+        }
       }
     }
 
@@ -6216,7 +6794,7 @@
       camViewport.addEventListener("pointerdown", (e) => {
         if (!state.cameraLive || state.camLayout !== "full") return;
         if (e.pointerType === "mouse" && e.button !== 0) return;
-        if (e.target.closest("button, .camOverlayBtn, .camFsBtn, .camQuickLayoutBtn, .zoomDock, .zoomLevelBtn, .zoomSliderTrack")) return;
+        if (e.target.closest("button, .camOverlayBtn, .camFsBtn, .camQuickLayoutBtn, .zoomDock, .zoomLevelBtn, .zoomSliderTrack, .camStartOverlayBtn")) return;
         if (e.target !== cam && !e.target.closest(".camVideoLayer")) return;
         try {
           camViewport.setPointerCapture(e.pointerId);
@@ -6238,7 +6816,7 @@
       let startDist = 0;
       let startZoom = 1;
       const onPinchStart = (e) => {
-        if (e.target.closest("button, .camOverlayBtn, .camFsBtn, .camQuickLayoutBtn, .zoomDock")) return;
+        if (e.target.closest("button, .camOverlayBtn, .camFsBtn, .camQuickLayoutBtn, .zoomDock, .camStartOverlayBtn")) return;
         if (e.touches.length === 2) {
           startDist = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
@@ -6249,7 +6827,7 @@
       };
       const onPinchMove = (e) => {
         if (e.touches.length !== 2) return;
-        if (e.target.closest("button, .camOverlayBtn, .camFsBtn, .camQuickLayoutBtn, .zoomDock")) return;
+        if (e.target.closest("button, .camOverlayBtn, .camFsBtn, .camQuickLayoutBtn, .zoomDock, .camStartOverlayBtn")) return;
         if (!state.cameraLive && !isCameraReady()) return;
         e.preventDefault();
         const dist = Math.hypot(
@@ -6572,17 +7150,10 @@
       syncPair(subjectTop, subjectInput);
       syncPair(goalTop, goalInput);
       syncPair(minutesTop, studyMinutes);
-      const openAdv = document.getElementById("openAdvancedSetup");
-      const details = document.getElementById("sessionSetupDetails");
-      if (openAdv && details) {
-        openAdv.addEventListener("click", () => {
-          details.open = true;
-          details.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-      }
       if (subjectTop && subjectInput && subjectInput.value) subjectTop.value = subjectInput.value;
       if (goalTop && goalInput && goalInput.value) goalTop.value = goalInput.value;
       if (minutesTop && studyMinutes) minutesTop.value = studyMinutes.value;
+      syncTimePresetUI();
     }
 
     function syncTodayGoal() {
@@ -6727,6 +7298,14 @@
       if (tlStreak) tlStreak.textContent = String(streak);
       if (tlTodayMin) tlTodayMin.textContent = String(todayMin);
       if (tlTotalH) tlTotalH.textContent = String(Math.floor(totalSec / 3600));
+      const tlAchieveToday = document.getElementById("tlAchieveToday");
+      const tlAchieveSub = document.getElementById("tlAchieveSub");
+      if (tlAchieveToday) tlAchieveToday.textContent = todayLabel;
+      if (tlAchieveSub) {
+        tlAchieveSub.textContent = streak
+          ? "連続 " + streak + " 日" + (state.timerId ? " · 記録更新中" : "")
+          : "今日から記録スタート";
+      }
       if (recStreak) recStreak.textContent = String(streak);
       if (recTodayMin) recTodayMin.textContent = String(todayMin);
       if (recMonthMin) recMonthMin.textContent = String(Math.round(monthSec / 60));
@@ -8054,9 +8633,7 @@
     async function stopSession(forceEnd) {
       if (state.pomodoroPhase === "break") forceEnd = true;
       if (!forceEnd && !canStopSessionNow()) {
-        if (camStatus) {
-          camStatus.textContent = "強制モード：残り " + fmt(getWorkTargetSec() - state.elapsed) + " はカメラを閉じられません";
-        }
+        showUnlockConfirmOverlay(false);
         return;
       }
       if (state.timerId) {
@@ -8437,6 +9014,8 @@
     }
     bindAppUi();
     bindStudySetupSync();
+    bindTimePresets();
+    syncTimePresetUI();
     restorePlan();
     restoreStudyMinutes();
     restoreTimelineTheme();
@@ -8456,7 +9035,16 @@
 
     if (studyStopFloat) {
       studyStopFloat.addEventListener("click", () => {
-        if (state.timerId) quickStartStudy();
+        if (state.timerId) showUnlockConfirmOverlay(canStopSessionNow());
+      });
+    }
+    const unlockConfirmStay = document.getElementById("unlockConfirmStay");
+    const unlockConfirmForce = document.getElementById("unlockConfirmForce");
+    if (unlockConfirmStay) unlockConfirmStay.addEventListener("click", hideUnlockConfirmOverlay);
+    if (unlockConfirmForce) {
+      unlockConfirmForce.addEventListener("click", () => {
+        hideUnlockConfirmOverlay();
+        stopSession(true);
       });
     }
     if (switchCamBtn) switchCamBtn.addEventListener("click", toggleFacing);
@@ -8662,11 +9250,32 @@
     function closeAppView() {
       document.body.classList.remove("appOpen");
       closeMyPage();
-      const hero = document.querySelector(".hero");
-      if (hero) hero.scrollIntoView({ behavior: "smooth", block: "start" });
+      const top = document.getElementById("top");
+      if (top) top.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderLandingStats() {
+      if (window.matchMedia("(max-width: 860px)").matches) return;
+      const elHours = document.getElementById("landingStatHours");
+      const elSessions = document.getElementById("landingStatSessions");
+      const elStreak = document.getElementById("landingStatStreak");
+      if (!elHours && !elSessions && !elStreak) return;
+      const sessions = loadSessions();
+      const totalSec = sessions.reduce((sum, s) => sum + (s.durationSec || 0), 0);
+      const totalHours = totalSec / 3600;
+      const streak = computeCurrentStreak();
+      const fmtHours = totalHours >= 10 ? Math.round(totalHours) + "時間" : totalHours >= 1 ? totalHours.toFixed(1) + "時間" : Math.round(totalSec / 60) + "分";
+      if (elHours) elHours.textContent = sessions.length ? fmtHours : "—";
+      if (elSessions) elSessions.textContent = sessions.length ? String(sessions.length) : "—";
+      if (elStreak) elStreak.textContent = streak ? String(streak) + "日" : "—";
     }
 
     if (openAppBtn) openAppBtn.addEventListener("click", openAppView);
+    document.querySelectorAll(".siteOpenAppBtn").forEach((btn) => {
+      btn.addEventListener("click", openAppView);
+    });
+    const navStartBtn = document.getElementById("navStartBtn");
+    if (navStartBtn) navStartBtn.addEventListener("click", openAppView);
     if (quickStartBtn) {
       const onQuickStart = (e) => {
         e.preventDefault();
@@ -8689,6 +9298,10 @@
     if (recoveryStartBtn) {
       recoveryStartBtn.addEventListener("click", () => {
         if (studyMinutes) studyMinutes.value = "15";
+        const minutesTop = document.getElementById("studyMinutesTop");
+        if (minutesTop) minutesTop.value = "15";
+        syncTimePresetUI();
+        saveStudyMinutes();
         if (recoveryBanner) recoveryBanner.hidden = true;
         openAppView();
         quickStartStudy();
@@ -8740,6 +9353,7 @@
     renderStudyDashboard();
     updateQuickStartBtn();
     renderStreakUI();
+    renderLandingStats();
     showRecoveryIfNeeded();
     try {
       const g = JSON.parse(localStorage.getItem("mustudyTodayGoal") || "null");
